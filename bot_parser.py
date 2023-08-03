@@ -1,7 +1,51 @@
 import xml.etree.ElementTree as ET
 
+node_types_of_interest = ['Incoming Message', 'Bot Action']
+edge_types_of_interest = ['leadsTo','uses','generates']
 
-def create_transition(parent_element, transition_id,transition_name=""):
+def extract_function_name(node):
+    """
+    Extracts the function name from the node
+    :param node: the node
+    :return: the function name
+
+    :example:
+    >>> function_name = extract_function_name(node)
+    """
+    for attr in node['attributes'].values():
+        if attr['name'] == 'Function Name':
+            return attr['value']['value']
+
+
+def extract_intent_keyword(node_id,node,edges):
+    """
+    Extracts the intent keyword from the node. If the intent keyword is empty, it is extracted from the ingoing edge of the node instead.
+    :param node_id: the id of the node
+    :param node: the node
+    :param edges: the edges of the bot model
+    :return: the intent keyword
+
+    :example:
+    >>> intent_keyword = extract_intent_keyword("n1", node, edges)
+    """
+    intent_keyword = None
+    # find the intent keyword
+    for attr in node['attributes'].values():
+        if attr['name'] == 'Intent Keyword':
+            intent_keyword=attr['value']['value']
+            if intent_keyword != "" and intent_keyword is not None:
+                return intent_keyword
+    
+        # sometimes the intent keyword is empty and stored in the ingoing edge of the node instead
+        for edge in edges.values():
+            if edge['target'] == node_id:
+                intent_keyword = edge['label']['value']['value']
+                if intent_keyword != "" and intent_keyword is not None:
+                    return intent_keyword
+    return "empty_intent"
+
+
+def create_transition(parent_element, transition_id,transition_name="empty_intent"):
     """
     Creates a transition element in the PNML file
     :param parent_element: the parent element of the transition 
@@ -21,6 +65,12 @@ def create_transition(parent_element, transition_id,transition_name=""):
     name = ET.SubElement(transition, "name")
     text = ET.SubElement(name, "text")
     text.text = transition_name
+    if transition_name == "empty_intent":
+        toolspecific = ET.SubElement(transition, "toolspecific")
+        toolspecific.set("tool", "ProM")
+        toolspecific.set("version", "6.4")
+        toolspecific.set("activity", "$invisible$")
+        toolspecific.set("localNodeID", transition_id)
     return transition
 
 def create_place(parent_element, place_id, isInitialMarking = False):
@@ -94,6 +144,9 @@ class BotParser:
         :return: the petri net in pnml format
         """
 
+        nodes = json['nodes']
+        edges = json['edges']
+
         root = ET.Element("pnml")
         net = ET.SubElement(root, "net")
         net.set("id", "net1")
@@ -103,9 +156,6 @@ class BotParser:
         net_name_text.text = "Bot Model"
         net_page = ET.SubElement(net, "page")
         net_page.set("id", "n0")
-
-        nodes = json['nodes']
-        edges = json['edges']
 
         # create places similar to the alpha algorithm i.e. if A->B, A->C, then create a place p_((A), (B,C))
         
@@ -122,74 +172,60 @@ class BotParser:
         text = ET.SubElement(name, "text")
         text.text = "sink0"
 
+        create_place(net_page, "initial_marking", True)
 
+        for node_id,node in nodes.items(): 
+            if node['type'] not in node_types_of_interest:
+                continue
 
-        for node_id,node in nodes.items():
-            if node['type'] == 'Messenger':
-                initial_marking = create_place(net_page, "initial_marking", True)
-            # for each node we create a transition
             if node['type'] == 'Incoming Message':
-
-                intent_keyword = None
-                # find the intent keyword
-                for attr in node['attributes'].values():
-                    if attr['name'] == 'Intent Keyword':
-                        intent_keyword=attr['value']['value']
-                        break
-                transition_user_message = create_transition(net_page, node_id, intent_keyword)
+                intent_keyword = extract_intent_keyword(node_id,node,edges)
+                create_transition(net_page, node_id, intent_keyword)
 
                 # find the bot response
                 # # comment out since the bot model does not have the bot response as separate node anymore
                 # for attr in node['attributes']:
                 #     if attr['name'] == 'Message':
                 #         transition_bot_response = create_transition(net_page, intent_keyword+":response") 
+                
             if node['type'] == 'Bot Action':
-                function_name = None
-                # find the function name
-                for attr in node['attributes'].values():
-                    if attr['name'] == 'Function Name':
-                        function_name=attr['value']['value']
-                        break
-                transition_bot_action = create_transition(net_page, node_id, function_name)
+                function_name = extract_function_name(node)
+                create_transition(net_page, node_id, function_name)
 
 
-        out_degree = {} # outdegree of each node to find transitions with no outgoing edges which will later be connected to the sink
-        for edge in edges.values():
-            source = edge['source']
-            target = edge['target']
-            if source not in out_degree and edge['type'] != 'has':
-                out_degree[source] = 0
-
-            # check whether source and target are nodes of type Incoming Message or Messenger
-            if nodes[source]['type'] not in ['Incoming Message', 'Messenger', 'Bot Action']:
+        out_degree = {} # out-degree of each node to find transitions with no outgoing edges which will later be connected to the sink
+        
+        for edge_id,edge in edges.items():
+            if edge['type'] not in edge_types_of_interest:
                 continue
 
+            source = edge['source']
+            target = edge['target']
+            if edge['type'] in ['leadsTo','uses'] : # Incoming Message leadsTo other Incoming Message or uses Bot Action
+                if source not in out_degree:
+                    out_degree[source] = 0
+                out_degree[source] += 1 # every time we have more than one outgoing edge, we produce more than one token (one for each place). Those tokens should also be consumed again at the end of the process
+
             if nodes[source]['type'] == 'Messenger':
-                arc = create_arc(net_page, source+'-'+target, "initial_marking", target)
+                create_arc(net_page, edge_id, "initial_marking", target)
                 continue
 
             if nodes[source]['type'] == 'Bot Action':
-                arc = create_arc(net_page, source+'-'+target, source, target)
+                create_arc(net_page, edge_id, source, target)
                 continue
 
-
-
-            # create a place connecting the source and target
-            place = create_place(net_page, source+'-'+target)
+            # create a place between the source and target
+            create_place(net_page, edge_id)
             # create an arc from the source to the place
-            # generate id for the arc
-            arc_id = source+'-place'
-            arc = create_arc(net_page,arc_id, source, source+'-'+target)
+            create_arc(net_page,f'${source}-->place', source, edge_id)
             # create an arc from the place to the target
-            arc_id = 'place-'+target
-            arc = create_arc(net_page,arc_id, source+'-'+target, target)
+            create_arc(net_page,f'place-->${target}', edge_id, target)
 
-        
-        
         # find nodes with no outgoing edges and connect them to the sink
+        # TODO: this will not produce safe petri nets. Need to find a way to produce safe petri nets
         for node_id, node in nodes.items():
             if node['type'] in ['Incoming Message', 'Bot Action'] and node_id not in out_degree:
-                arc = create_arc(net_page, node_id+'-sink0', node_id, 'sink0')
+                create_arc(net_page, f'${node_id}-->sink0', node_id, 'sink0')
 
         tree = ET.ElementTree(root)
         return tree        
