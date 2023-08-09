@@ -238,9 +238,9 @@ if __name__ == "__main__":
         json = json.load(json_file)
     bot_parser = BotParser.get_instance()
     tree = bot_parser.bot_model_to_petri_net(json)
-    tree.write("test_model.pnml")
+    tree.write("test_model_custom.pnml")
            # set <?xml version='1.0' encoding='UTF-8'?> as the first line of the pnml file
-    with open("test_model.pnml", 'r+') as f:
+    with open("test_model_custom.pnml", 'r+') as f:
         content = f.read()
         f.seek(0, 0)
         f.write("<?xml version='1.0' encoding='UTF-8'?>\n" + content)

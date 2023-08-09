@@ -1,0 +1,2541 @@
+{
+    "attributes": {
+        "label": {
+            "id": "modelAttributes[label]",
+            "name": "Label",
+            "value": {
+                "id": "modelAttributes[label]",
+                "name": "Label",
+                "value": "Model Attributes"
+            }
+        },
+        "left": 0,
+        "top": 0,
+        "width": 50,
+        "height": 50,
+        "zIndex": 0,
+        "type": "ModelAttributesNode",
+        "attributes": {}
+    },
+    "nodes": {
+        "e8df33164e46ce87420e8af7": {
+            "label": {
+                "id": "e8df33164e46ce87420e8af7[name]",
+                "name": "Name",
+                "value": {
+                    "id": "e8df33164e46ce87420e8af7[name]",
+                    "name": "Name",
+                    "value": "MensaBot"
+                }
+            },
+            "left": 4479.60009765625,
+            "top": 4155.11669921875,
+            "width": 50,
+            "height": 50,
+            "zIndex": 16001,
+            "type": "Bot",
+            "attributes": {
+                "80f33463988c54141b8c4dd8": {
+                    "id": "e8df33164e46ce87420e8af7[name]",
+                    "name": "Name",
+                    "value": {
+                        "id": "e8df33164e46ce87420e8af7[name]",
+                        "name": "Name",
+                        "value": "MensaBot"
+                    }
+                }
+            }
+        },
+        "6c71b808ff99faedd986850e": {
+            "label": {
+                "id": "6c71b808ff99faedd986850e[name]",
+                "name": "Name",
+                "value": {
+                    "id": "6c71b808ff99faedd986850e[name]",
+                    "name": "Name",
+                    "value": "fancyf"
+                }
+            },
+            "left": 4719.60009765625,
+            "top": 4212.11669921875,
+            "width": 50,
+            "height": 50,
+            "zIndex": 16002,
+            "type": "NLU Knowledge",
+            "attributes": {
+                "dbcf8b46f8cd76f445b9dea4": {
+                    "id": "6c71b808ff99faedd986850e[name]",
+                    "name": "Name",
+                    "value": {
+                        "id": "6c71b808ff99faedd986850e[name]",
+                        "name": "Name",
+                        "value": "fancyf"
+                    }
+                },
+                "c051de6af456e91e52c0c465": {
+                    "id": "6c71b808ff99faedd986850e[url]",
+                    "name": "URL",
+                    "value": {
+                        "id": "6c71b808ff99faedd986850e[url]",
+                        "name": "URL",
+                        "value": "http://rasa:5005"
+                    }
+                }
+            }
+        },
+        "a2328d74750c839062ebabb0": {
+            "label": {
+                "id": "a2328d74750c839062ebabb0[name]",
+                "name": "Name",
+                "value": {
+                    "id": "a2328d74750c839062ebabb0[name]",
+                    "name": "Name",
+                    "value": "MensaBot"
+                }
+            },
+            "left": 4473.60009765625,
+            "top": 4324.11669921875,
+            "width": 50,
+            "height": 50,
+            "zIndex": 16003,
+            "type": "Messenger",
+            "attributes": {
+                "646c1466c4bf34e8267c4f26": {
+                    "id": "a2328d74750c839062ebabb0[messenger type]",
+                    "name": "Messenger Type",
+                    "value": {
+                        "id": "a2328d74750c839062ebabb0[messenger type]",
+                        "name": "Messenger Type",
+                        "value": "Rocket.Chat"
+                    },
+                    "option": "Rocket.Chat"
+                },
+                "fac7a2b850919e041f655919": {
+                    "id": "a2328d74750c839062ebabb0[name]",
+                    "name": "Name",
+                    "value": {
+                        "id": "a2328d74750c839062ebabb0[name]",
+                        "name": "Name",
+                        "value": "MensaBot"
+                    }
+                },
+                "4d07dc2fa7f97c4ef5834078": {
+                    "id": "a2328d74750c839062ebabb0[authentication token]",
+                    "name": "Authentication Token",
+                    "value": {
+                        "id": "a2328d74750c839062ebabb0[authentication token]",
+                        "name": "Authentication Token",
+                        "value": "hello-bot:hello-bot"
+                    }
+                }
+            }
+        },
+        "df08bdf6da892e42169acac2": {
+            "label": {
+                "id": "df08bdf6da892e42169acac2[label]",
+                "name": "Label",
+                "value": {
+                    "id": "df08bdf6da892e42169acac2[label]",
+                    "name": "Label",
+                    "value": ""
+                }
+            },
+            "left": 3982.60009765625,
+            "top": 4236.11669921875,
+            "width": 50,
+            "height": 50,
+            "zIndex": 16004,
+            "type": "Incoming Message",
+            "attributes": {
+                "646c1466c4bf34e8267c4f27": {
+                    "id": "df08bdf6da892e42169acac2[type]",
+                    "name": "Type",
+                    "value": {
+                        "id": "df08bdf6da892e42169acac2[type]",
+                        "name": "Type",
+                        "value": "Text Message"
+                    },
+                    "option": "Text Message"
+                },
+                "5aefe0547e628a6019d3f613": {
+                    "id": "df08bdf6da892e42169acac2[followup message type]",
+                    "name": "Followup Message Type",
+                    "value": {
+                        "id": "df08bdf6da892e42169acac2[followup message type]",
+                        "name": "Followup Message Type",
+                        "value": "text"
+                    },
+                    "option": "text"
+                },
+                "869849f65db9be737e99bd24": {
+                    "id": "df08bdf6da892e42169acac2[intent keyword]",
+                    "name": "Intent Keyword",
+                    "value": {
+                        "id": "df08bdf6da892e42169acac2[intent keyword]",
+                        "name": "Intent Keyword",
+                        "value": "default"
+                    }
+                },
+                "e7d374a1e2d32c5e67bc68cc": {
+                    "id": "df08bdf6da892e42169acac2[intent label]",
+                    "name": "Intent Label",
+                    "value": {
+                        "id": "df08bdf6da892e42169acac2[intent label]",
+                        "name": "Intent Label",
+                        "value": ""
+                    }
+                },
+                "3e8bfec67da28c354a969b46": {
+                    "id": "df08bdf6da892e42169acac2[nlu id]",
+                    "name": "NLU ID",
+                    "value": {
+                        "id": "df08bdf6da892e42169acac2[nlu id]",
+                        "name": "NLU ID",
+                        "value": "fancyf"
+                    }
+                },
+                "8f8bee572ff26bedbfb46783": {
+                    "id": "df08bdf6da892e42169acac2[isfile]",
+                    "name": "IsFile",
+                    "value": {
+                        "id": "df08bdf6da892e42169acac2[isfile]",
+                        "name": "IsFile",
+                        "value": "false"
+                    }
+                },
+                "1ae4674949cfead101f6e8d8": {
+                    "id": "df08bdf6da892e42169acac2[fileurl]",
+                    "name": "FileURL",
+                    "value": {
+                        "id": "df08bdf6da892e42169acac2[fileurl]",
+                        "name": "FileURL",
+                        "value": ""
+                    }
+                },
+                "1b9710d3ac9dbdfd3b46110a": {
+                    "id": "df08bdf6da892e42169acac2[errormessage]",
+                    "name": "ErrorMessage",
+                    "value": {
+                        "id": "df08bdf6da892e42169acac2[errormessage]",
+                        "name": "ErrorMessage",
+                        "value": ""
+                    }
+                },
+                "90cd8b63ad44500486ddbb02": {
+                    "id": "df08bdf6da892e42169acac2[message]",
+                    "name": "Message",
+                    "value": {
+                        "id": "df08bdf6da892e42169acac2[message]",
+                        "name": "Message",
+                        "value": "{\"editor-df08bdf6da892e42169acac2message-1\":\"Sorry, I did not understand your request\"}"
+                    }
+                }
+            }
+        },
+        "3b995f08d360475619d5dead": {
+            "label": {
+                "id": "3b995f08d360475619d5dead[label]",
+                "name": "Label",
+                "value": {
+                    "id": "3b995f08d360475619d5dead[label]",
+                    "name": "Label",
+                    "value": ""
+                }
+            },
+            "left": 4151.60009765625,
+            "top": 4452.11669921875,
+            "width": 50,
+            "height": 50,
+            "zIndex": 16005,
+            "type": "Incoming Message",
+            "attributes": {
+                "646c1466c4bf34e8267c4f27": {
+                    "id": "3b995f08d360475619d5dead[type]",
+                    "name": "Type",
+                    "value": {
+                        "id": "3b995f08d360475619d5dead[type]",
+                        "name": "Type",
+                        "value": "Text Message"
+                    },
+                    "option": "Text Message"
+                },
+                "5aefe0547e628a6019d3f613": {
+                    "id": "3b995f08d360475619d5dead[followup message type]",
+                    "name": "Followup Message Type",
+                    "value": {
+                        "id": "3b995f08d360475619d5dead[followup message type]",
+                        "name": "Followup Message Type",
+                        "value": "text"
+                    },
+                    "option": "text"
+                },
+                "869849f65db9be737e99bd24": {
+                    "id": "3b995f08d360475619d5dead[intent keyword]",
+                    "name": "Intent Keyword",
+                    "value": {
+                        "id": "3b995f08d360475619d5dead[intent keyword]",
+                        "name": "Intent Keyword",
+                        "value": "menu"
+                    }
+                },
+                "e7d374a1e2d32c5e67bc68cc": {
+                    "id": "3b995f08d360475619d5dead[intent label]",
+                    "name": "Intent Label",
+                    "value": {
+                        "id": "3b995f08d360475619d5dead[intent label]",
+                        "name": "Intent Label",
+                        "value": ""
+                    }
+                },
+                "3e8bfec67da28c354a969b46": {
+                    "id": "3b995f08d360475619d5dead[nlu id]",
+                    "name": "NLU ID",
+                    "value": {
+                        "id": "3b995f08d360475619d5dead[nlu id]",
+                        "name": "NLU ID",
+                        "value": "fancyf"
+                    }
+                },
+                "8f8bee572ff26bedbfb46783": {
+                    "id": "3b995f08d360475619d5dead[isfile]",
+                    "name": "IsFile",
+                    "value": {
+                        "id": "3b995f08d360475619d5dead[isfile]",
+                        "name": "IsFile",
+                        "value": "false"
+                    }
+                },
+                "1ae4674949cfead101f6e8d8": {
+                    "id": "3b995f08d360475619d5dead[fileurl]",
+                    "name": "FileURL",
+                    "value": {
+                        "id": "3b995f08d360475619d5dead[fileurl]",
+                        "name": "FileURL",
+                        "value": ""
+                    }
+                },
+                "1b9710d3ac9dbdfd3b46110a": {
+                    "id": "3b995f08d360475619d5dead[errormessage]",
+                    "name": "ErrorMessage",
+                    "value": {
+                        "id": "3b995f08d360475619d5dead[errormessage]",
+                        "name": "ErrorMessage",
+                        "value": ""
+                    }
+                },
+                "90cd8b63ad44500486ddbb02": {
+                    "id": "3b995f08d360475619d5dead[message]",
+                    "name": "Message",
+                    "value": {
+                        "id": "3b995f08d360475619d5dead[message]",
+                        "name": "Message",
+                        "value": "{\"editor-3b995f08d360475619d5deadmessage-1\":\"I will look it up now. Please be patient.\"}"
+                    }
+                }
+            }
+        },
+        "b83a85b73e0b1ed74ed0091e": {
+            "label": {
+                "id": "b83a85b73e0b1ed74ed0091e[label]",
+                "name": "Label",
+                "value": {
+                    "id": "b83a85b73e0b1ed74ed0091e[label]",
+                    "name": "Label",
+                    "value": ""
+                }
+            },
+            "left": 4398.60009765625,
+            "top": 4486.11669921875,
+            "width": 50,
+            "height": 50,
+            "zIndex": 16006,
+            "type": "Incoming Message",
+            "attributes": {
+                "646c1466c4bf34e8267c4f27": {
+                    "id": "b83a85b73e0b1ed74ed0091e[type]",
+                    "name": "Type",
+                    "value": {
+                        "id": "b83a85b73e0b1ed74ed0091e[type]",
+                        "name": "Type",
+                        "value": "Text Message"
+                    },
+                    "option": "Text Message"
+                },
+                "5aefe0547e628a6019d3f613": {
+                    "id": "b83a85b73e0b1ed74ed0091e[followup message type]",
+                    "name": "Followup Message Type",
+                    "value": {
+                        "id": "b83a85b73e0b1ed74ed0091e[followup message type]",
+                        "name": "Followup Message Type",
+                        "value": "text"
+                    },
+                    "option": "text"
+                },
+                "869849f65db9be737e99bd24": {
+                    "id": "b83a85b73e0b1ed74ed0091e[intent keyword]",
+                    "name": "Intent Keyword",
+                    "value": {
+                        "id": "b83a85b73e0b1ed74ed0091e[intent keyword]",
+                        "name": "Intent Keyword",
+                        "value": "startReview"
+                    }
+                },
+                "e7d374a1e2d32c5e67bc68cc": {
+                    "id": "b83a85b73e0b1ed74ed0091e[intent label]",
+                    "name": "Intent Label",
+                    "value": {
+                        "id": "b83a85b73e0b1ed74ed0091e[intent label]",
+                        "name": "Intent Label",
+                        "value": ""
+                    }
+                },
+                "3e8bfec67da28c354a969b46": {
+                    "id": "b83a85b73e0b1ed74ed0091e[nlu id]",
+                    "name": "NLU ID",
+                    "value": {
+                        "id": "b83a85b73e0b1ed74ed0091e[nlu id]",
+                        "name": "NLU ID",
+                        "value": "fancyf"
+                    }
+                },
+                "8f8bee572ff26bedbfb46783": {
+                    "id": "b83a85b73e0b1ed74ed0091e[isfile]",
+                    "name": "IsFile",
+                    "value": {
+                        "id": "b83a85b73e0b1ed74ed0091e[isfile]",
+                        "name": "IsFile",
+                        "value": "false"
+                    }
+                },
+                "1ae4674949cfead101f6e8d8": {
+                    "id": "b83a85b73e0b1ed74ed0091e[fileurl]",
+                    "name": "FileURL",
+                    "value": {
+                        "id": "b83a85b73e0b1ed74ed0091e[fileurl]",
+                        "name": "FileURL",
+                        "value": ""
+                    }
+                },
+                "1b9710d3ac9dbdfd3b46110a": {
+                    "id": "b83a85b73e0b1ed74ed0091e[errormessage]",
+                    "name": "ErrorMessage",
+                    "value": {
+                        "id": "b83a85b73e0b1ed74ed0091e[errormessage]",
+                        "name": "ErrorMessage",
+                        "value": ""
+                    }
+                },
+                "90cd8b63ad44500486ddbb02": {
+                    "id": "b83a85b73e0b1ed74ed0091e[message]",
+                    "name": "Message",
+                    "value": {
+                        "id": "b83a85b73e0b1ed74ed0091e[message]",
+                        "name": "Message",
+                        "value": "{\"editor-b83a85b73e0b1ed74ed0091emessage-1\":\"Okay. Please tell me to which mensa you went and which category of meal you had? (Vegetarisch, Klassiker,...)\"}"
+                    }
+                }
+            }
+        },
+        "2cf567110bae35efe71a5cdf": {
+            "label": {
+                "id": "2cf567110bae35efe71a5cdf[label]",
+                "name": "Label",
+                "value": {
+                    "id": "2cf567110bae35efe71a5cdf[label]",
+                    "name": "Label",
+                    "value": ""
+                }
+            },
+            "left": 4610.60009765625,
+            "top": 4489.11669921875,
+            "width": 50,
+            "height": 50,
+            "zIndex": 16007,
+            "type": "Incoming Message",
+            "attributes": {
+                "646c1466c4bf34e8267c4f27": {
+                    "id": "2cf567110bae35efe71a5cdf[type]",
+                    "name": "Type",
+                    "value": {
+                        "id": "2cf567110bae35efe71a5cdf[type]",
+                        "name": "Type",
+                        "value": "Text Message"
+                    },
+                    "option": "Text Message"
+                },
+                "5aefe0547e628a6019d3f613": {
+                    "id": "2cf567110bae35efe71a5cdf[followup message type]",
+                    "name": "Followup Message Type",
+                    "value": {
+                        "id": "2cf567110bae35efe71a5cdf[followup message type]",
+                        "name": "Followup Message Type",
+                        "value": "text"
+                    },
+                    "option": "text"
+                },
+                "869849f65db9be737e99bd24": {
+                    "id": "2cf567110bae35efe71a5cdf[intent keyword]",
+                    "name": "Intent Keyword",
+                    "value": {
+                        "id": "2cf567110bae35efe71a5cdf[intent keyword]",
+                        "name": "Intent Keyword",
+                        "value": "greeting"
+                    }
+                },
+                "e7d374a1e2d32c5e67bc68cc": {
+                    "id": "2cf567110bae35efe71a5cdf[intent label]",
+                    "name": "Intent Label",
+                    "value": {
+                        "id": "2cf567110bae35efe71a5cdf[intent label]",
+                        "name": "Intent Label",
+                        "value": ""
+                    }
+                },
+                "3e8bfec67da28c354a969b46": {
+                    "id": "2cf567110bae35efe71a5cdf[nlu id]",
+                    "name": "NLU ID",
+                    "value": {
+                        "id": "2cf567110bae35efe71a5cdf[nlu id]",
+                        "name": "NLU ID",
+                        "value": "fancyf"
+                    }
+                },
+                "8f8bee572ff26bedbfb46783": {
+                    "id": "2cf567110bae35efe71a5cdf[isfile]",
+                    "name": "IsFile",
+                    "value": {
+                        "id": "2cf567110bae35efe71a5cdf[isfile]",
+                        "name": "IsFile",
+                        "value": "false"
+                    }
+                },
+                "1ae4674949cfead101f6e8d8": {
+                    "id": "2cf567110bae35efe71a5cdf[fileurl]",
+                    "name": "FileURL",
+                    "value": {
+                        "id": "2cf567110bae35efe71a5cdf[fileurl]",
+                        "name": "FileURL",
+                        "value": ""
+                    }
+                },
+                "1b9710d3ac9dbdfd3b46110a": {
+                    "id": "2cf567110bae35efe71a5cdf[errormessage]",
+                    "name": "ErrorMessage",
+                    "value": {
+                        "id": "2cf567110bae35efe71a5cdf[errormessage]",
+                        "name": "ErrorMessage",
+                        "value": ""
+                    }
+                },
+                "90cd8b63ad44500486ddbb02": {
+                    "id": "2cf567110bae35efe71a5cdf[message]",
+                    "name": "Message",
+                    "value": {
+                        "id": "2cf567110bae35efe71a5cdf[message]",
+                        "name": "Message",
+                        "value": "{\"editor-2cf567110bae35efe71a5cdfmessage-1\":\"Hi, I'm MensaBot. I provide information about the Mensa as well as the Mensa community. If you need help just type help into the chat.\"}"
+                    }
+                }
+            }
+        },
+        "117e0d66e833fb189e661891": {
+            "label": {
+                "id": "117e0d66e833fb189e661891[label]",
+                "name": "Label",
+                "value": {
+                    "id": "117e0d66e833fb189e661891[label]",
+                    "name": "Label",
+                    "value": ""
+                }
+            },
+            "left": 4790.60009765625,
+            "top": 4453.11669921875,
+            "width": 50,
+            "height": 50,
+            "zIndex": 16008,
+            "type": "Incoming Message",
+            "attributes": {
+                "646c1466c4bf34e8267c4f27": {
+                    "id": "117e0d66e833fb189e661891[type]",
+                    "name": "Type",
+                    "value": {
+                        "id": "117e0d66e833fb189e661891[type]",
+                        "name": "Type",
+                        "value": "Text Message"
+                    },
+                    "option": "Text Message"
+                },
+                "5aefe0547e628a6019d3f613": {
+                    "id": "117e0d66e833fb189e661891[followup message type]",
+                    "name": "Followup Message Type",
+                    "value": {
+                        "id": "117e0d66e833fb189e661891[followup message type]",
+                        "name": "Followup Message Type",
+                        "value": "text"
+                    },
+                    "option": "text"
+                },
+                "869849f65db9be737e99bd24": {
+                    "id": "117e0d66e833fb189e661891[intent keyword]",
+                    "name": "Intent Keyword",
+                    "value": {
+                        "id": "117e0d66e833fb189e661891[intent keyword]",
+                        "name": "Intent Keyword",
+                        "value": "help"
+                    }
+                },
+                "e7d374a1e2d32c5e67bc68cc": {
+                    "id": "117e0d66e833fb189e661891[intent label]",
+                    "name": "Intent Label",
+                    "value": {
+                        "id": "117e0d66e833fb189e661891[intent label]",
+                        "name": "Intent Label",
+                        "value": ""
+                    }
+                },
+                "3e8bfec67da28c354a969b46": {
+                    "id": "117e0d66e833fb189e661891[nlu id]",
+                    "name": "NLU ID",
+                    "value": {
+                        "id": "117e0d66e833fb189e661891[nlu id]",
+                        "name": "NLU ID",
+                        "value": "fancyf"
+                    }
+                },
+                "8f8bee572ff26bedbfb46783": {
+                    "id": "117e0d66e833fb189e661891[isfile]",
+                    "name": "IsFile",
+                    "value": {
+                        "id": "117e0d66e833fb189e661891[isfile]",
+                        "name": "IsFile",
+                        "value": "false"
+                    }
+                },
+                "1ae4674949cfead101f6e8d8": {
+                    "id": "117e0d66e833fb189e661891[fileurl]",
+                    "name": "FileURL",
+                    "value": {
+                        "id": "117e0d66e833fb189e661891[fileurl]",
+                        "name": "FileURL",
+                        "value": ""
+                    }
+                },
+                "1b9710d3ac9dbdfd3b46110a": {
+                    "id": "117e0d66e833fb189e661891[errormessage]",
+                    "name": "ErrorMessage",
+                    "value": {
+                        "id": "117e0d66e833fb189e661891[errormessage]",
+                        "name": "ErrorMessage",
+                        "value": ""
+                    }
+                },
+                "90cd8b63ad44500486ddbb02": {
+                    "id": "117e0d66e833fb189e661891[message]",
+                    "name": "Message",
+                    "value": {
+                        "id": "117e0d66e833fb189e661891[message]",
+                        "name": "Message",
+                        "value": "{\"editor-117e0d66e833fb189e661891message-1\":\"My name is MensaBot. I provide information about the Mensa as well as the Mensa community. I can do the following: \\\\n- List the menu for canteens \\\\n- Add reviews \\\\n You can also ask me what canteens are available in your city.\"}"
+                    }
+                }
+            }
+        },
+        "2737c217b4ca167946a11531": {
+            "label": {
+                "id": "2737c217b4ca167946a11531[label]",
+                "name": "Label",
+                "value": {
+                    "id": "2737c217b4ca167946a11531[label]",
+                    "name": "Label",
+                    "value": ""
+                }
+            },
+            "left": 5011.523856026785,
+            "top": 4449.547712053571,
+            "width": 50,
+            "height": 50,
+            "zIndex": 16009,
+            "type": "Incoming Message",
+            "attributes": {
+                "646c1466c4bf34e8267c4f27": {
+                    "id": "2737c217b4ca167946a11531[type]",
+                    "name": "Type",
+                    "value": {
+                        "id": "2737c217b4ca167946a11531[type]",
+                        "name": "Type",
+                        "value": "Text Message"
+                    },
+                    "option": "Text Message"
+                },
+                "5aefe0547e628a6019d3f613": {
+                    "id": "2737c217b4ca167946a11531[followup message type]",
+                    "name": "Followup Message Type",
+                    "value": {
+                        "id": "2737c217b4ca167946a11531[followup message type]",
+                        "name": "Followup Message Type",
+                        "value": "text"
+                    },
+                    "option": "text"
+                },
+                "869849f65db9be737e99bd24": {
+                    "id": "2737c217b4ca167946a11531[intent keyword]",
+                    "name": "Intent Keyword",
+                    "value": {
+                        "id": "2737c217b4ca167946a11531[intent keyword]",
+                        "name": "Intent Keyword",
+                        "value": "listMensas"
+                    }
+                },
+                "e7d374a1e2d32c5e67bc68cc": {
+                    "id": "2737c217b4ca167946a11531[intent label]",
+                    "name": "Intent Label",
+                    "value": {
+                        "id": "2737c217b4ca167946a11531[intent label]",
+                        "name": "Intent Label",
+                        "value": ""
+                    }
+                },
+                "3e8bfec67da28c354a969b46": {
+                    "id": "2737c217b4ca167946a11531[nlu id]",
+                    "name": "NLU ID",
+                    "value": {
+                        "id": "2737c217b4ca167946a11531[nlu id]",
+                        "name": "NLU ID",
+                        "value": "fancyf"
+                    }
+                },
+                "8f8bee572ff26bedbfb46783": {
+                    "id": "2737c217b4ca167946a11531[isfile]",
+                    "name": "IsFile",
+                    "value": {
+                        "id": "2737c217b4ca167946a11531[isfile]",
+                        "name": "IsFile",
+                        "value": "false"
+                    }
+                },
+                "1ae4674949cfead101f6e8d8": {
+                    "id": "2737c217b4ca167946a11531[fileurl]",
+                    "name": "FileURL",
+                    "value": {
+                        "id": "2737c217b4ca167946a11531[fileurl]",
+                        "name": "FileURL",
+                        "value": ""
+                    }
+                },
+                "1b9710d3ac9dbdfd3b46110a": {
+                    "id": "2737c217b4ca167946a11531[errormessage]",
+                    "name": "ErrorMessage",
+                    "value": {
+                        "id": "2737c217b4ca167946a11531[errormessage]",
+                        "name": "ErrorMessage",
+                        "value": ""
+                    }
+                },
+                "90cd8b63ad44500486ddbb02": {
+                    "id": "2737c217b4ca167946a11531[message]",
+                    "name": "Message",
+                    "value": {
+                        "id": "2737c217b4ca167946a11531[message]",
+                        "name": "Message",
+                        "value": "{\"editor-2737c217b4ca167946a11531message-1\":\"I will look it up now...\"}"
+                    }
+                }
+            }
+        },
+        "a591cae876337f97bc28a95e": {
+            "label": {
+                "id": "a591cae876337f97bc28a95e[label]",
+                "name": "Label",
+                "value": {
+                    "id": "a591cae876337f97bc28a95e[label]",
+                    "name": "Label",
+                    "value": ""
+                }
+            },
+            "left": 5260.666713169642,
+            "top": 4409.547712053571,
+            "width": 50,
+            "height": 50,
+            "zIndex": 16010,
+            "type": "Incoming Message",
+            "attributes": {
+                "646c1466c4bf34e8267c4f27": {
+                    "id": "a591cae876337f97bc28a95e[type]",
+                    "name": "Type",
+                    "value": {
+                        "id": "a591cae876337f97bc28a95e[type]",
+                        "name": "Type",
+                        "value": "Text Message"
+                    },
+                    "option": "Text Message"
+                },
+                "5aefe0547e628a6019d3f613": {
+                    "id": "a591cae876337f97bc28a95e[followup message type]",
+                    "name": "Followup Message Type",
+                    "value": {
+                        "id": "a591cae876337f97bc28a95e[followup message type]",
+                        "name": "Followup Message Type",
+                        "value": "text"
+                    },
+                    "option": "text"
+                },
+                "869849f65db9be737e99bd24": {
+                    "id": "a591cae876337f97bc28a95e[intent keyword]",
+                    "name": "Intent Keyword",
+                    "value": {
+                        "id": "a591cae876337f97bc28a95e[intent keyword]",
+                        "name": "Intent Keyword",
+                        "value": "thanks"
+                    }
+                },
+                "e7d374a1e2d32c5e67bc68cc": {
+                    "id": "a591cae876337f97bc28a95e[intent label]",
+                    "name": "Intent Label",
+                    "value": {
+                        "id": "a591cae876337f97bc28a95e[intent label]",
+                        "name": "Intent Label",
+                        "value": ""
+                    }
+                },
+                "3e8bfec67da28c354a969b46": {
+                    "id": "a591cae876337f97bc28a95e[nlu id]",
+                    "name": "NLU ID",
+                    "value": {
+                        "id": "a591cae876337f97bc28a95e[nlu id]",
+                        "name": "NLU ID",
+                        "value": "fancyf"
+                    }
+                },
+                "8f8bee572ff26bedbfb46783": {
+                    "id": "a591cae876337f97bc28a95e[isfile]",
+                    "name": "IsFile",
+                    "value": {
+                        "id": "a591cae876337f97bc28a95e[isfile]",
+                        "name": "IsFile",
+                        "value": "false"
+                    }
+                },
+                "1ae4674949cfead101f6e8d8": {
+                    "id": "a591cae876337f97bc28a95e[fileurl]",
+                    "name": "FileURL",
+                    "value": {
+                        "id": "a591cae876337f97bc28a95e[fileurl]",
+                        "name": "FileURL",
+                        "value": ""
+                    }
+                },
+                "1b9710d3ac9dbdfd3b46110a": {
+                    "id": "a591cae876337f97bc28a95e[errormessage]",
+                    "name": "ErrorMessage",
+                    "value": {
+                        "id": "a591cae876337f97bc28a95e[errormessage]",
+                        "name": "ErrorMessage",
+                        "value": ""
+                    }
+                },
+                "90cd8b63ad44500486ddbb02": {
+                    "id": "a591cae876337f97bc28a95e[message]",
+                    "name": "Message",
+                    "value": {
+                        "id": "a591cae876337f97bc28a95e[message]",
+                        "name": "Message",
+                        "value": "{\"editor-a591cae876337f97bc28a95emessage-1\":\"youre welcome 😘\"}"
+                    }
+                }
+            }
+        },
+        "260085832f8353a7941f715b": {
+            "label": {
+                "id": "260085832f8353a7941f715b[label]",
+                "name": "Label",
+                "value": {
+                    "id": "260085832f8353a7941f715b[label]",
+                    "name": "Label",
+                    "value": ""
+                }
+            },
+            "left": 3869.09521484375,
+            "top": 4623.02392578125,
+            "width": 50,
+            "height": 50,
+            "zIndex": 16011,
+            "type": "Bot Action",
+            "attributes": {
+                "5529bde8544426cd5580efc1": {
+                    "id": "260085832f8353a7941f715b[action type]",
+                    "name": "Action Type",
+                    "value": {
+                        "id": "260085832f8353a7941f715b[action type]",
+                        "name": "Action Type",
+                        "value": "OpenAPI"
+                    },
+                    "option": "OpenAPI"
+                },
+                "c436dc0e764a63371820e857": {
+                    "id": "260085832f8353a7941f715b[function name]",
+                    "name": "Function Name",
+                    "value": {
+                        "id": "260085832f8353a7941f715b[function name]",
+                        "name": "Function Name",
+                        "value": "getMenu"
+                    }
+                },
+                "bc1335cdf59dedb856e635be": {
+                    "id": "260085832f8353a7941f715b[service alias]",
+                    "name": "Service Alias",
+                    "value": {
+                        "id": "260085832f8353a7941f715b[service alias]",
+                        "name": "Service Alias",
+                        "value": "https://mobsos.tech4comp.dbis.rwth-aachen.de/mensa"
+                    }
+                }
+            }
+        },
+        "284e27e00488b583f8ab3179": {
+            "label": {
+                "id": "284e27e00488b583f8ab3179[name]",
+                "name": "Name",
+                "value": {
+                    "id": "284e27e00488b583f8ab3179[name]",
+                    "name": "Name",
+                    "value": "lrsURL"
+                }
+            },
+            "left": 3681.6666434151784,
+            "top": 5195.309640066964,
+            "width": 50,
+            "height": 50,
+            "zIndex": 16012,
+            "type": "Action Parameter",
+            "attributes": {
+                "6e073c9bf8f0abf332c13bc6": {
+                    "id": "284e27e00488b583f8ab3179[content type]",
+                    "name": "Content Type",
+                    "value": {
+                        "id": "284e27e00488b583f8ab3179[content type]",
+                        "name": "Content Type",
+                        "value": "String"
+                    },
+                    "option": "String"
+                },
+                "f1339223d445e80497de3852": {
+                    "id": "284e27e00488b583f8ab3179[parameter type]",
+                    "name": "Parameter Type",
+                    "value": {
+                        "id": "284e27e00488b583f8ab3179[parameter type]",
+                        "name": "Parameter Type",
+                        "value": "body"
+                    },
+                    "option": "body"
+                },
+                "68f226ab6d61c452f8834cae": {
+                    "id": "284e27e00488b583f8ab3179[name]",
+                    "name": "Name",
+                    "value": {
+                        "id": "284e27e00488b583f8ab3179[name]",
+                        "name": "Name",
+                        "value": "lrsURL"
+                    }
+                },
+                "6f5ac2636ffa905db3593907": {
+                    "id": "284e27e00488b583f8ab3179[static]",
+                    "name": "Static",
+                    "value": {
+                        "id": "284e27e00488b583f8ab3179[static]",
+                        "name": "Static",
+                        "value": "false"
+                    }
+                },
+                "32c6ddb923168e92ed48779c": {
+                    "id": "284e27e00488b583f8ab3179[url]",
+                    "name": "URL",
+                    "value": {
+                        "id": "284e27e00488b583f8ab3179[url]",
+                        "name": "URL",
+                        "value": ""
+                    }
+                },
+                "3075f84f4a03c7af24a5a117": {
+                    "id": "284e27e00488b583f8ab3179[content]",
+                    "name": "Content",
+                    "value": {
+                        "id": "284e27e00488b583f8ab3179[content]",
+                        "name": "Content",
+                        "value": "https://lrs.tech4comp.dbis.rwth-aachen.de"
+                    }
+                }
+            }
+        },
+        "d36c4d4fd7db7eab127a9dd9": {
+            "label": {
+                "id": "d36c4d4fd7db7eab127a9dd9[name]",
+                "name": "Name",
+                "value": {
+                    "id": "d36c4d4fd7db7eab127a9dd9[name]",
+                    "name": "Name",
+                    "value": "lrsToken"
+                }
+            },
+            "left": 3851.09521484375,
+            "top": 5348.452497209821,
+            "width": 50,
+            "height": 50,
+            "zIndex": 16013,
+            "type": "Action Parameter",
+            "attributes": {
+                "6e073c9bf8f0abf332c13bc6": {
+                    "id": "d36c4d4fd7db7eab127a9dd9[content type]",
+                    "name": "Content Type",
+                    "value": {
+                        "id": "d36c4d4fd7db7eab127a9dd9[content type]",
+                        "name": "Content Type",
+                        "value": "String"
+                    },
+                    "option": "String"
+                },
+                "f1339223d445e80497de3852": {
+                    "id": "d36c4d4fd7db7eab127a9dd9[parameter type]",
+                    "name": "Parameter Type",
+                    "value": {
+                        "id": "d36c4d4fd7db7eab127a9dd9[parameter type]",
+                        "name": "Parameter Type",
+                        "value": "body"
+                    },
+                    "option": "body"
+                },
+                "68f226ab6d61c452f8834cae": {
+                    "id": "d36c4d4fd7db7eab127a9dd9[name]",
+                    "name": "Name",
+                    "value": {
+                        "id": "d36c4d4fd7db7eab127a9dd9[name]",
+                        "name": "Name",
+                        "value": "lrsToken"
+                    }
+                },
+                "6f5ac2636ffa905db3593907": {
+                    "id": "d36c4d4fd7db7eab127a9dd9[static]",
+                    "name": "Static",
+                    "value": {
+                        "id": "d36c4d4fd7db7eab127a9dd9[static]",
+                        "name": "Static",
+                        "value": "false"
+                    }
+                },
+                "32c6ddb923168e92ed48779c": {
+                    "id": "d36c4d4fd7db7eab127a9dd9[url]",
+                    "name": "URL",
+                    "value": {
+                        "id": "d36c4d4fd7db7eab127a9dd9[url]",
+                        "name": "URL",
+                        "value": ""
+                    }
+                },
+                "3075f84f4a03c7af24a5a117": {
+                    "id": "d36c4d4fd7db7eab127a9dd9[content]",
+                    "name": "Content",
+                    "value": {
+                        "id": "d36c4d4fd7db7eab127a9dd9[content]",
+                        "name": "Content",
+                        "value": "YjIxNGI2NThkNDMyOWI4MmQ2ODEyZmJmNmM3MjVhY2JkZjdjMDIzYToxMmZiMGIwNTY4YzgwNmYyZmQ3NmNjODc2MGVhODQxMTVlOWNkNzkw"
+                    }
+                }
+            }
+        },
+        "8631a4c087becb9236bcafbb": {
+            "label": {
+                "id": "8631a4c087becb9236bcafbb[label]",
+                "name": "Label",
+                "value": {
+                    "id": "8631a4c087becb9236bcafbb[label]",
+                    "name": "Label",
+                    "value": ""
+                }
+            },
+            "left": 4396.60009765625,
+            "top": 4677.11669921875,
+            "width": 50,
+            "height": 50,
+            "zIndex": 16014,
+            "type": "Incoming Message",
+            "attributes": {
+                "646c1466c4bf34e8267c4f27": {
+                    "id": "8631a4c087becb9236bcafbb[type]",
+                    "name": "Type",
+                    "value": {
+                        "id": "8631a4c087becb9236bcafbb[type]",
+                        "name": "Type",
+                        "value": "Text Message"
+                    },
+                    "option": "Text Message"
+                },
+                "5aefe0547e628a6019d3f613": {
+                    "id": "8631a4c087becb9236bcafbb[followup message type]",
+                    "name": "Followup Message Type",
+                    "value": {
+                        "id": "8631a4c087becb9236bcafbb[followup message type]",
+                        "name": "Followup Message Type",
+                        "value": "text"
+                    },
+                    "option": "text"
+                },
+                "869849f65db9be737e99bd24": {
+                    "id": "8631a4c087becb9236bcafbb[intent keyword]",
+                    "name": "Intent Keyword",
+                    "value": {
+                        "id": "8631a4c087becb9236bcafbb[intent keyword]",
+                        "name": "Intent Keyword",
+                        "value": ""
+                    }
+                },
+                "e7d374a1e2d32c5e67bc68cc": {
+                    "id": "8631a4c087becb9236bcafbb[intent label]",
+                    "name": "Intent Label",
+                    "value": {
+                        "id": "8631a4c087becb9236bcafbb[intent label]",
+                        "name": "Intent Label",
+                        "value": ""
+                    }
+                },
+                "3e8bfec67da28c354a969b46": {
+                    "id": "8631a4c087becb9236bcafbb[nlu id]",
+                    "name": "NLU ID",
+                    "value": {
+                        "id": "8631a4c087becb9236bcafbb[nlu id]",
+                        "name": "NLU ID",
+                        "value": "fancyf"
+                    }
+                },
+                "8f8bee572ff26bedbfb46783": {
+                    "id": "8631a4c087becb9236bcafbb[isfile]",
+                    "name": "IsFile",
+                    "value": {
+                        "id": "8631a4c087becb9236bcafbb[isfile]",
+                        "name": "IsFile",
+                        "value": "false"
+                    }
+                },
+                "1ae4674949cfead101f6e8d8": {
+                    "id": "8631a4c087becb9236bcafbb[fileurl]",
+                    "name": "FileURL",
+                    "value": {
+                        "id": "8631a4c087becb9236bcafbb[fileurl]",
+                        "name": "FileURL",
+                        "value": ""
+                    }
+                },
+                "1b9710d3ac9dbdfd3b46110a": {
+                    "id": "8631a4c087becb9236bcafbb[errormessage]",
+                    "name": "ErrorMessage",
+                    "value": {
+                        "id": "8631a4c087becb9236bcafbb[errormessage]",
+                        "name": "ErrorMessage",
+                        "value": ""
+                    }
+                },
+                "90cd8b63ad44500486ddbb02": {
+                    "id": "8631a4c087becb9236bcafbb[message]",
+                    "name": "Message",
+                    "value": {
+                        "id": "8631a4c087becb9236bcafbb[message]",
+                        "name": "Message",
+                        "value": "{\"editor-8631a4c087becb9236bcafbbmessage-1\":\"Please be patient while I'm checking your answers....\"}"
+                    }
+                }
+            }
+        },
+        "79552d31107b16eafdcb5fe3": {
+            "label": {
+                "id": "79552d31107b16eafdcb5fe3[label]",
+                "name": "Label",
+                "value": {
+                    "id": "79552d31107b16eafdcb5fe3[label]",
+                    "name": "Label",
+                    "value": ""
+                }
+            },
+            "left": 4515.60009765625,
+            "top": 4689.11669921875,
+            "width": 50,
+            "height": 50,
+            "zIndex": 16015,
+            "type": "Bot Action",
+            "attributes": {
+                "5529bde8544426cd5580efc1": {
+                    "id": "79552d31107b16eafdcb5fe3[action type]",
+                    "name": "Action Type",
+                    "value": {
+                        "id": "79552d31107b16eafdcb5fe3[action type]",
+                        "name": "Action Type",
+                        "value": "OpenAPI"
+                    },
+                    "option": "OpenAPI"
+                },
+                "c436dc0e764a63371820e857": {
+                    "id": "79552d31107b16eafdcb5fe3[function name]",
+                    "name": "Function Name",
+                    "value": {
+                        "id": "79552d31107b16eafdcb5fe3[function name]",
+                        "name": "Function Name",
+                        "value": "prepareReview"
+                    }
+                },
+                "bc1335cdf59dedb856e635be": {
+                    "id": "79552d31107b16eafdcb5fe3[service alias]",
+                    "name": "Service Alias",
+                    "value": {
+                        "id": "79552d31107b16eafdcb5fe3[service alias]",
+                        "name": "Service Alias",
+                        "value": "https://mobsos.tech4comp.dbis.rwth-aachen.de/mensa"
+                    }
+                }
+            }
+        },
+        "634a4745877740ed163a77fa": {
+            "label": {
+                "id": "634a4745877740ed163a77fa[label]",
+                "name": "Label",
+                "value": {
+                    "id": "634a4745877740ed163a77fa[label]",
+                    "name": "Label",
+                    "value": ""
+                }
+            },
+            "left": 4319.60009765625,
+            "top": 4907.11669921875,
+            "width": 50,
+            "height": 50,
+            "zIndex": 16016,
+            "type": "Incoming Message",
+            "attributes": {
+                "646c1466c4bf34e8267c4f27": {
+                    "id": "634a4745877740ed163a77fa[type]",
+                    "name": "Type",
+                    "value": {
+                        "id": "634a4745877740ed163a77fa[type]",
+                        "name": "Type",
+                        "value": "Text Message"
+                    },
+                    "option": "Text Message"
+                },
+                "5aefe0547e628a6019d3f613": {
+                    "id": "634a4745877740ed163a77fa[followup message type]",
+                    "name": "Followup Message Type",
+                    "value": {
+                        "id": "634a4745877740ed163a77fa[followup message type]",
+                        "name": "Followup Message Type",
+                        "value": "text"
+                    },
+                    "option": "text"
+                },
+                "869849f65db9be737e99bd24": {
+                    "id": "634a4745877740ed163a77fa[intent keyword]",
+                    "name": "Intent Keyword",
+                    "value": {
+                        "id": "634a4745877740ed163a77fa[intent keyword]",
+                        "name": "Intent Keyword",
+                        "value": ""
+                    }
+                },
+                "e7d374a1e2d32c5e67bc68cc": {
+                    "id": "634a4745877740ed163a77fa[intent label]",
+                    "name": "Intent Label",
+                    "value": {
+                        "id": "634a4745877740ed163a77fa[intent label]",
+                        "name": "Intent Label",
+                        "value": ""
+                    }
+                },
+                "3e8bfec67da28c354a969b46": {
+                    "id": "634a4745877740ed163a77fa[nlu id]",
+                    "name": "NLU ID",
+                    "value": {
+                        "id": "634a4745877740ed163a77fa[nlu id]",
+                        "name": "NLU ID",
+                        "value": "fancyf"
+                    }
+                },
+                "8f8bee572ff26bedbfb46783": {
+                    "id": "634a4745877740ed163a77fa[isfile]",
+                    "name": "IsFile",
+                    "value": {
+                        "id": "634a4745877740ed163a77fa[isfile]",
+                        "name": "IsFile",
+                        "value": "false"
+                    }
+                },
+                "1ae4674949cfead101f6e8d8": {
+                    "id": "634a4745877740ed163a77fa[fileurl]",
+                    "name": "FileURL",
+                    "value": {
+                        "id": "634a4745877740ed163a77fa[fileurl]",
+                        "name": "FileURL",
+                        "value": ""
+                    }
+                },
+                "1b9710d3ac9dbdfd3b46110a": {
+                    "id": "634a4745877740ed163a77fa[errormessage]",
+                    "name": "ErrorMessage",
+                    "value": {
+                        "id": "634a4745877740ed163a77fa[errormessage]",
+                        "name": "ErrorMessage",
+                        "value": ""
+                    }
+                },
+                "90cd8b63ad44500486ddbb02": {
+                    "id": "634a4745877740ed163a77fa[message]",
+                    "name": "Message",
+                    "value": {
+                        "id": "634a4745877740ed163a77fa[message]",
+                        "name": "Message",
+                        "value": "{\"editor-634a4745877740ed163a77famessage-1\":\"Sorry. Do you want to try this again?\"}"
+                    }
+                }
+            }
+        },
+        "b3bb240b54166af91c94ce4b": {
+            "label": {
+                "id": "b3bb240b54166af91c94ce4b[label]",
+                "name": "Label",
+                "value": {
+                    "id": "b3bb240b54166af91c94ce4b[label]",
+                    "name": "Label",
+                    "value": ""
+                }
+            },
+            "left": 4500.60009765625,
+            "top": 4899.11669921875,
+            "width": 50,
+            "height": 50,
+            "zIndex": 16017,
+            "type": "Incoming Message",
+            "attributes": {
+                "646c1466c4bf34e8267c4f27": {
+                    "id": "b3bb240b54166af91c94ce4b[type]",
+                    "name": "Type",
+                    "value": {
+                        "id": "b3bb240b54166af91c94ce4b[type]",
+                        "name": "Type",
+                        "value": "Text Message"
+                    },
+                    "option": "Text Message"
+                },
+                "5aefe0547e628a6019d3f613": {
+                    "id": "b3bb240b54166af91c94ce4b[followup message type]",
+                    "name": "Followup Message Type",
+                    "value": {
+                        "id": "b3bb240b54166af91c94ce4b[followup message type]",
+                        "name": "Followup Message Type",
+                        "value": "text"
+                    },
+                    "option": "text"
+                },
+                "869849f65db9be737e99bd24": {
+                    "id": "b3bb240b54166af91c94ce4b[intent keyword]",
+                    "name": "Intent Keyword",
+                    "value": {
+                        "id": "b3bb240b54166af91c94ce4b[intent keyword]",
+                        "name": "Intent Keyword",
+                        "value": ""
+                    }
+                },
+                "e7d374a1e2d32c5e67bc68cc": {
+                    "id": "b3bb240b54166af91c94ce4b[intent label]",
+                    "name": "Intent Label",
+                    "value": {
+                        "id": "b3bb240b54166af91c94ce4b[intent label]",
+                        "name": "Intent Label",
+                        "value": ""
+                    }
+                },
+                "3e8bfec67da28c354a969b46": {
+                    "id": "b3bb240b54166af91c94ce4b[nlu id]",
+                    "name": "NLU ID",
+                    "value": {
+                        "id": "b3bb240b54166af91c94ce4b[nlu id]",
+                        "name": "NLU ID",
+                        "value": "fancyf"
+                    }
+                },
+                "8f8bee572ff26bedbfb46783": {
+                    "id": "b3bb240b54166af91c94ce4b[isfile]",
+                    "name": "IsFile",
+                    "value": {
+                        "id": "b3bb240b54166af91c94ce4b[isfile]",
+                        "name": "IsFile",
+                        "value": "false"
+                    }
+                },
+                "1ae4674949cfead101f6e8d8": {
+                    "id": "b3bb240b54166af91c94ce4b[fileurl]",
+                    "name": "FileURL",
+                    "value": {
+                        "id": "b3bb240b54166af91c94ce4b[fileurl]",
+                        "name": "FileURL",
+                        "value": ""
+                    }
+                },
+                "1b9710d3ac9dbdfd3b46110a": {
+                    "id": "b3bb240b54166af91c94ce4b[errormessage]",
+                    "name": "ErrorMessage",
+                    "value": {
+                        "id": "b3bb240b54166af91c94ce4b[errormessage]",
+                        "name": "ErrorMessage",
+                        "value": ""
+                    }
+                },
+                "90cd8b63ad44500486ddbb02": {
+                    "id": "b3bb240b54166af91c94ce4b[message]",
+                    "name": "Message",
+                    "value": {
+                        "id": "b3bb240b54166af91c94ce4b[message]",
+                        "name": "Message",
+                        "value": "{\"editor-b3bb240b54166af91c94ce4bmessage-1\":\"Alright then. How many stars would you give your meal?\\\\n (Specify a value between 1 and 5. Only integer values are allowed)\"}"
+                    }
+                }
+            }
+        },
+        "0d6daa47e7c34171bba39dbd": {
+            "label": {
+                "id": "0d6daa47e7c34171bba39dbd[label]",
+                "name": "Label",
+                "value": {
+                    "id": "0d6daa47e7c34171bba39dbd[label]",
+                    "name": "Label",
+                    "value": ""
+                }
+            },
+            "left": 4200.60009765625,
+            "top": 5080.11669921875,
+            "width": 50,
+            "height": 50,
+            "zIndex": 16018,
+            "type": "Incoming Message",
+            "attributes": {
+                "646c1466c4bf34e8267c4f27": {
+                    "id": "0d6daa47e7c34171bba39dbd[type]",
+                    "name": "Type",
+                    "value": {
+                        "id": "0d6daa47e7c34171bba39dbd[type]",
+                        "name": "Type",
+                        "value": "Text Message"
+                    },
+                    "option": "Text Message"
+                },
+                "5aefe0547e628a6019d3f613": {
+                    "id": "0d6daa47e7c34171bba39dbd[followup message type]",
+                    "name": "Followup Message Type",
+                    "value": {
+                        "id": "0d6daa47e7c34171bba39dbd[followup message type]",
+                        "name": "Followup Message Type",
+                        "value": "text"
+                    },
+                    "option": "text"
+                },
+                "869849f65db9be737e99bd24": {
+                    "id": "0d6daa47e7c34171bba39dbd[intent keyword]",
+                    "name": "Intent Keyword",
+                    "value": {
+                        "id": "0d6daa47e7c34171bba39dbd[intent keyword]",
+                        "name": "Intent Keyword",
+                        "value": ""
+                    }
+                },
+                "e7d374a1e2d32c5e67bc68cc": {
+                    "id": "0d6daa47e7c34171bba39dbd[intent label]",
+                    "name": "Intent Label",
+                    "value": {
+                        "id": "0d6daa47e7c34171bba39dbd[intent label]",
+                        "name": "Intent Label",
+                        "value": ""
+                    }
+                },
+                "3e8bfec67da28c354a969b46": {
+                    "id": "0d6daa47e7c34171bba39dbd[nlu id]",
+                    "name": "NLU ID",
+                    "value": {
+                        "id": "0d6daa47e7c34171bba39dbd[nlu id]",
+                        "name": "NLU ID",
+                        "value": "fancyf"
+                    }
+                },
+                "8f8bee572ff26bedbfb46783": {
+                    "id": "0d6daa47e7c34171bba39dbd[isfile]",
+                    "name": "IsFile",
+                    "value": {
+                        "id": "0d6daa47e7c34171bba39dbd[isfile]",
+                        "name": "IsFile",
+                        "value": "false"
+                    }
+                },
+                "1ae4674949cfead101f6e8d8": {
+                    "id": "0d6daa47e7c34171bba39dbd[fileurl]",
+                    "name": "FileURL",
+                    "value": {
+                        "id": "0d6daa47e7c34171bba39dbd[fileurl]",
+                        "name": "FileURL",
+                        "value": ""
+                    }
+                },
+                "1b9710d3ac9dbdfd3b46110a": {
+                    "id": "0d6daa47e7c34171bba39dbd[errormessage]",
+                    "name": "ErrorMessage",
+                    "value": {
+                        "id": "0d6daa47e7c34171bba39dbd[errormessage]",
+                        "name": "ErrorMessage",
+                        "value": ""
+                    }
+                },
+                "90cd8b63ad44500486ddbb02": {
+                    "id": "0d6daa47e7c34171bba39dbd[message]",
+                    "name": "Message",
+                    "value": {
+                        "id": "0d6daa47e7c34171bba39dbd[message]",
+                        "name": "Message",
+                        "value": "{\"editor-0d6daa47e7c34171bba39dbdmessage-1\":\"Sorry, I couldn't help you.😔 I will try my best next time\"}"
+                    }
+                }
+            }
+        },
+        "9df99e13096da83d093358fb": {
+            "label": {
+                "id": "9df99e13096da83d093358fb[label]",
+                "name": "Label",
+                "value": {
+                    "id": "9df99e13096da83d093358fb[label]",
+                    "name": "Label",
+                    "value": ""
+                }
+            },
+            "left": 4072.60009765625,
+            "top": 4746.11669921875,
+            "width": 50,
+            "height": 50,
+            "zIndex": 16019,
+            "type": "Incoming Message",
+            "attributes": {
+                "646c1466c4bf34e8267c4f27": {
+                    "id": "9df99e13096da83d093358fb[type]",
+                    "name": "Type",
+                    "value": {
+                        "id": "9df99e13096da83d093358fb[type]",
+                        "name": "Type",
+                        "value": "Text Message"
+                    },
+                    "option": "Text Message"
+                },
+                "5aefe0547e628a6019d3f613": {
+                    "id": "9df99e13096da83d093358fb[followup message type]",
+                    "name": "Followup Message Type",
+                    "value": {
+                        "id": "9df99e13096da83d093358fb[followup message type]",
+                        "name": "Followup Message Type",
+                        "value": "text"
+                    },
+                    "option": "text"
+                },
+                "869849f65db9be737e99bd24": {
+                    "id": "9df99e13096da83d093358fb[intent keyword]",
+                    "name": "Intent Keyword",
+                    "value": {
+                        "id": "9df99e13096da83d093358fb[intent keyword]",
+                        "name": "Intent Keyword",
+                        "value": ""
+                    }
+                },
+                "e7d374a1e2d32c5e67bc68cc": {
+                    "id": "9df99e13096da83d093358fb[intent label]",
+                    "name": "Intent Label",
+                    "value": {
+                        "id": "9df99e13096da83d093358fb[intent label]",
+                        "name": "Intent Label",
+                        "value": ""
+                    }
+                },
+                "3e8bfec67da28c354a969b46": {
+                    "id": "9df99e13096da83d093358fb[nlu id]",
+                    "name": "NLU ID",
+                    "value": {
+                        "id": "9df99e13096da83d093358fb[nlu id]",
+                        "name": "NLU ID",
+                        "value": "fancyf"
+                    }
+                },
+                "8f8bee572ff26bedbfb46783": {
+                    "id": "9df99e13096da83d093358fb[isfile]",
+                    "name": "IsFile",
+                    "value": {
+                        "id": "9df99e13096da83d093358fb[isfile]",
+                        "name": "IsFile",
+                        "value": "false"
+                    }
+                },
+                "1ae4674949cfead101f6e8d8": {
+                    "id": "9df99e13096da83d093358fb[fileurl]",
+                    "name": "FileURL",
+                    "value": {
+                        "id": "9df99e13096da83d093358fb[fileurl]",
+                        "name": "FileURL",
+                        "value": ""
+                    }
+                },
+                "1b9710d3ac9dbdfd3b46110a": {
+                    "id": "9df99e13096da83d093358fb[errormessage]",
+                    "name": "ErrorMessage",
+                    "value": {
+                        "id": "9df99e13096da83d093358fb[errormessage]",
+                        "name": "ErrorMessage",
+                        "value": ""
+                    }
+                },
+                "90cd8b63ad44500486ddbb02": {
+                    "id": "9df99e13096da83d093358fb[message]",
+                    "name": "Message",
+                    "value": {
+                        "id": "9df99e13096da83d093358fb[message]",
+                        "name": "Message",
+                        "value": "{\"editor-9df99e13096da83d093358fbmessage-1\":\"Okay. Please tell me to which mensa you went and which category of meal you had? (Vegetarisch, Klassiker,...)\"}"
+                    }
+                }
+            }
+        },
+        "f8f8142fd272fb35e933c7d4": {
+            "label": {
+                "id": "f8f8142fd272fb35e933c7d4[label]",
+                "name": "Label",
+                "value": {
+                    "id": "f8f8142fd272fb35e933c7d4[label]",
+                    "name": "Label",
+                    "value": ""
+                }
+            },
+            "left": 4524.60009765625,
+            "top": 5082.11669921875,
+            "width": 50,
+            "height": 50,
+            "zIndex": 16020,
+            "type": "Incoming Message",
+            "attributes": {
+                "646c1466c4bf34e8267c4f27": {
+                    "id": "f8f8142fd272fb35e933c7d4[type]",
+                    "name": "Type",
+                    "value": {
+                        "id": "f8f8142fd272fb35e933c7d4[type]",
+                        "name": "Type",
+                        "value": "Text Message"
+                    },
+                    "option": "Text Message"
+                },
+                "5aefe0547e628a6019d3f613": {
+                    "id": "f8f8142fd272fb35e933c7d4[followup message type]",
+                    "name": "Followup Message Type",
+                    "value": {
+                        "id": "f8f8142fd272fb35e933c7d4[followup message type]",
+                        "name": "Followup Message Type",
+                        "value": "text"
+                    },
+                    "option": "text"
+                },
+                "869849f65db9be737e99bd24": {
+                    "id": "f8f8142fd272fb35e933c7d4[intent keyword]",
+                    "name": "Intent Keyword",
+                    "value": {
+                        "id": "f8f8142fd272fb35e933c7d4[intent keyword]",
+                        "name": "Intent Keyword",
+                        "value": ""
+                    }
+                },
+                "e7d374a1e2d32c5e67bc68cc": {
+                    "id": "f8f8142fd272fb35e933c7d4[intent label]",
+                    "name": "Intent Label",
+                    "value": {
+                        "id": "f8f8142fd272fb35e933c7d4[intent label]",
+                        "name": "Intent Label",
+                        "value": ""
+                    }
+                },
+                "3e8bfec67da28c354a969b46": {
+                    "id": "f8f8142fd272fb35e933c7d4[nlu id]",
+                    "name": "NLU ID",
+                    "value": {
+                        "id": "f8f8142fd272fb35e933c7d4[nlu id]",
+                        "name": "NLU ID",
+                        "value": "fancyf"
+                    }
+                },
+                "8f8bee572ff26bedbfb46783": {
+                    "id": "f8f8142fd272fb35e933c7d4[isfile]",
+                    "name": "IsFile",
+                    "value": {
+                        "id": "f8f8142fd272fb35e933c7d4[isfile]",
+                        "name": "IsFile",
+                        "value": "false"
+                    }
+                },
+                "1ae4674949cfead101f6e8d8": {
+                    "id": "f8f8142fd272fb35e933c7d4[fileurl]",
+                    "name": "FileURL",
+                    "value": {
+                        "id": "f8f8142fd272fb35e933c7d4[fileurl]",
+                        "name": "FileURL",
+                        "value": ""
+                    }
+                },
+                "1b9710d3ac9dbdfd3b46110a": {
+                    "id": "f8f8142fd272fb35e933c7d4[errormessage]",
+                    "name": "ErrorMessage",
+                    "value": {
+                        "id": "f8f8142fd272fb35e933c7d4[errormessage]",
+                        "name": "ErrorMessage",
+                        "value": ""
+                    }
+                },
+                "90cd8b63ad44500486ddbb02": {
+                    "id": "f8f8142fd272fb35e933c7d4[message]",
+                    "name": "Message",
+                    "value": {
+                        "id": "f8f8142fd272fb35e933c7d4[message]",
+                        "name": "Message",
+                        "value": "{\"editor-f8f8142fd272fb35e933c7d4message-1\":\"Got it.\"}"
+                    }
+                }
+            }
+        },
+        "7169854c636b80c0a1dd7639": {
+            "label": {
+                "id": "7169854c636b80c0a1dd7639[label]",
+                "name": "Label",
+                "value": {
+                    "id": "7169854c636b80c0a1dd7639[label]",
+                    "name": "Label",
+                    "value": ""
+                }
+            },
+            "left": 4664.60009765625,
+            "top": 5090.11669921875,
+            "width": 50,
+            "height": 50,
+            "zIndex": 16021,
+            "type": "Bot Action",
+            "attributes": {
+                "5529bde8544426cd5580efc1": {
+                    "id": "7169854c636b80c0a1dd7639[action type]",
+                    "name": "Action Type",
+                    "value": {
+                        "id": "7169854c636b80c0a1dd7639[action type]",
+                        "name": "Action Type",
+                        "value": "OpenAPI"
+                    },
+                    "option": "OpenAPI"
+                },
+                "c436dc0e764a63371820e857": {
+                    "id": "7169854c636b80c0a1dd7639[function name]",
+                    "name": "Function Name",
+                    "value": {
+                        "id": "7169854c636b80c0a1dd7639[function name]",
+                        "name": "Function Name",
+                        "value": "prepareReview"
+                    }
+                },
+                "bc1335cdf59dedb856e635be": {
+                    "id": "7169854c636b80c0a1dd7639[service alias]",
+                    "name": "Service Alias",
+                    "value": {
+                        "id": "7169854c636b80c0a1dd7639[service alias]",
+                        "name": "Service Alias",
+                        "value": "https://mobsos.tech4comp.dbis.rwth-aachen.de/mensa"
+                    }
+                }
+            }
+        },
+        "a913d82e77b1ec8edc5b566a": {
+            "label": {
+                "id": "a913d82e77b1ec8edc5b566a[label]",
+                "name": "Label",
+                "value": {
+                    "id": "a913d82e77b1ec8edc5b566a[label]",
+                    "name": "Label",
+                    "value": ""
+                }
+            },
+            "left": 4434.818270596591,
+            "top": 5334.287908380681,
+            "width": 50,
+            "height": 50,
+            "zIndex": 16023,
+            "type": "Incoming Message",
+            "attributes": {
+                "646c1466c4bf34e8267c4f27": {
+                    "id": "a913d82e77b1ec8edc5b566a[type]",
+                    "name": "Type",
+                    "value": {
+                        "id": "a913d82e77b1ec8edc5b566a[type]",
+                        "name": "Type",
+                        "value": "Text Message"
+                    },
+                    "option": "Text Message"
+                },
+                "5aefe0547e628a6019d3f613": {
+                    "id": "a913d82e77b1ec8edc5b566a[followup message type]",
+                    "name": "Followup Message Type",
+                    "value": {
+                        "id": "a913d82e77b1ec8edc5b566a[followup message type]",
+                        "name": "Followup Message Type",
+                        "value": "text"
+                    },
+                    "option": "text"
+                },
+                "869849f65db9be737e99bd24": {
+                    "id": "a913d82e77b1ec8edc5b566a[intent keyword]",
+                    "name": "Intent Keyword",
+                    "value": {
+                        "id": "a913d82e77b1ec8edc5b566a[intent keyword]",
+                        "name": "Intent Keyword",
+                        "value": ""
+                    }
+                },
+                "e7d374a1e2d32c5e67bc68cc": {
+                    "id": "a913d82e77b1ec8edc5b566a[intent label]",
+                    "name": "Intent Label",
+                    "value": {
+                        "id": "a913d82e77b1ec8edc5b566a[intent label]",
+                        "name": "Intent Label",
+                        "value": ""
+                    }
+                },
+                "3e8bfec67da28c354a969b46": {
+                    "id": "a913d82e77b1ec8edc5b566a[nlu id]",
+                    "name": "NLU ID",
+                    "value": {
+                        "id": "a913d82e77b1ec8edc5b566a[nlu id]",
+                        "name": "NLU ID",
+                        "value": "fancyf"
+                    }
+                },
+                "8f8bee572ff26bedbfb46783": {
+                    "id": "a913d82e77b1ec8edc5b566a[isfile]",
+                    "name": "IsFile",
+                    "value": {
+                        "id": "a913d82e77b1ec8edc5b566a[isfile]",
+                        "name": "IsFile",
+                        "value": "false"
+                    }
+                },
+                "1ae4674949cfead101f6e8d8": {
+                    "id": "a913d82e77b1ec8edc5b566a[fileurl]",
+                    "name": "FileURL",
+                    "value": {
+                        "id": "a913d82e77b1ec8edc5b566a[fileurl]",
+                        "name": "FileURL",
+                        "value": ""
+                    }
+                },
+                "1b9710d3ac9dbdfd3b46110a": {
+                    "id": "a913d82e77b1ec8edc5b566a[errormessage]",
+                    "name": "ErrorMessage",
+                    "value": {
+                        "id": "a913d82e77b1ec8edc5b566a[errormessage]",
+                        "name": "ErrorMessage",
+                        "value": ""
+                    }
+                },
+                "90cd8b63ad44500486ddbb02": {
+                    "id": "a913d82e77b1ec8edc5b566a[message]",
+                    "name": "Message",
+                    "value": {
+                        "id": "a913d82e77b1ec8edc5b566a[message]",
+                        "name": "Message",
+                        "value": "{\"editor-a913d82e77b1ec8edc5b566amessage-1\":\"All righty. Im transfering your review now\"}"
+                    }
+                }
+            }
+        },
+        "9b1dbda718ab29d02cf45d48": {
+            "label": {
+                "id": "9b1dbda718ab29d02cf45d48[label]",
+                "name": "Label",
+                "value": {
+                    "id": "9b1dbda718ab29d02cf45d48[label]",
+                    "name": "Label",
+                    "value": ""
+                }
+            },
+            "left": 4600.181906960227,
+            "top": 5354.287908380681,
+            "width": 50,
+            "height": 50,
+            "zIndex": 16024,
+            "type": "Incoming Message",
+            "attributes": {
+                "646c1466c4bf34e8267c4f27": {
+                    "id": "9b1dbda718ab29d02cf45d48[type]",
+                    "name": "Type",
+                    "value": {
+                        "id": "9b1dbda718ab29d02cf45d48[type]",
+                        "name": "Type",
+                        "value": "Text Message"
+                    },
+                    "option": "Text Message"
+                },
+                "5aefe0547e628a6019d3f613": {
+                    "id": "9b1dbda718ab29d02cf45d48[followup message type]",
+                    "name": "Followup Message Type",
+                    "value": {
+                        "id": "9b1dbda718ab29d02cf45d48[followup message type]",
+                        "name": "Followup Message Type",
+                        "value": "text"
+                    },
+                    "option": "text"
+                },
+                "869849f65db9be737e99bd24": {
+                    "id": "9b1dbda718ab29d02cf45d48[intent keyword]",
+                    "name": "Intent Keyword",
+                    "value": {
+                        "id": "9b1dbda718ab29d02cf45d48[intent keyword]",
+                        "name": "Intent Keyword",
+                        "value": ""
+                    }
+                },
+                "e7d374a1e2d32c5e67bc68cc": {
+                    "id": "9b1dbda718ab29d02cf45d48[intent label]",
+                    "name": "Intent Label",
+                    "value": {
+                        "id": "9b1dbda718ab29d02cf45d48[intent label]",
+                        "name": "Intent Label",
+                        "value": ""
+                    }
+                },
+                "3e8bfec67da28c354a969b46": {
+                    "id": "9b1dbda718ab29d02cf45d48[nlu id]",
+                    "name": "NLU ID",
+                    "value": {
+                        "id": "9b1dbda718ab29d02cf45d48[nlu id]",
+                        "name": "NLU ID",
+                        "value": "fancyf"
+                    }
+                },
+                "8f8bee572ff26bedbfb46783": {
+                    "id": "9b1dbda718ab29d02cf45d48[isfile]",
+                    "name": "IsFile",
+                    "value": {
+                        "id": "9b1dbda718ab29d02cf45d48[isfile]",
+                        "name": "IsFile",
+                        "value": "false"
+                    }
+                },
+                "1ae4674949cfead101f6e8d8": {
+                    "id": "9b1dbda718ab29d02cf45d48[fileurl]",
+                    "name": "FileURL",
+                    "value": {
+                        "id": "9b1dbda718ab29d02cf45d48[fileurl]",
+                        "name": "FileURL",
+                        "value": ""
+                    }
+                },
+                "1b9710d3ac9dbdfd3b46110a": {
+                    "id": "9b1dbda718ab29d02cf45d48[errormessage]",
+                    "name": "ErrorMessage",
+                    "value": {
+                        "id": "9b1dbda718ab29d02cf45d48[errormessage]",
+                        "name": "ErrorMessage",
+                        "value": ""
+                    }
+                },
+                "90cd8b63ad44500486ddbb02": {
+                    "id": "9b1dbda718ab29d02cf45d48[message]",
+                    "name": "Message",
+                    "value": {
+                        "id": "9b1dbda718ab29d02cf45d48[message]",
+                        "name": "Message",
+                        "value": "{\"editor-9b1dbda718ab29d02cf45d48message-1\":\"okay no problem\"}"
+                    }
+                }
+            }
+        },
+        "d94ff20cab73cf98782a9efc": {
+            "label": {
+                "id": "d94ff20cab73cf98782a9efc[label]",
+                "name": "Label",
+                "value": {
+                    "id": "d94ff20cab73cf98782a9efc[label]",
+                    "name": "Label",
+                    "value": ""
+                }
+            },
+            "left": 4508.090997869318,
+            "top": 5480.196999289772,
+            "width": 50,
+            "height": 50,
+            "zIndex": 16025,
+            "type": "Bot Action",
+            "attributes": {
+                "5529bde8544426cd5580efc1": {
+                    "id": "d94ff20cab73cf98782a9efc[action type]",
+                    "name": "Action Type",
+                    "value": {
+                        "id": "d94ff20cab73cf98782a9efc[action type]",
+                        "name": "Action Type",
+                        "value": "OpenAPI"
+                    },
+                    "option": "OpenAPI"
+                },
+                "c436dc0e764a63371820e857": {
+                    "id": "d94ff20cab73cf98782a9efc[function name]",
+                    "name": "Function Name",
+                    "value": {
+                        "id": "d94ff20cab73cf98782a9efc[function name]",
+                        "name": "Function Name",
+                        "value": "submitReview"
+                    }
+                },
+                "bc1335cdf59dedb856e635be": {
+                    "id": "d94ff20cab73cf98782a9efc[service alias]",
+                    "name": "Service Alias",
+                    "value": {
+                        "id": "d94ff20cab73cf98782a9efc[service alias]",
+                        "name": "Service Alias",
+                        "value": "https://mobsos.tech4comp.dbis.rwth-aachen.de/mensa"
+                    }
+                }
+            }
+        },
+        "ff9801f80454b4dbcedd4737": {
+            "label": {
+                "id": "ff9801f80454b4dbcedd4737[label]",
+                "name": "Label",
+                "value": {
+                    "id": "ff9801f80454b4dbcedd4737[label]",
+                    "name": "Label",
+                    "value": ""
+                }
+            },
+            "left": 4212.375122070311,
+            "top": 4170.958435058592,
+            "width": 50,
+            "height": 50,
+            "zIndex": 16027,
+            "type": "Incoming Message",
+            "attributes": {
+                "646c1466c4bf34e8267c4f27": {
+                    "id": "ff9801f80454b4dbcedd4737[type]",
+                    "name": "Type",
+                    "value": {
+                        "id": "ff9801f80454b4dbcedd4737[type]",
+                        "name": "Type",
+                        "value": "Text Message"
+                    },
+                    "option": "Text Message"
+                },
+                "5aefe0547e628a6019d3f613": {
+                    "id": "ff9801f80454b4dbcedd4737[followup message type]",
+                    "name": "Followup Message Type",
+                    "value": {
+                        "id": "ff9801f80454b4dbcedd4737[followup message type]",
+                        "name": "Followup Message Type",
+                        "value": "text"
+                    },
+                    "option": "text"
+                },
+                "869849f65db9be737e99bd24": {
+                    "id": "ff9801f80454b4dbcedd4737[intent keyword]",
+                    "name": "Intent Keyword",
+                    "value": {
+                        "id": "ff9801f80454b4dbcedd4737[intent keyword]",
+                        "name": "Intent Keyword",
+                        "value": "sad"
+                    }
+                },
+                "e7d374a1e2d32c5e67bc68cc": {
+                    "id": "ff9801f80454b4dbcedd4737[intent label]",
+                    "name": "Intent Label",
+                    "value": {
+                        "id": "ff9801f80454b4dbcedd4737[intent label]",
+                        "name": "Intent Label",
+                        "value": ""
+                    }
+                },
+                "3e8bfec67da28c354a969b46": {
+                    "id": "ff9801f80454b4dbcedd4737[nlu id]",
+                    "name": "NLU ID",
+                    "value": {
+                        "id": "ff9801f80454b4dbcedd4737[nlu id]",
+                        "name": "NLU ID",
+                        "value": "fancyf"
+                    }
+                },
+                "8f8bee572ff26bedbfb46783": {
+                    "id": "ff9801f80454b4dbcedd4737[isfile]",
+                    "name": "IsFile",
+                    "value": {
+                        "id": "ff9801f80454b4dbcedd4737[isfile]",
+                        "name": "IsFile",
+                        "value": "false"
+                    }
+                },
+                "1ae4674949cfead101f6e8d8": {
+                    "id": "ff9801f80454b4dbcedd4737[fileurl]",
+                    "name": "FileURL",
+                    "value": {
+                        "id": "ff9801f80454b4dbcedd4737[fileurl]",
+                        "name": "FileURL",
+                        "value": ""
+                    }
+                },
+                "1b9710d3ac9dbdfd3b46110a": {
+                    "id": "ff9801f80454b4dbcedd4737[errormessage]",
+                    "name": "ErrorMessage",
+                    "value": {
+                        "id": "ff9801f80454b4dbcedd4737[errormessage]",
+                        "name": "ErrorMessage",
+                        "value": ""
+                    }
+                },
+                "90cd8b63ad44500486ddbb02": {
+                    "id": "ff9801f80454b4dbcedd4737[message]",
+                    "name": "Message",
+                    "value": {
+                        "id": "ff9801f80454b4dbcedd4737[message]",
+                        "name": "Message",
+                        "value": "{\"editor-ff9801f80454b4dbcedd4737message-1\":\"yeah i know brother, i am a starvin marvin as well\"}"
+                    }
+                }
+            }
+        }
+    },
+    "edges": {
+        "c946678c376c5eafc6c94ddf": {
+            "label": {
+                "id": "c946678c376c5eafc6c94ddf[label]",
+                "name": "Label",
+                "value": {
+                    "id": "c946678c376c5eafc6c94ddf[label]",
+                    "name": "Label",
+                    "value": ""
+                }
+            },
+            "source": "e8df33164e46ce87420e8af7",
+            "target": "6c71b808ff99faedd986850e",
+            "attributes": {},
+            "type": "has"
+        },
+        "15bb20fc2807275d4f4aa7d6": {
+            "label": {
+                "id": "15bb20fc2807275d4f4aa7d6[label]",
+                "name": "Label",
+                "value": {
+                    "id": "15bb20fc2807275d4f4aa7d6[label]",
+                    "name": "Label",
+                    "value": ""
+                }
+            },
+            "source": "e8df33164e46ce87420e8af7",
+            "target": "a2328d74750c839062ebabb0",
+            "attributes": {},
+            "type": "has"
+        },
+        "5453e8a0461378467dd161bf": {
+            "label": {
+                "id": "5453e8a0461378467dd161bf[label]",
+                "name": "Label",
+                "value": {
+                    "id": "5453e8a0461378467dd161bf[label]",
+                    "name": "Label",
+                    "value": ""
+                }
+            },
+            "source": "a2328d74750c839062ebabb0",
+            "target": "df08bdf6da892e42169acac2",
+            "attributes": {},
+            "type": "generates"
+        },
+        "d5004207466bc10c37d44ae2": {
+            "label": {
+                "id": "d5004207466bc10c37d44ae2[label]",
+                "name": "Label",
+                "value": {
+                    "id": "d5004207466bc10c37d44ae2[label]",
+                    "name": "Label",
+                    "value": ""
+                }
+            },
+            "source": "a2328d74750c839062ebabb0",
+            "target": "3b995f08d360475619d5dead",
+            "attributes": {},
+            "type": "generates"
+        },
+        "b73f5ec1443e15263dcb66a7": {
+            "label": {
+                "id": "b73f5ec1443e15263dcb66a7[label]",
+                "name": "Label",
+                "value": {
+                    "id": "b73f5ec1443e15263dcb66a7[label]",
+                    "name": "Label",
+                    "value": ""
+                }
+            },
+            "source": "a2328d74750c839062ebabb0",
+            "target": "b83a85b73e0b1ed74ed0091e",
+            "attributes": {},
+            "type": "generates"
+        },
+        "c2a1e5b5f5a4622c4b778da9": {
+            "label": {
+                "id": "c2a1e5b5f5a4622c4b778da9[label]",
+                "name": "Label",
+                "value": {
+                    "id": "c2a1e5b5f5a4622c4b778da9[label]",
+                    "name": "Label",
+                    "value": ""
+                }
+            },
+            "source": "a2328d74750c839062ebabb0",
+            "target": "2cf567110bae35efe71a5cdf",
+            "attributes": {},
+            "type": "generates"
+        },
+        "5d1dc90d832ea91388336d0f": {
+            "label": {
+                "id": "5d1dc90d832ea91388336d0f[label]",
+                "name": "Label",
+                "value": {
+                    "id": "5d1dc90d832ea91388336d0f[label]",
+                    "name": "Label",
+                    "value": ""
+                }
+            },
+            "source": "a2328d74750c839062ebabb0",
+            "target": "117e0d66e833fb189e661891",
+            "attributes": {},
+            "type": "generates"
+        },
+        "9a60553957f2cbe2402db66f": {
+            "label": {
+                "id": "9a60553957f2cbe2402db66f[label]",
+                "name": "Label",
+                "value": {
+                    "id": "9a60553957f2cbe2402db66f[label]",
+                    "name": "Label",
+                    "value": ""
+                }
+            },
+            "source": "a2328d74750c839062ebabb0",
+            "target": "2737c217b4ca167946a11531",
+            "attributes": {},
+            "type": "generates"
+        },
+        "29a853931b3ab783a36ef274": {
+            "label": {
+                "id": "29a853931b3ab783a36ef274[label]",
+                "name": "Label",
+                "value": {
+                    "id": "29a853931b3ab783a36ef274[label]",
+                    "name": "Label",
+                    "value": ""
+                }
+            },
+            "source": "a2328d74750c839062ebabb0",
+            "target": "a591cae876337f97bc28a95e",
+            "attributes": {},
+            "type": "generates"
+        },
+        "203ece0fc479006a0100da02": {
+            "label": {
+                "id": "203ece0fc479006a0100da02[label]",
+                "name": "Label",
+                "value": {
+                    "id": "203ece0fc479006a0100da02[label]",
+                    "name": "Label",
+                    "value": ""
+                }
+            },
+            "source": "3b995f08d360475619d5dead",
+            "target": "260085832f8353a7941f715b",
+            "attributes": {},
+            "type": "uses"
+        },
+        "05d0bf05454bdef9e5aee6dc": {
+            "label": {
+                "id": "05d0bf05454bdef9e5aee6dc[label]",
+                "name": "Label",
+                "value": {
+                    "id": "05d0bf05454bdef9e5aee6dc[label]",
+                    "name": "Label",
+                    "value": ""
+                }
+            },
+            "source": "260085832f8353a7941f715b",
+            "target": "284e27e00488b583f8ab3179",
+            "attributes": {},
+            "type": "has"
+        },
+        "7ff4cea35bad9591b69b7aa6": {
+            "label": {
+                "id": "7ff4cea35bad9591b69b7aa6[label]",
+                "name": "Label",
+                "value": {
+                    "id": "7ff4cea35bad9591b69b7aa6[label]",
+                    "name": "Label",
+                    "value": ""
+                }
+            },
+            "source": "260085832f8353a7941f715b",
+            "target": "d36c4d4fd7db7eab127a9dd9",
+            "attributes": {},
+            "type": "has"
+        },
+        "d655de4e1e24786d6914f480": {
+            "label": {
+                "id": "d655de4e1e24786d6914f480[label]",
+                "name": "Label",
+                "value": {
+                    "id": "d655de4e1e24786d6914f480[label]",
+                    "name": "Label",
+                    "value": "chooseMensaAndMeal"
+                }
+            },
+            "source": "b83a85b73e0b1ed74ed0091e",
+            "target": "8631a4c087becb9236bcafbb",
+            "attributes": {},
+            "type": "leadsTo"
+        },
+        "c7fa669d6c437ce2e38227ec": {
+            "label": {
+                "id": "c7fa669d6c437ce2e38227ec[label]",
+                "name": "Label",
+                "value": {
+                    "id": "c7fa669d6c437ce2e38227ec[label]",
+                    "name": "Label",
+                    "value": ""
+                }
+            },
+            "source": "8631a4c087becb9236bcafbb",
+            "target": "79552d31107b16eafdcb5fe3",
+            "attributes": {},
+            "type": "uses"
+        },
+        "230a964635d0d65be8adf007": {
+            "label": {
+                "id": "230a964635d0d65be8adf007[label]",
+                "name": "Label",
+                "value": {
+                    "id": "230a964635d0d65be8adf007[label]",
+                    "name": "Label",
+                    "value": "rejection"
+                }
+            },
+            "source": "8631a4c087becb9236bcafbb",
+            "target": "634a4745877740ed163a77fa",
+            "attributes": {},
+            "type": "leadsTo"
+        },
+        "6010d845b63a4cc23f60ebd0": {
+            "label": {
+                "id": "6010d845b63a4cc23f60ebd0[label]",
+                "name": "Label",
+                "value": {
+                    "id": "6010d845b63a4cc23f60ebd0[label]",
+                    "name": "Label",
+                    "value": "confirmation"
+                }
+            },
+            "source": "8631a4c087becb9236bcafbb",
+            "target": "b3bb240b54166af91c94ce4b",
+            "attributes": {},
+            "type": "leadsTo"
+        },
+        "61844f258e2683e1b3ce657e": {
+            "label": {
+                "id": "61844f258e2683e1b3ce657e[label]",
+                "name": "Label",
+                "value": {
+                    "id": "61844f258e2683e1b3ce657e[label]",
+                    "name": "Label",
+                    "value": "rejection"
+                }
+            },
+            "source": "634a4745877740ed163a77fa",
+            "target": "0d6daa47e7c34171bba39dbd",
+            "attributes": {},
+            "type": "leadsTo"
+        },
+        "6101bb904b6349c1503cfe98": {
+            "label": {
+                "id": "6101bb904b6349c1503cfe98[label]",
+                "name": "Label",
+                "value": {
+                    "id": "6101bb904b6349c1503cfe98[label]",
+                    "name": "Label",
+                    "value": "confirmation"
+                }
+            },
+            "source": "634a4745877740ed163a77fa",
+            "target": "9df99e13096da83d093358fb",
+            "attributes": {},
+            "type": "leadsTo"
+        },
+        "d63fc2c95d6ebb9f32d62109": {
+            "label": {
+                "id": "d63fc2c95d6ebb9f32d62109[label]",
+                "name": "Label",
+                "value": {
+                    "id": "d63fc2c95d6ebb9f32d62109[label]",
+                    "name": "Label",
+                    "value": "chooseMensaAndMeal"
+                }
+            },
+            "source": "9df99e13096da83d093358fb",
+            "target": "8631a4c087becb9236bcafbb",
+            "attributes": {},
+            "type": "leadsTo"
+        },
+        "eb266988105da55ab1dbfb62": {
+            "label": {
+                "id": "eb266988105da55ab1dbfb62[label]",
+                "name": "Label",
+                "value": {
+                    "id": "eb266988105da55ab1dbfb62[label]",
+                    "name": "Label",
+                    "value": "stars,number_selection"
+                }
+            },
+            "source": "b3bb240b54166af91c94ce4b",
+            "target": "f8f8142fd272fb35e933c7d4",
+            "attributes": {},
+            "type": "leadsTo"
+        },
+        "ef006227047ea862daeef74c": {
+            "label": {
+                "id": "ef006227047ea862daeef74c[label]",
+                "name": "Label",
+                "value": {
+                    "id": "ef006227047ea862daeef74c[label]",
+                    "name": "Label",
+                    "value": ""
+                }
+            },
+            "source": "f8f8142fd272fb35e933c7d4",
+            "target": "7169854c636b80c0a1dd7639",
+            "attributes": {},
+            "type": "uses"
+        },
+        "ef36e373947bd046b241afb6": {
+            "label": {
+                "id": "ef36e373947bd046b241afb6[label]",
+                "name": "Label",
+                "value": {
+                    "id": "ef36e373947bd046b241afb6[label]",
+                    "name": "Label",
+                    "value": ""
+                }
+            },
+            "source": "9b1dbda718ab29d02cf45d48",
+            "target": "d94ff20cab73cf98782a9efc",
+            "attributes": {},
+            "type": "uses"
+        },
+        "c979f107df5206374259164e": {
+            "label": {
+                "id": "c979f107df5206374259164e[label]",
+                "name": "Label",
+                "value": {
+                    "id": "c979f107df5206374259164e[label]",
+                    "name": "Label",
+                    "value": ""
+                }
+            },
+            "source": "a913d82e77b1ec8edc5b566a",
+            "target": "d94ff20cab73cf98782a9efc",
+            "attributes": {},
+            "type": "uses"
+        },
+        "2ae662efd9f70e7c742988f9": {
+            "label": {
+                "id": "2ae662efd9f70e7c742988f9[label]",
+                "name": "Label",
+                "value": {
+                    "id": "2ae662efd9f70e7c742988f9[label]",
+                    "name": "Label",
+                    "value": ""
+                }
+            },
+            "source": "d94ff20cab73cf98782a9efc",
+            "target": "d36c4d4fd7db7eab127a9dd9",
+            "attributes": {},
+            "type": "has"
+        },
+        "fa88489348912dfb7bc98a6a": {
+            "label": {
+                "id": "fa88489348912dfb7bc98a6a[label]",
+                "name": "Label",
+                "value": {
+                    "id": "fa88489348912dfb7bc98a6a[label]",
+                    "name": "Label",
+                    "value": ""
+                }
+            },
+            "source": "d94ff20cab73cf98782a9efc",
+            "target": "284e27e00488b583f8ab3179",
+            "attributes": {},
+            "type": "has"
+        },
+        "155b06c1081b98b25f7d3bd7": {
+            "label": {
+                "id": "155b06c1081b98b25f7d3bd7[label]",
+                "name": "Label",
+                "value": {
+                    "id": "155b06c1081b98b25f7d3bd7[label]",
+                    "name": "Label",
+                    "value": ""
+                }
+            },
+            "source": "2737c217b4ca167946a11531",
+            "target": "260085832f8353a7941f715b",
+            "attributes": {},
+            "type": "uses"
+        },
+        "289815e731acd7c6009abe54": {
+            "label": {
+                "id": "289815e731acd7c6009abe54[label]",
+                "name": "Label",
+                "value": {
+                    "id": "289815e731acd7c6009abe54[label]",
+                    "name": "Label",
+                    "value": ""
+                }
+            },
+            "source": "a2328d74750c839062ebabb0",
+            "target": "ff9801f80454b4dbcedd4737",
+            "attributes": {},
+            "type": "generates"
+        },
+        "4c884c210645750d4413c432": {
+            "label": {
+                "id": "4c884c210645750d4413c432[label]",
+                "name": "Label",
+                "value": {
+                    "id": "4c884c210645750d4413c432[label]",
+                    "name": "Label",
+                    "value": ""
+                }
+            },
+            "source": "f8f8142fd272fb35e933c7d4",
+            "target": "a913d82e77b1ec8edc5b566a",
+            "attributes": {},
+            "type": "leadsTo"
+        },
+        "646d1db0a9cbc44b321d7708": {
+            "label": {
+                "id": "646d1db0a9cbc44b321d7708[label]",
+                "name": "Label",
+                "value": {
+                    "id": "646d1db0a9cbc44b321d7708[label]",
+                    "name": "Label",
+                    "value": "rejection"
+                }
+            },
+            "source": "f8f8142fd272fb35e933c7d4",
+            "target": "9b1dbda718ab29d02cf45d48",
+            "attributes": {},
+            "type": "leadsTo"
+        }
+    }
+}

@@ -89,44 +89,33 @@ if __name__ == "__main__":
 
     for edge in edges.values():
         if edge['type'] == 'uses' and nodes[edge['target']]['type'] == 'Bot Action':
-            source_name = extract_activity_name(edge['source'],nodes[edge['source']],edges)
-            target_name = extract_activity_name(edge['target'],nodes[edge['target']],edges)
-            
-            if source_name in known_node_names.values():
-                if known_node_names.get(source_name) is None:
-                    known_node_names[source_name] = 1
-                else:
-                    known_node_names[source_name] += 1
-                source_name = source_name + "_" + str(known_node_names[source_name])
-                known_node_names[edge['source']] = source_name
-
-
-            if (source_name,target_name) not in dfg:
-                dfg[(source_name,target_name)] = 0
-            dfg[(source_name,target_name)] += 1
+            source_id = edge['source']
+            target_id = edge['target']
+            if (source_id,target_id) not in dfg: # if the edge is not in the dfg, add it
+                dfg[(source_id,target_id)] = 0
+            dfg[(source_id,target_id)] += 1
             
             # find all edges that are leadsTo and are connected to the source of the uses edge
             for edge2_id,edge2 in edges.items():
                 
 
                 if edge2['type'] == 'leadsTo' and edge2['source'] == edge['source']:
-
+                    
                     # create a new edge from the Bot Action to the target of the leadsTo edge
-                    source_name = target_name
-                    target_name = extract_activity_name(edge2['target'],nodes[edge2['target']],edges)
-                    print(f"Adding {source_name} {target_name}")
-                    if (source_name,target_name) not in dfg:
-                        dfg[(source_name,target_name)] = 0
-                    dfg[(source_name,target_name)] += 1
+                    source_id = target_id
+                    target_id = edge2['target']
+                    
+                    if (source_id,target_id) not in dfg:
+                        dfg[(source_id,target_id)] = 0
+                    dfg[(source_id,target_id)] += 1
                     # remove the leadsTo edge
                     edges_to_remove.add(edge2_id)
-    print(dfg)
+
     # remove all edges that are leadsTo and are connected to the source of the uses edge
     for edge_id in edges_to_remove:
         edges.pop(edge_id)
 
     
-
     for edge in edges.values():
         if edge['type'] not in edge_types_of_interest:
                 continue
@@ -137,26 +126,13 @@ if __name__ == "__main__":
             continue
 
         if nodes[source_id]['type'] == 'Messenger':
-            start_activities.add(extract_activity_name(target_id,nodes[target_id],edges))
+            start_activities.add(target_id)
             continue
 
-        source_name = extract_activity_name(source_id,nodes[source_id],edges)
-        target_name = extract_activity_name(target_id,nodes[target_id],edges)
-
-        if source_name in known_node_names.values():
-            if known_node_names.get(source_name) is None:
-                known_node_names[source_name] = 1
-            else:
-                known_node_names[source_name] += 1
-            source_name = source_name + "_" + str(known_node_names[source_name])
-            known_node_names[edge['source']] = source_name
-
     
-        print(source_name, target_name)
-
-        if (source_name,target_name) not in dfg:
-            dfg[(source_name,target_name)] = 0
-        dfg[(source_name,target_name)] += 1
+        if (source_id,target_id) not in dfg:
+            dfg[(source_id,target_id)] = 0
+        dfg[(source_id,target_id)] += 1
 
    
 
@@ -171,16 +147,23 @@ if __name__ == "__main__":
                 has_outgoing_edge = True
                 break
         if not has_outgoing_edge:
-            name = extract_activity_name(node_id,node,edges)
-            if known_node_names.get(node_id) is not None:
-                name = known_node_names[node_id] 
-            end_activities.add(name)
-    print(start_activities)
-    print(end_activities)
+            end_activities.add(node_id)
         
-    
     net, im,fm = convert_to_petri_net(dfg,start_activities,end_activities)
-    print(net)
+
+
+    # replace the ids with the activity names
+    for node_id,node in nodes.items():
+        if node['type'] not in node_types_of_interest:
+            continue
+        name = extract_activity_name(node_id,node,edges)
+        
+        for t in net.transitions:
+            if node_id == t._Transition__label:
+                if name == "empty_intent":
+                    t._Transition__label = None
+                else:
+                    t._Transition__label = name
 
     write_pnml(net, im,fm,"test_model.pnml")
     
