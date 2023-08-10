@@ -5,7 +5,7 @@ from pm4py.write import write_pnml
 from pm4py .convert import convert_to_petri_net
 from pm4py import view_petri_net
 file_name = "model_test.json"
-node_types_of_interest = ['Incoming Message', 'Bot Action', 'Messenger']
+node_types_of_interest = ['Incoming Message', 'Bot Action'] + ['Messenger']
 edge_types_of_interest = ['leadsTo','uses','generates']
 
 def extract_function_name(node):
@@ -78,27 +78,24 @@ def to_petri_net(json):
     nodes = json['nodes']
     edges = json['edges']
 
-    original_edges = edges.copy()
-
-
-    known_node_names = {} # used to check for duplicate activity names
-    rename_count = {} # used to rename duplicate activity names
+    original_edges = edges.copy() # we need this information later to find intent keywords and activity names
 
     start_activities = set()
-
+    end_activities = set()
     dfg = {}
 
     edges_to_remove = set()
-
     # find patterns of the form A -> Bot Action and A -> Incoming Message and replace them with A -> Bot Action -> Incoming Message
+    # The reason for doing this is the pattern A -> Bot Action -> Incoming Message is semantically more meaningful because it shows that 
+    # the Bot Action is triggered by the Incoming Message and the next Incoming Message is only handled after the Bot Action is finished.
     for edge_id,edge in edges.items():
         if edge['type'] == 'uses' and nodes[edge['target']]['type'] == 'Bot Action': # A -> Bot Action
             source_id = edge['source']
             target_id = edge['target']
-            if (source_id,target_id) not in dfg: # if the edge is not in the dfg, add it
+            if (source_id,target_id) not in dfg:
                 dfg[(source_id,target_id)] = 0
             dfg[(source_id,target_id)] += 1
-            edges_to_remove.add(edge_id)
+            edges_to_remove.add(edge_id) # remove the uses edge since we have already handled it
             
             for edge2_id,edge2 in edges.items():
                 if edge2['type'] == 'leadsTo' and edge2['source'] == edge['source']: # A -> Incoming Message
@@ -111,48 +108,45 @@ def to_petri_net(json):
                         dfg[(source_id,target_id)] = 0
                     dfg[(source_id,target_id)] += 1
                     # remove the leadsTo edge
-                    edges_to_remove.add(edge2_id)
+                    edges_to_remove.add(edge2_id) # remove the leadsTo edge since it is now replaced by Bot Action -> Incoming Message
 
-    # remove all edges that are leadsTo and are connected to the source of the uses edge
+    # remove all edges that are were replaced
     for edge_id in edges_to_remove:
         edges.pop(edge_id)
-
     
+    # now build dfg from the remaining edges
     for edge in edges.values():
         if edge['type'] not in edge_types_of_interest:
                 continue
+        
         source_id = edge['source']
         target_id = edge['target']
-        
+
+        if nodes[source_id]['type'] == 'Messenger': # nodes connected to the messenger are start activities
+            start_activities.add(source_id)
         if nodes[source_id]['type'] not in node_types_of_interest or nodes[target_id]['type'] not in node_types_of_interest:
             continue
 
-        if nodes[source_id]['type'] == 'Messenger':
-            start_activities.add(target_id)
-            continue
-
-    
         if (source_id,target_id) not in dfg:
             dfg[(source_id,target_id)] = 0
         dfg[(source_id,target_id)] += 1
 
-   
-
-    end_activities = set()
     # find end activities which are nodes with no outgoing edge
     for node_id,node in nodes.items():
         if node['type'] not in node_types_of_interest:
             continue
         has_outgoing_edge = False
-        for source,target in dfg.keys():
+        for source,_ in dfg.keys():
             if source == node_id and edge['type'] in edge_types_of_interest:
                 has_outgoing_edge = True
                 break
         if not has_outgoing_edge:
+            # also check whether the node is in the dfg, if not it is a start activity and an end activity
+            if node_id in start_activities and (node_id,_) not in dfg:
+                dfg[("None",node_id)] = 0
             end_activities.add(node_id)
         
     net, im,fm = convert_to_petri_net(dfg,start_activities,end_activities)
-
 
     # replace the ids with the activity names
     for node_id,node in nodes.items():
@@ -162,7 +156,7 @@ def to_petri_net(json):
         
         for t in net.transitions:
             if node_id == t._Transition__label:
-                if name == "empty_intent":
+                if name == "empty_intent" or name == "empty_activity":
                     t._Transition__label = None
                 else:
                     t._Transition__label = name
