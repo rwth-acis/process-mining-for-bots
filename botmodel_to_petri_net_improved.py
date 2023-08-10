@@ -65,18 +65,20 @@ def extract_activity_name(node_id,node,edges):
         return extract_function_name(node)
     return "empty_activity"
 
-if __name__ == "__main__":
-    # import test_model.json
-   
-
-    # import test_model.json
-    with open(file_name) as json_file:
-        #load the json file
-        json = json.load(json_file)
-
+def to_petri_net(json):
+    """
+    Converts a bot model to a petri net
+    :param json: the bot model
+    :return: the petri net with initial and final markings
+    
+    :example:
+    >>> petri_net,im,fm = to_petri_net(json)
+    """
     # dependency matrix
     nodes = json['nodes']
     edges = json['edges']
+
+    original_edges = edges.copy()
 
 
     known_node_names = {} # used to check for duplicate activity names
@@ -89,13 +91,14 @@ if __name__ == "__main__":
     edges_to_remove = set()
 
     # find patterns of the form A -> Bot Action and A -> Incoming Message and replace them with A -> Bot Action -> Incoming Message
-    for edge in edges.values():
+    for edge_id,edge in edges.items():
         if edge['type'] == 'uses' and nodes[edge['target']]['type'] == 'Bot Action': # A -> Bot Action
             source_id = edge['source']
             target_id = edge['target']
             if (source_id,target_id) not in dfg: # if the edge is not in the dfg, add it
                 dfg[(source_id,target_id)] = 0
             dfg[(source_id,target_id)] += 1
+            edges_to_remove.add(edge_id)
             
             for edge2_id,edge2 in edges.items():
                 if edge2['type'] == 'leadsTo' and edge2['source'] == edge['source']: # A -> Incoming Message
@@ -155,7 +158,7 @@ if __name__ == "__main__":
     for node_id,node in nodes.items():
         if node['type'] not in node_types_of_interest:
             continue
-        name = extract_activity_name(node_id,node,edges)
+        name = extract_activity_name(node_id,node,original_edges)
         
         for t in net.transitions:
             if node_id == t._Transition__label:
@@ -163,6 +166,21 @@ if __name__ == "__main__":
                     t._Transition__label = None
                 else:
                     t._Transition__label = name
+    
+    return net,im,fm
+
+
+
+if __name__ == "__main__":
+    # import test_model.json
+   
+
+    # import test_model.json
+    with open(file_name) as json_file:
+        #load the json file
+        json = json.load(json_file)
+
+    net,im,fm = to_petri_net(json)
 
     view_petri_net(net, im, fm)
     write_pnml(net, im,fm,"test_model.pnml")
