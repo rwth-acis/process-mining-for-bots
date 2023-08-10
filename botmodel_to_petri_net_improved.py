@@ -3,6 +3,7 @@ import json
 from pm4py.algo.discovery.alpha.algorithm import apply_dfg
 from pm4py.write import write_pnml
 from pm4py .convert import convert_to_petri_net
+from pm4py import view_petri_net
 file_name = "model_test.json"
 node_types_of_interest = ['Incoming Message', 'Bot Action', 'Messenger']
 edge_types_of_interest = ['leadsTo','uses','generates']
@@ -87,23 +88,21 @@ if __name__ == "__main__":
 
     edges_to_remove = set()
 
+    # find patterns of the form A -> Bot Action and A -> Incoming Message and replace them with A -> Bot Action -> Incoming Message
     for edge in edges.values():
-        if edge['type'] == 'uses' and nodes[edge['target']]['type'] == 'Bot Action':
+        if edge['type'] == 'uses' and nodes[edge['target']]['type'] == 'Bot Action': # A -> Bot Action
             source_id = edge['source']
             target_id = edge['target']
             if (source_id,target_id) not in dfg: # if the edge is not in the dfg, add it
                 dfg[(source_id,target_id)] = 0
             dfg[(source_id,target_id)] += 1
             
-            # find all edges that are leadsTo and are connected to the source of the uses edge
             for edge2_id,edge2 in edges.items():
-                
-
-                if edge2['type'] == 'leadsTo' and edge2['source'] == edge['source']:
+                if edge2['type'] == 'leadsTo' and edge2['source'] == edge['source']: # A -> Incoming Message
                     
-                    # create a new edge from the Bot Action to the target of the leadsTo edge
-                    source_id = target_id
-                    target_id = edge2['target']
+                    # create Bot Action -> Incoming Message
+                    source_id = edge['target'] # Bot Action
+                    target_id = edge2['target'] # Incoming Message
                     
                     if (source_id,target_id) not in dfg:
                         dfg[(source_id,target_id)] = 0
@@ -142,8 +141,8 @@ if __name__ == "__main__":
         if node['type'] not in node_types_of_interest:
             continue
         has_outgoing_edge = False
-        for edge in edges.values():
-            if edge['source'] == node_id and edge['type'] in edge_types_of_interest:
+        for source,target in dfg.keys():
+            if source == node_id and edge['type'] in edge_types_of_interest:
                 has_outgoing_edge = True
                 break
         if not has_outgoing_edge:
@@ -165,5 +164,6 @@ if __name__ == "__main__":
                 else:
                     t._Transition__label = name
 
+    view_petri_net(net, im, fm)
     write_pnml(net, im,fm,"test_model.pnml")
     
