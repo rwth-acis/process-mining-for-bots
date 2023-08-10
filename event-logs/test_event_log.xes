@@ -1,0 +1,751 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<log xes.version="1849-2016" xes.features="nested-attributes" xmlns="http://www.xes-standard.org/">
+	<extension name="Concept" prefix="concept" uri="http://www.xes-standard.org/concept.xesext" />
+	<extension name="Time" prefix="time" uri="http://www.xes-standard.org/time.xesext" />
+	<extension name="Lifecycle" prefix="lifecycle" uri="http://www.xes-standard.org/lifecycle.xesext" />
+	<string key="origin" value="csv" />
+	<trace>
+		<string key="concept:name" value="4fcee552-f02c-4ad0-aaec-2ebb85817482" />
+		<event>
+			<int key="ID" value="743" />
+			<string key="EVENT" value="SERVICE_CUSTOM_MESSAGE_1" />
+			<date key="TIME_STAMP" value="2023-08-02T13:54:15" />
+			<string key="SOURCE_NODE" value="&lt;0xF668F9..&gt;" />
+			<string key="SOURCE_AGENT" value="c6b9f3f5bd71935df05c9d7ad50df398" />
+			<string key="DESTINATION_NODE" value="" />
+			<string key="DESTINATION_AGENT" value="" />
+			<string key="REMARKS" value='{"user": "41de37a21eb0fbd7c8f2e57360ba443ce8f4081ee5af3a713f73d74c9d1251a5e3ea880b2aed52d9b4fed6a3f9df8f91"}' />
+			<string key="concept:name" value="greeting" />
+			<string key="RESOURCE" value="6840e28ea830d43602f6ace54daa2685181012018550639280d0cfaa2b285fc88303b98c459c21051070b43635b4705212a6773312998e774bd489bee3e9d586" />
+			<string key="RESOURCE_TYPE" value="bot" />
+			<string key="lifecycle:transition" value="complete" />
+			<date key="time:timestamp" value="2023-08-02T11:54:15" />
+		</event>
+		<event>
+			<int key="ID" value="745" />
+			<string key="EVENT" value="SERVICE_CUSTOM_MESSAGE_2" />
+			<date key="TIME_STAMP" value="2023-08-02T13:54:15" />
+			<string key="SOURCE_NODE" value="&lt;0xF668F9..&gt;" />
+			<string key="SOURCE_AGENT" value="c6b9f3f5bd71935df05c9d7ad50df398" />
+			<string key="DESTINATION_NODE" value="" />
+			<string key="DESTINATION_AGENT" value="" />
+			<string key="REMARKS" value='{"msg": ""}' />
+			<string key="concept:name" value="greeting:response" />
+			<string key="RESOURCE" value="6840e28ea830d43602f6ace54daa2685181012018550639280d0cfaa2b285fc88303b98c459c21051070b43635b4705212a6773312998e774bd489bee3e9d586" />
+			<string key="RESOURCE_TYPE" value="bot" />
+			<string key="lifecycle:transition" value="complete" />
+			<date key="time:timestamp" value="2023-08-02T11:54:15" />
+		</event>
+	</trace>
+	<trace>
+		<string key="concept:name" value="55535729-31d9-48f3-b55f-6882615ac63e" />
+		<event>
+			<int key="ID" value="747" />
+			<string key="EVENT" value="SERVICE_CUSTOM_MESSAGE_1" />
+			<date key="TIME_STAMP" value="2023-08-02T13:54:20" />
+			<string key="SOURCE_NODE" value="&lt;0xF668F9..&gt;" />
+			<string key="SOURCE_AGENT" value="c6b9f3f5bd71935df05c9d7ad50df398" />
+			<string key="DESTINATION_NODE" value="" />
+			<string key="DESTINATION_AGENT" value="" />
+			<string key="REMARKS" value='{"user": "41de37a21eb0fbd7c8f2e57360ba443ce8f4081ee5af3a713f73d74c9d1251a5e3ea880b2aed52d9b4fed6a3f9df8f91"}' />
+			<string key="concept:name" value="help" />
+			<string key="RESOURCE" value="6840e28ea830d43602f6ace54daa2685181012018550639280d0cfaa2b285fc88303b98c459c21051070b43635b4705212a6773312998e774bd489bee3e9d586" />
+			<string key="RESOURCE_TYPE" value="bot" />
+			<string key="lifecycle:transition" value="complete" />
+			<date key="time:timestamp" value="2023-08-02T11:54:20" />
+		</event>
+		<event>
+			<int key="ID" value="749" />
+			<string key="EVENT" value="SERVICE_CUSTOM_MESSAGE_2" />
+			<date key="TIME_STAMP" value="2023-08-02T13:54:20" />
+			<string key="SOURCE_NODE" value="&lt;0xF668F9..&gt;" />
+			<string key="SOURCE_AGENT" value="c6b9f3f5bd71935df05c9d7ad50df398" />
+			<string key="DESTINATION_NODE" value="" />
+			<string key="DESTINATION_AGENT" value="" />
+			<string key="REMARKS" value='{"msg": ""}' />
+			<string key="concept:name" value="help:response" />
+			<string key="RESOURCE" value="6840e28ea830d43602f6ace54daa2685181012018550639280d0cfaa2b285fc88303b98c459c21051070b43635b4705212a6773312998e774bd489bee3e9d586" />
+			<string key="RESOURCE_TYPE" value="bot" />
+			<string key="lifecycle:transition" value="complete" />
+			<date key="time:timestamp" value="2023-08-02T11:54:20" />
+		</event>
+	</trace>
+	<trace>
+		<string key="concept:name" value="792323a1-2ae7-4c88-96d6-2751b8c8805f" />
+		<event>
+			<int key="ID" value="751" />
+			<string key="EVENT" value="SERVICE_CUSTOM_MESSAGE_1" />
+			<date key="TIME_STAMP" value="2023-08-02T13:54:30" />
+			<string key="SOURCE_NODE" value="&lt;0xF668F9..&gt;" />
+			<string key="SOURCE_AGENT" value="c6b9f3f5bd71935df05c9d7ad50df398" />
+			<string key="DESTINATION_NODE" value="" />
+			<string key="DESTINATION_AGENT" value="" />
+			<string key="REMARKS" value='{"user": "41de37a21eb0fbd7c8f2e57360ba443ce8f4081ee5af3a713f73d74c9d1251a5e3ea880b2aed52d9b4fed6a3f9df8f91"}' />
+			<string key="concept:name" value="menu" />
+			<string key="RESOURCE" value="6840e28ea830d43602f6ace54daa2685181012018550639280d0cfaa2b285fc88303b98c459c21051070b43635b4705212a6773312998e774bd489bee3e9d586" />
+			<string key="RESOURCE_TYPE" value="bot" />
+			<string key="lifecycle:transition" value="complete" />
+			<date key="time:timestamp" value="2023-08-02T11:54:30" />
+		</event>
+		<event>
+			<int key="ID" value="753" />
+			<string key="EVENT" value="SERVICE_CUSTOM_MESSAGE_2" />
+			<date key="TIME_STAMP" value="2023-08-02T13:54:30" />
+			<string key="SOURCE_NODE" value="&lt;0xF668F9..&gt;" />
+			<string key="SOURCE_AGENT" value="c6b9f3f5bd71935df05c9d7ad50df398" />
+			<string key="DESTINATION_NODE" value="" />
+			<string key="DESTINATION_AGENT" value="" />
+			<string key="REMARKS" value='{"msg": ""}' />
+			<string key="concept:name" value="menu:response" />
+			<string key="RESOURCE" value="6840e28ea830d43602f6ace54daa2685181012018550639280d0cfaa2b285fc88303b98c459c21051070b43635b4705212a6773312998e774bd489bee3e9d586" />
+			<string key="RESOURCE_TYPE" value="bot" />
+			<string key="lifecycle:transition" value="complete" />
+			<date key="time:timestamp" value="2023-08-02T11:54:30" />
+		</event>
+		<event>
+			<int key="ID" value="754" />
+			<string key="EVENT" value="SERVICE_CUSTOM_MESSAGE_3" />
+			<date key="TIME_STAMP" value="2023-08-02T13:54:30" />
+			<string key="SOURCE_NODE" value="&lt;0xF668F9..&gt;" />
+			<string key="SOURCE_AGENT" value="c6b9f3f5bd71935df05c9d7ad50df398" />
+			<string key="DESTINATION_NODE" value="" />
+			<string key="DESTINATION_AGENT" value="" />
+			<string key="REMARKS" value="{}" />
+			<string key="concept:name" value="/menu start" />
+			<string key="RESOURCE" value="6840e28ea830d43602f6ace54daa2685181012018550639280d0cfaa2b285fc88303b98c459c21051070b43635b4705212a6773312998e774bd489bee3e9d586" />
+			<string key="RESOURCE_TYPE" value="bot" />
+			<string key="lifecycle:transition" value="start" />
+			<date key="time:timestamp" value="2023-08-02T11:54:30" />
+		</event>
+		<event>
+			<int key="ID" value="755" />
+			<string key="EVENT" value="SERVICE_CUSTOM_MESSAGE_3" />
+			<date key="TIME_STAMP" value="2023-08-02T13:54:41" />
+			<string key="SOURCE_NODE" value="&lt;0xF668F9..&gt;" />
+			<string key="SOURCE_AGENT" value="c6b9f3f5bd71935df05c9d7ad50df398" />
+			<string key="DESTINATION_NODE" value="" />
+			<string key="DESTINATION_AGENT" value="" />
+			<string key="REMARKS" value="{}" />
+			<string key="concept:name" value="/menu complete" />
+			<string key="RESOURCE" value="6840e28ea830d43602f6ace54daa2685181012018550639280d0cfaa2b285fc88303b98c459c21051070b43635b4705212a6773312998e774bd489bee3e9d586" />
+			<string key="RESOURCE_TYPE" value="bot" />
+			<string key="lifecycle:transition" value="complete" />
+			<date key="time:timestamp" value="2023-08-02T11:54:41" />
+		</event>
+	</trace>
+	<trace>
+		<string key="concept:name" value="5244c327-5eed-475c-9adc-cec610458756" />
+		<event>
+			<int key="ID" value="757" />
+			<string key="EVENT" value="SERVICE_CUSTOM_MESSAGE_1" />
+			<date key="TIME_STAMP" value="2023-08-02T13:55:10" />
+			<string key="SOURCE_NODE" value="&lt;0xF668F9..&gt;" />
+			<string key="SOURCE_AGENT" value="c6b9f3f5bd71935df05c9d7ad50df398" />
+			<string key="DESTINATION_NODE" value="" />
+			<string key="DESTINATION_AGENT" value="" />
+			<string key="REMARKS" value='{"user": "41de37a21eb0fbd7c8f2e57360ba443ce8f4081ee5af3a713f73d74c9d1251a5e3ea880b2aed52d9b4fed6a3f9df8f91"}' />
+			<string key="concept:name" value="menu" />
+			<string key="RESOURCE" value="6840e28ea830d43602f6ace54daa2685181012018550639280d0cfaa2b285fc88303b98c459c21051070b43635b4705212a6773312998e774bd489bee3e9d586" />
+			<string key="RESOURCE_TYPE" value="bot" />
+			<string key="lifecycle:transition" value="complete" />
+			<date key="time:timestamp" value="2023-08-02T11:55:10" />
+		</event>
+		<event>
+			<int key="ID" value="759" />
+			<string key="EVENT" value="SERVICE_CUSTOM_MESSAGE_2" />
+			<date key="TIME_STAMP" value="2023-08-02T13:55:10" />
+			<string key="SOURCE_NODE" value="&lt;0xF668F9..&gt;" />
+			<string key="SOURCE_AGENT" value="c6b9f3f5bd71935df05c9d7ad50df398" />
+			<string key="DESTINATION_NODE" value="" />
+			<string key="DESTINATION_AGENT" value="" />
+			<string key="REMARKS" value='{"msg": ""}' />
+			<string key="concept:name" value="menu:response" />
+			<string key="RESOURCE" value="6840e28ea830d43602f6ace54daa2685181012018550639280d0cfaa2b285fc88303b98c459c21051070b43635b4705212a6773312998e774bd489bee3e9d586" />
+			<string key="RESOURCE_TYPE" value="bot" />
+			<string key="lifecycle:transition" value="complete" />
+			<date key="time:timestamp" value="2023-08-02T11:55:10" />
+		</event>
+		<event>
+			<int key="ID" value="760" />
+			<string key="EVENT" value="SERVICE_CUSTOM_MESSAGE_3" />
+			<date key="TIME_STAMP" value="2023-08-02T13:55:12" />
+			<string key="SOURCE_NODE" value="&lt;0xF668F9..&gt;" />
+			<string key="SOURCE_AGENT" value="c6b9f3f5bd71935df05c9d7ad50df398" />
+			<string key="DESTINATION_NODE" value="" />
+			<string key="DESTINATION_AGENT" value="" />
+			<string key="REMARKS" value="{}" />
+			<string key="concept:name" value="/menu start" />
+			<string key="RESOURCE" value="6840e28ea830d43602f6ace54daa2685181012018550639280d0cfaa2b285fc88303b98c459c21051070b43635b4705212a6773312998e774bd489bee3e9d586" />
+			<string key="RESOURCE_TYPE" value="bot" />
+			<string key="lifecycle:transition" value="start" />
+			<date key="time:timestamp" value="2023-08-02T11:55:12" />
+		</event>
+		<event>
+			<int key="ID" value="761" />
+			<string key="EVENT" value="SERVICE_CUSTOM_MESSAGE_3" />
+			<date key="TIME_STAMP" value="2023-08-02T13:55:16" />
+			<string key="SOURCE_NODE" value="&lt;0xF668F9..&gt;" />
+			<string key="SOURCE_AGENT" value="c6b9f3f5bd71935df05c9d7ad50df398" />
+			<string key="DESTINATION_NODE" value="" />
+			<string key="DESTINATION_AGENT" value="" />
+			<string key="REMARKS" value="{}" />
+			<string key="concept:name" value="/menu complete" />
+			<string key="RESOURCE" value="6840e28ea830d43602f6ace54daa2685181012018550639280d0cfaa2b285fc88303b98c459c21051070b43635b4705212a6773312998e774bd489bee3e9d586" />
+			<string key="RESOURCE_TYPE" value="bot" />
+			<string key="lifecycle:transition" value="complete" />
+			<date key="time:timestamp" value="2023-08-02T11:55:16" />
+		</event>
+	</trace>
+	<trace>
+		<string key="concept:name" value="ab9ebd6c-8c54-4614-a393-b934b92b6408" />
+		<event>
+			<int key="ID" value="763" />
+			<string key="EVENT" value="SERVICE_CUSTOM_MESSAGE_1" />
+			<date key="TIME_STAMP" value="2023-08-02T13:55:20" />
+			<string key="SOURCE_NODE" value="&lt;0xF668F9..&gt;" />
+			<string key="SOURCE_AGENT" value="c6b9f3f5bd71935df05c9d7ad50df398" />
+			<string key="DESTINATION_NODE" value="" />
+			<string key="DESTINATION_AGENT" value="" />
+			<string key="REMARKS" value='{"user": "41de37a21eb0fbd7c8f2e57360ba443ce8f4081ee5af3a713f73d74c9d1251a5e3ea880b2aed52d9b4fed6a3f9df8f91"}' />
+			<string key="concept:name" value="number_selection" />
+			<string key="RESOURCE" value="6840e28ea830d43602f6ace54daa2685181012018550639280d0cfaa2b285fc88303b98c459c21051070b43635b4705212a6773312998e774bd489bee3e9d586" />
+			<string key="RESOURCE_TYPE" value="bot" />
+			<string key="lifecycle:transition" value="complete" />
+			<date key="time:timestamp" value="2023-08-02T11:55:20" />
+		</event>
+		<event>
+			<int key="ID" value="764" />
+			<string key="EVENT" value="SERVICE_CUSTOM_MESSAGE_3" />
+			<date key="TIME_STAMP" value="2023-08-02T13:55:20" />
+			<string key="SOURCE_NODE" value="&lt;0xF668F9..&gt;" />
+			<string key="SOURCE_AGENT" value="c6b9f3f5bd71935df05c9d7ad50df398" />
+			<string key="DESTINATION_NODE" value="" />
+			<string key="DESTINATION_AGENT" value="" />
+			<string key="REMARKS" value="{}" />
+			<string key="concept:name" value="/menu start" />
+			<string key="RESOURCE" value="6840e28ea830d43602f6ace54daa2685181012018550639280d0cfaa2b285fc88303b98c459c21051070b43635b4705212a6773312998e774bd489bee3e9d586" />
+			<string key="RESOURCE_TYPE" value="bot" />
+			<string key="lifecycle:transition" value="start" />
+			<date key="time:timestamp" value="2023-08-02T11:55:20" />
+		</event>
+		<event>
+			<int key="ID" value="765" />
+			<string key="EVENT" value="SERVICE_CUSTOM_MESSAGE_3" />
+			<date key="TIME_STAMP" value="2023-08-02T13:55:21" />
+			<string key="SOURCE_NODE" value="&lt;0xF668F9..&gt;" />
+			<string key="SOURCE_AGENT" value="c6b9f3f5bd71935df05c9d7ad50df398" />
+			<string key="DESTINATION_NODE" value="" />
+			<string key="DESTINATION_AGENT" value="" />
+			<string key="REMARKS" value="{}" />
+			<string key="concept:name" value="/menu complete" />
+			<string key="RESOURCE" value="6840e28ea830d43602f6ace54daa2685181012018550639280d0cfaa2b285fc88303b98c459c21051070b43635b4705212a6773312998e774bd489bee3e9d586" />
+			<string key="RESOURCE_TYPE" value="bot" />
+			<string key="lifecycle:transition" value="complete" />
+			<date key="time:timestamp" value="2023-08-02T11:55:21" />
+		</event>
+	</trace>
+	<trace>
+		<string key="concept:name" value="f6b192d4-10f0-4b30-b13f-117000d4ed21" />
+		<event>
+			<int key="ID" value="767" />
+			<string key="EVENT" value="SERVICE_CUSTOM_MESSAGE_1" />
+			<date key="TIME_STAMP" value="2023-08-02T13:55:30" />
+			<string key="SOURCE_NODE" value="&lt;0xF668F9..&gt;" />
+			<string key="SOURCE_AGENT" value="c6b9f3f5bd71935df05c9d7ad50df398" />
+			<string key="DESTINATION_NODE" value="" />
+			<string key="DESTINATION_AGENT" value="" />
+			<string key="REMARKS" value='{"user": "41de37a21eb0fbd7c8f2e57360ba443ce8f4081ee5af3a713f73d74c9d1251a5e3ea880b2aed52d9b4fed6a3f9df8f91"}' />
+			<string key="concept:name" value="confirmation" />
+			<string key="RESOURCE" value="6840e28ea830d43602f6ace54daa2685181012018550639280d0cfaa2b285fc88303b98c459c21051070b43635b4705212a6773312998e774bd489bee3e9d586" />
+			<string key="RESOURCE_TYPE" value="bot" />
+			<string key="lifecycle:transition" value="complete" />
+			<date key="time:timestamp" value="2023-08-02T11:55:30" />
+		</event>
+		<event>
+			<int key="ID" value="768" />
+			<string key="EVENT" value="SERVICE_CUSTOM_MESSAGE_3" />
+			<date key="TIME_STAMP" value="2023-08-02T13:55:30" />
+			<string key="SOURCE_NODE" value="&lt;0xF668F9..&gt;" />
+			<string key="SOURCE_AGENT" value="c6b9f3f5bd71935df05c9d7ad50df398" />
+			<string key="DESTINATION_NODE" value="" />
+			<string key="DESTINATION_AGENT" value="" />
+			<string key="REMARKS" value="{}" />
+			<string key="concept:name" value="/menu start" />
+			<string key="RESOURCE" value="6840e28ea830d43602f6ace54daa2685181012018550639280d0cfaa2b285fc88303b98c459c21051070b43635b4705212a6773312998e774bd489bee3e9d586" />
+			<string key="RESOURCE_TYPE" value="bot" />
+			<string key="lifecycle:transition" value="start" />
+			<date key="time:timestamp" value="2023-08-02T11:55:30" />
+		</event>
+		<event>
+			<int key="ID" value="769" />
+			<string key="EVENT" value="SERVICE_CUSTOM_MESSAGE_3" />
+			<date key="TIME_STAMP" value="2023-08-02T13:55:31" />
+			<string key="SOURCE_NODE" value="&lt;0xF668F9..&gt;" />
+			<string key="SOURCE_AGENT" value="c6b9f3f5bd71935df05c9d7ad50df398" />
+			<string key="DESTINATION_NODE" value="" />
+			<string key="DESTINATION_AGENT" value="" />
+			<string key="REMARKS" value="{}" />
+			<string key="concept:name" value="/menu complete" />
+			<string key="RESOURCE" value="6840e28ea830d43602f6ace54daa2685181012018550639280d0cfaa2b285fc88303b98c459c21051070b43635b4705212a6773312998e774bd489bee3e9d586" />
+			<string key="RESOURCE_TYPE" value="bot" />
+			<string key="lifecycle:transition" value="complete" />
+			<date key="time:timestamp" value="2023-08-02T11:55:31" />
+		</event>
+	</trace>
+	<trace>
+		<string key="concept:name" value="e19e6675-251d-4bd4-9971-2dccf0229e41" />
+		<event>
+			<int key="ID" value="771" />
+			<string key="EVENT" value="SERVICE_CUSTOM_MESSAGE_1" />
+			<date key="TIME_STAMP" value="2023-08-02T14:10:41" />
+			<string key="SOURCE_NODE" value="&lt;0xF668F9..&gt;" />
+			<string key="SOURCE_AGENT" value="6b364ac4dc0bd3a8750ee6cd4dd1a847" />
+			<string key="DESTINATION_NODE" value="" />
+			<string key="DESTINATION_AGENT" value="" />
+			<string key="REMARKS" value='{"user": "41de37a21eb0fbd7c8f2e57360ba443ce8f4081ee5af3a713f73d74c9d1251a5e3ea880b2aed52d9b4fed6a3f9df8f91"}' />
+			<string key="concept:name" value="greeting" />
+			<string key="RESOURCE" value="6840e28ea830d43602f6ace54daa2685181012018550639280d0cfaa2b285fc88303b98c459c21051070b43635b4705212a6773312998e774bd489bee3e9d586" />
+			<string key="RESOURCE_TYPE" value="bot" />
+			<string key="lifecycle:transition" value="complete" />
+			<date key="time:timestamp" value="2023-08-02T12:10:41" />
+		</event>
+		<event>
+			<int key="ID" value="773" />
+			<string key="EVENT" value="SERVICE_CUSTOM_MESSAGE_2" />
+			<date key="TIME_STAMP" value="2023-08-02T14:10:41" />
+			<string key="SOURCE_NODE" value="&lt;0xF668F9..&gt;" />
+			<string key="SOURCE_AGENT" value="6b364ac4dc0bd3a8750ee6cd4dd1a847" />
+			<string key="DESTINATION_NODE" value="" />
+			<string key="DESTINATION_AGENT" value="" />
+			<string key="REMARKS" value='{"user": "41de37a21eb0fbd7c8f2e57360ba443ce8f4081ee5af3a713f73d74c9d1251a5e3ea880b2aed52d9b4fed6a3f9df8f91"}' />
+			<string key="concept:name" value="greeting:response" />
+			<string key="RESOURCE" value="6840e28ea830d43602f6ace54daa2685181012018550639280d0cfaa2b285fc88303b98c459c21051070b43635b4705212a6773312998e774bd489bee3e9d586" />
+			<string key="RESOURCE_TYPE" value="bot" />
+			<string key="lifecycle:transition" value="complete" />
+			<date key="time:timestamp" value="2023-08-02T12:10:41" />
+		</event>
+	</trace>
+	<trace>
+		<string key="concept:name" value="f023e78e-2e89-44b7-b400-3048ccdb7d89" />
+		<event>
+			<int key="ID" value="775" />
+			<string key="EVENT" value="SERVICE_CUSTOM_MESSAGE_1" />
+			<date key="TIME_STAMP" value="2023-08-02T14:10:56" />
+			<string key="SOURCE_NODE" value="&lt;0xF668F9..&gt;" />
+			<string key="SOURCE_AGENT" value="6b364ac4dc0bd3a8750ee6cd4dd1a847" />
+			<string key="DESTINATION_NODE" value="" />
+			<string key="DESTINATION_AGENT" value="" />
+			<string key="REMARKS" value='{"user": "41de37a21eb0fbd7c8f2e57360ba443ce8f4081ee5af3a713f73d74c9d1251a5e3ea880b2aed52d9b4fed6a3f9df8f91"}' />
+			<string key="concept:name" value="menu" />
+			<string key="RESOURCE" value="6840e28ea830d43602f6ace54daa2685181012018550639280d0cfaa2b285fc88303b98c459c21051070b43635b4705212a6773312998e774bd489bee3e9d586" />
+			<string key="RESOURCE_TYPE" value="bot" />
+			<string key="lifecycle:transition" value="complete" />
+			<date key="time:timestamp" value="2023-08-02T12:10:56" />
+		</event>
+		<event>
+			<int key="ID" value="777" />
+			<string key="EVENT" value="SERVICE_CUSTOM_MESSAGE_2" />
+			<date key="TIME_STAMP" value="2023-08-02T14:10:56" />
+			<string key="SOURCE_NODE" value="&lt;0xF668F9..&gt;" />
+			<string key="SOURCE_AGENT" value="6b364ac4dc0bd3a8750ee6cd4dd1a847" />
+			<string key="DESTINATION_NODE" value="" />
+			<string key="DESTINATION_AGENT" value="" />
+			<string key="REMARKS" value='{"user": "41de37a21eb0fbd7c8f2e57360ba443ce8f4081ee5af3a713f73d74c9d1251a5e3ea880b2aed52d9b4fed6a3f9df8f91"}' />
+			<string key="concept:name" value="menu:response" />
+			<string key="RESOURCE" value="6840e28ea830d43602f6ace54daa2685181012018550639280d0cfaa2b285fc88303b98c459c21051070b43635b4705212a6773312998e774bd489bee3e9d586" />
+			<string key="RESOURCE_TYPE" value="bot" />
+			<string key="lifecycle:transition" value="complete" />
+			<date key="time:timestamp" value="2023-08-02T12:10:56" />
+		</event>
+		<event>
+			<int key="ID" value="778" />
+			<string key="EVENT" value="SERVICE_CUSTOM_MESSAGE_3" />
+			<date key="TIME_STAMP" value="2023-08-02T14:10:56" />
+			<string key="SOURCE_NODE" value="&lt;0xF668F9..&gt;" />
+			<string key="SOURCE_AGENT" value="6b364ac4dc0bd3a8750ee6cd4dd1a847" />
+			<string key="DESTINATION_NODE" value="" />
+			<string key="DESTINATION_AGENT" value="" />
+			<string key="REMARKS" value='{"user": "83a28045adb91be7cf8ef5db7c79b3e6cb39dd633eed739cd5d4dd11441bb8bba47577d02b767cdddeaf7625282f5c01", "serviceEndpoint": "https://mobsos.tech4comp.dbis.rwth-aachen.de/mensa/menu"}' />
+			<string key="concept:name" value="/menu start" />
+			<string key="RESOURCE" value="6840e28ea830d43602f6ace54daa2685181012018550639280d0cfaa2b285fc88303b98c459c21051070b43635b4705212a6773312998e774bd489bee3e9d586" />
+			<string key="RESOURCE_TYPE" value="bot" />
+			<string key="lifecycle:transition" value="start" />
+			<date key="time:timestamp" value="2023-08-02T12:10:56" />
+		</event>
+		<event>
+			<int key="ID" value="779" />
+			<string key="EVENT" value="SERVICE_CUSTOM_MESSAGE_3" />
+			<date key="TIME_STAMP" value="2023-08-02T14:10:57" />
+			<string key="SOURCE_NODE" value="&lt;0xF668F9..&gt;" />
+			<string key="SOURCE_AGENT" value="6b364ac4dc0bd3a8750ee6cd4dd1a847" />
+			<string key="DESTINATION_NODE" value="" />
+			<string key="DESTINATION_AGENT" value="" />
+			<string key="REMARKS" value='{"user": "83a28045adb91be7cf8ef5db7c79b3e6cb39dd633eed739cd5d4dd11441bb8bba47577d02b767cdddeaf7625282f5c01", "serviceEndpoint": "https://mobsos.tech4comp.dbis.rwth-aachen.de/mensa/menu"}' />
+			<string key="concept:name" value="/menu complete" />
+			<string key="RESOURCE" value="6840e28ea830d43602f6ace54daa2685181012018550639280d0cfaa2b285fc88303b98c459c21051070b43635b4705212a6773312998e774bd489bee3e9d586" />
+			<string key="RESOURCE_TYPE" value="bot" />
+			<string key="lifecycle:transition" value="complete" />
+			<date key="time:timestamp" value="2023-08-02T12:10:57" />
+		</event>
+	</trace>
+	<trace>
+		<string key="concept:name" value="cd7a20e6-799d-4f1d-8459-298fd6a4a5bb" />
+		<event>
+			<int key="ID" value="781" />
+			<string key="EVENT" value="SERVICE_CUSTOM_MESSAGE_1" />
+			<date key="TIME_STAMP" value="2023-08-02T14:11:06" />
+			<string key="SOURCE_NODE" value="&lt;0xF668F9..&gt;" />
+			<string key="SOURCE_AGENT" value="6b364ac4dc0bd3a8750ee6cd4dd1a847" />
+			<string key="DESTINATION_NODE" value="" />
+			<string key="DESTINATION_AGENT" value="" />
+			<string key="REMARKS" value='{"user": "41de37a21eb0fbd7c8f2e57360ba443ce8f4081ee5af3a713f73d74c9d1251a5e3ea880b2aed52d9b4fed6a3f9df8f91"}' />
+			<string key="concept:name" value="startReview" />
+			<string key="RESOURCE" value="6840e28ea830d43602f6ace54daa2685181012018550639280d0cfaa2b285fc88303b98c459c21051070b43635b4705212a6773312998e774bd489bee3e9d586" />
+			<string key="RESOURCE_TYPE" value="bot" />
+			<string key="lifecycle:transition" value="complete" />
+			<date key="time:timestamp" value="2023-08-02T12:11:06" />
+		</event>
+		<event>
+			<int key="ID" value="783" />
+			<string key="EVENT" value="SERVICE_CUSTOM_MESSAGE_2" />
+			<date key="TIME_STAMP" value="2023-08-02T14:11:06" />
+			<string key="SOURCE_NODE" value="&lt;0xF668F9..&gt;" />
+			<string key="SOURCE_AGENT" value="6b364ac4dc0bd3a8750ee6cd4dd1a847" />
+			<string key="DESTINATION_NODE" value="" />
+			<string key="DESTINATION_AGENT" value="" />
+			<string key="REMARKS" value='{"user": "41de37a21eb0fbd7c8f2e57360ba443ce8f4081ee5af3a713f73d74c9d1251a5e3ea880b2aed52d9b4fed6a3f9df8f91"}' />
+			<string key="concept:name" value="startReview:response" />
+			<string key="RESOURCE" value="6840e28ea830d43602f6ace54daa2685181012018550639280d0cfaa2b285fc88303b98c459c21051070b43635b4705212a6773312998e774bd489bee3e9d586" />
+			<string key="RESOURCE_TYPE" value="bot" />
+			<string key="lifecycle:transition" value="complete" />
+			<date key="time:timestamp" value="2023-08-02T12:11:06" />
+		</event>
+		<event>
+			<int key="ID" value="785" />
+			<string key="EVENT" value="SERVICE_CUSTOM_MESSAGE_1" />
+			<date key="TIME_STAMP" value="2023-08-02T14:11:16" />
+			<string key="SOURCE_NODE" value="&lt;0xF668F9..&gt;" />
+			<string key="SOURCE_AGENT" value="6b364ac4dc0bd3a8750ee6cd4dd1a847" />
+			<string key="DESTINATION_NODE" value="" />
+			<string key="DESTINATION_AGENT" value="" />
+			<string key="REMARKS" value='{"user": "41de37a21eb0fbd7c8f2e57360ba443ce8f4081ee5af3a713f73d74c9d1251a5e3ea880b2aed52d9b4fed6a3f9df8f91"}' />
+			<string key="concept:name" value="chooseMensaAndMeal" />
+			<string key="RESOURCE" value="6840e28ea830d43602f6ace54daa2685181012018550639280d0cfaa2b285fc88303b98c459c21051070b43635b4705212a6773312998e774bd489bee3e9d586" />
+			<string key="RESOURCE_TYPE" value="bot" />
+			<string key="lifecycle:transition" value="complete" />
+			<date key="time:timestamp" value="2023-08-02T12:11:16" />
+		</event>
+		<event>
+			<int key="ID" value="787" />
+			<string key="EVENT" value="SERVICE_CUSTOM_MESSAGE_2" />
+			<date key="TIME_STAMP" value="2023-08-02T14:11:16" />
+			<string key="SOURCE_NODE" value="&lt;0xF668F9..&gt;" />
+			<string key="SOURCE_AGENT" value="6b364ac4dc0bd3a8750ee6cd4dd1a847" />
+			<string key="DESTINATION_NODE" value="" />
+			<string key="DESTINATION_AGENT" value="" />
+			<string key="REMARKS" value='{"user": "41de37a21eb0fbd7c8f2e57360ba443ce8f4081ee5af3a713f73d74c9d1251a5e3ea880b2aed52d9b4fed6a3f9df8f91"}' />
+			<string key="concept:name" value="0:response" />
+			<string key="RESOURCE" value="6840e28ea830d43602f6ace54daa2685181012018550639280d0cfaa2b285fc88303b98c459c21051070b43635b4705212a6773312998e774bd489bee3e9d586" />
+			<string key="RESOURCE_TYPE" value="bot" />
+			<string key="lifecycle:transition" value="complete" />
+			<date key="time:timestamp" value="2023-08-02T12:11:16" />
+		</event>
+		<event>
+			<int key="ID" value="788" />
+			<string key="EVENT" value="SERVICE_CUSTOM_MESSAGE_3" />
+			<date key="TIME_STAMP" value="2023-08-02T14:11:16" />
+			<string key="SOURCE_NODE" value="&lt;0xF668F9..&gt;" />
+			<string key="SOURCE_AGENT" value="6b364ac4dc0bd3a8750ee6cd4dd1a847" />
+			<string key="DESTINATION_NODE" value="" />
+			<string key="DESTINATION_AGENT" value="" />
+			<string key="REMARKS" value='{"user": "83a28045adb91be7cf8ef5db7c79b3e6cb39dd633eed739cd5d4dd11441bb8bba47577d02b767cdddeaf7625282f5c01", "serviceEndpoint": "https://mobsos.tech4comp.dbis.rwth-aachen.de/mensa/prepareReview"}' />
+			<string key="concept:name" value="/prepareReview start" />
+			<string key="RESOURCE" value="6840e28ea830d43602f6ace54daa2685181012018550639280d0cfaa2b285fc88303b98c459c21051070b43635b4705212a6773312998e774bd489bee3e9d586" />
+			<string key="RESOURCE_TYPE" value="bot" />
+			<string key="lifecycle:transition" value="start" />
+			<date key="time:timestamp" value="2023-08-02T12:11:16" />
+		</event>
+		<event>
+			<int key="ID" value="789" />
+			<string key="EVENT" value="SERVICE_CUSTOM_MESSAGE_3" />
+			<date key="TIME_STAMP" value="2023-08-02T14:11:17" />
+			<string key="SOURCE_NODE" value="&lt;0xF668F9..&gt;" />
+			<string key="SOURCE_AGENT" value="6b364ac4dc0bd3a8750ee6cd4dd1a847" />
+			<string key="DESTINATION_NODE" value="" />
+			<string key="DESTINATION_AGENT" value="" />
+			<string key="REMARKS" value='{"user": "83a28045adb91be7cf8ef5db7c79b3e6cb39dd633eed739cd5d4dd11441bb8bba47577d02b767cdddeaf7625282f5c01", "serviceEndpoint": "https://mobsos.tech4comp.dbis.rwth-aachen.de/mensa/prepareReview"}' />
+			<string key="concept:name" value="/prepareReview complete" />
+			<string key="RESOURCE" value="6840e28ea830d43602f6ace54daa2685181012018550639280d0cfaa2b285fc88303b98c459c21051070b43635b4705212a6773312998e774bd489bee3e9d586" />
+			<string key="RESOURCE_TYPE" value="bot" />
+			<string key="lifecycle:transition" value="complete" />
+			<date key="time:timestamp" value="2023-08-02T12:11:17" />
+		</event>
+		<event>
+			<int key="ID" value="791" />
+			<string key="EVENT" value="SERVICE_CUSTOM_MESSAGE_1" />
+			<date key="TIME_STAMP" value="2023-08-02T14:11:21" />
+			<string key="SOURCE_NODE" value="&lt;0xF668F9..&gt;" />
+			<string key="SOURCE_AGENT" value="6b364ac4dc0bd3a8750ee6cd4dd1a847" />
+			<string key="DESTINATION_NODE" value="" />
+			<string key="DESTINATION_AGENT" value="" />
+			<string key="REMARKS" value='{"user": "41de37a21eb0fbd7c8f2e57360ba443ce8f4081ee5af3a713f73d74c9d1251a5e3ea880b2aed52d9b4fed6a3f9df8f91"}' />
+			<string key="concept:name" value="confirmation" />
+			<string key="RESOURCE" value="6840e28ea830d43602f6ace54daa2685181012018550639280d0cfaa2b285fc88303b98c459c21051070b43635b4705212a6773312998e774bd489bee3e9d586" />
+			<string key="RESOURCE_TYPE" value="bot" />
+			<string key="lifecycle:transition" value="complete" />
+			<date key="time:timestamp" value="2023-08-02T12:11:21" />
+		</event>
+		<event>
+			<int key="ID" value="793" />
+			<string key="EVENT" value="SERVICE_CUSTOM_MESSAGE_2" />
+			<date key="TIME_STAMP" value="2023-08-02T14:11:21" />
+			<string key="SOURCE_NODE" value="&lt;0xF668F9..&gt;" />
+			<string key="SOURCE_AGENT" value="6b364ac4dc0bd3a8750ee6cd4dd1a847" />
+			<string key="DESTINATION_NODE" value="" />
+			<string key="DESTINATION_AGENT" value="" />
+			<string key="REMARKS" value='{"user": "41de37a21eb0fbd7c8f2e57360ba443ce8f4081ee5af3a713f73d74c9d1251a5e3ea880b2aed52d9b4fed6a3f9df8f91"}' />
+			<string key="concept:name" value="0:response" />
+			<string key="RESOURCE" value="6840e28ea830d43602f6ace54daa2685181012018550639280d0cfaa2b285fc88303b98c459c21051070b43635b4705212a6773312998e774bd489bee3e9d586" />
+			<string key="RESOURCE_TYPE" value="bot" />
+			<string key="lifecycle:transition" value="complete" />
+			<date key="time:timestamp" value="2023-08-02T12:11:21" />
+		</event>
+		<event>
+			<int key="ID" value="795" />
+			<string key="EVENT" value="SERVICE_CUSTOM_MESSAGE_1" />
+			<date key="TIME_STAMP" value="2023-08-02T14:11:26" />
+			<string key="SOURCE_NODE" value="&lt;0xF668F9..&gt;" />
+			<string key="SOURCE_AGENT" value="6b364ac4dc0bd3a8750ee6cd4dd1a847" />
+			<string key="DESTINATION_NODE" value="" />
+			<string key="DESTINATION_AGENT" value="" />
+			<string key="REMARKS" value='{"user": "41de37a21eb0fbd7c8f2e57360ba443ce8f4081ee5af3a713f73d74c9d1251a5e3ea880b2aed52d9b4fed6a3f9df8f91"}' />
+			<string key="concept:name" value="number_selection" />
+			<string key="RESOURCE" value="6840e28ea830d43602f6ace54daa2685181012018550639280d0cfaa2b285fc88303b98c459c21051070b43635b4705212a6773312998e774bd489bee3e9d586" />
+			<string key="RESOURCE_TYPE" value="bot" />
+			<string key="lifecycle:transition" value="complete" />
+			<date key="time:timestamp" value="2023-08-02T12:11:26" />
+		</event>
+		<event>
+			<int key="ID" value="797" />
+			<string key="EVENT" value="SERVICE_CUSTOM_MESSAGE_2" />
+			<date key="TIME_STAMP" value="2023-08-02T14:11:26" />
+			<string key="SOURCE_NODE" value="&lt;0xF668F9..&gt;" />
+			<string key="SOURCE_AGENT" value="6b364ac4dc0bd3a8750ee6cd4dd1a847" />
+			<string key="DESTINATION_NODE" value="" />
+			<string key="DESTINATION_AGENT" value="" />
+			<string key="REMARKS" value='{"user": "41de37a21eb0fbd7c8f2e57360ba443ce8f4081ee5af3a713f73d74c9d1251a5e3ea880b2aed52d9b4fed6a3f9df8f91"}' />
+			<string key="concept:name" value="0:response" />
+			<string key="RESOURCE" value="6840e28ea830d43602f6ace54daa2685181012018550639280d0cfaa2b285fc88303b98c459c21051070b43635b4705212a6773312998e774bd489bee3e9d586" />
+			<string key="RESOURCE_TYPE" value="bot" />
+			<string key="lifecycle:transition" value="complete" />
+			<date key="time:timestamp" value="2023-08-02T12:11:26" />
+		</event>
+		<event>
+			<int key="ID" value="798" />
+			<string key="EVENT" value="SERVICE_CUSTOM_MESSAGE_3" />
+			<date key="TIME_STAMP" value="2023-08-02T14:11:26" />
+			<string key="SOURCE_NODE" value="&lt;0xF668F9..&gt;" />
+			<string key="SOURCE_AGENT" value="6b364ac4dc0bd3a8750ee6cd4dd1a847" />
+			<string key="DESTINATION_NODE" value="" />
+			<string key="DESTINATION_AGENT" value="" />
+			<string key="REMARKS" value='{"user": "83a28045adb91be7cf8ef5db7c79b3e6cb39dd633eed739cd5d4dd11441bb8bba47577d02b767cdddeaf7625282f5c01", "serviceEndpoint": "https://mobsos.tech4comp.dbis.rwth-aachen.de/mensa/prepareReview"}' />
+			<string key="concept:name" value="/prepareReview start" />
+			<string key="RESOURCE" value="6840e28ea830d43602f6ace54daa2685181012018550639280d0cfaa2b285fc88303b98c459c21051070b43635b4705212a6773312998e774bd489bee3e9d586" />
+			<string key="RESOURCE_TYPE" value="bot" />
+			<string key="lifecycle:transition" value="start" />
+			<date key="time:timestamp" value="2023-08-02T12:11:26" />
+		</event>
+		<event>
+			<int key="ID" value="799" />
+			<string key="EVENT" value="SERVICE_CUSTOM_MESSAGE_3" />
+			<date key="TIME_STAMP" value="2023-08-02T14:11:28" />
+			<string key="SOURCE_NODE" value="&lt;0xF668F9..&gt;" />
+			<string key="SOURCE_AGENT" value="6b364ac4dc0bd3a8750ee6cd4dd1a847" />
+			<string key="DESTINATION_NODE" value="" />
+			<string key="DESTINATION_AGENT" value="" />
+			<string key="REMARKS" value='{"user": "83a28045adb91be7cf8ef5db7c79b3e6cb39dd633eed739cd5d4dd11441bb8bba47577d02b767cdddeaf7625282f5c01", "serviceEndpoint": "https://mobsos.tech4comp.dbis.rwth-aachen.de/mensa/prepareReview"}' />
+			<string key="concept:name" value="/prepareReview complete" />
+			<string key="RESOURCE" value="6840e28ea830d43602f6ace54daa2685181012018550639280d0cfaa2b285fc88303b98c459c21051070b43635b4705212a6773312998e774bd489bee3e9d586" />
+			<string key="RESOURCE_TYPE" value="bot" />
+			<string key="lifecycle:transition" value="complete" />
+			<date key="time:timestamp" value="2023-08-02T12:11:28" />
+		</event>
+	</trace>
+	<trace>
+		<string key="concept:name" value="399fb532-f7a7-4571-8542-fb5c3bc64ac5" />
+		<event>
+			<int key="ID" value="801" />
+			<string key="EVENT" value="SERVICE_CUSTOM_MESSAGE_1" />
+			<date key="TIME_STAMP" value="2023-08-02T14:14:41" />
+			<string key="SOURCE_NODE" value="&lt;0xF668F9..&gt;" />
+			<string key="SOURCE_AGENT" value="0ba13acc3cd93323fb87449799809b06" />
+			<string key="DESTINATION_NODE" value="" />
+			<string key="DESTINATION_AGENT" value="" />
+			<string key="REMARKS" value='{"user": "41de37a21eb0fbd7c8f2e57360ba443ce8f4081ee5af3a713f73d74c9d1251a5e3ea880b2aed52d9b4fed6a3f9df8f91"}' />
+			<string key="concept:name" value="greeting" />
+			<string key="RESOURCE" value="6840e28ea830d43602f6ace54daa2685181012018550639280d0cfaa2b285fc88303b98c459c21051070b43635b4705212a6773312998e774bd489bee3e9d586" />
+			<string key="RESOURCE_TYPE" value="bot" />
+			<string key="lifecycle:transition" value="complete" />
+			<date key="time:timestamp" value="2023-08-02T12:14:41" />
+		</event>
+		<event>
+			<int key="ID" value="803" />
+			<string key="EVENT" value="SERVICE_CUSTOM_MESSAGE_2" />
+			<date key="TIME_STAMP" value="2023-08-02T14:14:41" />
+			<string key="SOURCE_NODE" value="&lt;0xF668F9..&gt;" />
+			<string key="SOURCE_AGENT" value="0ba13acc3cd93323fb87449799809b06" />
+			<string key="DESTINATION_NODE" value="" />
+			<string key="DESTINATION_AGENT" value="" />
+			<string key="REMARKS" value='{"user": "41de37a21eb0fbd7c8f2e57360ba443ce8f4081ee5af3a713f73d74c9d1251a5e3ea880b2aed52d9b4fed6a3f9df8f91"}' />
+			<string key="concept:name" value="greeting:response" />
+			<string key="RESOURCE" value="6840e28ea830d43602f6ace54daa2685181012018550639280d0cfaa2b285fc88303b98c459c21051070b43635b4705212a6773312998e774bd489bee3e9d586" />
+			<string key="RESOURCE_TYPE" value="bot" />
+			<string key="lifecycle:transition" value="complete" />
+			<date key="time:timestamp" value="2023-08-02T12:14:41" />
+		</event>
+	</trace>
+	<trace>
+		<string key="concept:name" value="8886941e-4736-47f1-99dd-7491602cc0df" />
+		<event>
+			<int key="ID" value="805" />
+			<string key="EVENT" value="SERVICE_CUSTOM_MESSAGE_1" />
+			<date key="TIME_STAMP" value="2023-08-02T14:14:56" />
+			<string key="SOURCE_NODE" value="&lt;0xF668F9..&gt;" />
+			<string key="SOURCE_AGENT" value="0ba13acc3cd93323fb87449799809b06" />
+			<string key="DESTINATION_NODE" value="" />
+			<string key="DESTINATION_AGENT" value="" />
+			<string key="REMARKS" value='{"user": "41de37a21eb0fbd7c8f2e57360ba443ce8f4081ee5af3a713f73d74c9d1251a5e3ea880b2aed52d9b4fed6a3f9df8f91"}' />
+			<string key="concept:name" value="menu" />
+			<string key="RESOURCE" value="6840e28ea830d43602f6ace54daa2685181012018550639280d0cfaa2b285fc88303b98c459c21051070b43635b4705212a6773312998e774bd489bee3e9d586" />
+			<string key="RESOURCE_TYPE" value="bot" />
+			<string key="lifecycle:transition" value="complete" />
+			<date key="time:timestamp" value="2023-08-02T12:14:56" />
+		</event>
+		<event>
+			<int key="ID" value="807" />
+			<string key="EVENT" value="SERVICE_CUSTOM_MESSAGE_2" />
+			<date key="TIME_STAMP" value="2023-08-02T14:14:56" />
+			<string key="SOURCE_NODE" value="&lt;0xF668F9..&gt;" />
+			<string key="SOURCE_AGENT" value="0ba13acc3cd93323fb87449799809b06" />
+			<string key="DESTINATION_NODE" value="" />
+			<string key="DESTINATION_AGENT" value="" />
+			<string key="REMARKS" value='{"user": "41de37a21eb0fbd7c8f2e57360ba443ce8f4081ee5af3a713f73d74c9d1251a5e3ea880b2aed52d9b4fed6a3f9df8f91"}' />
+			<string key="concept:name" value="menu:response" />
+			<string key="RESOURCE" value="6840e28ea830d43602f6ace54daa2685181012018550639280d0cfaa2b285fc88303b98c459c21051070b43635b4705212a6773312998e774bd489bee3e9d586" />
+			<string key="RESOURCE_TYPE" value="bot" />
+			<string key="lifecycle:transition" value="complete" />
+			<date key="time:timestamp" value="2023-08-02T12:14:56" />
+		</event>
+		<event>
+			<int key="ID" value="808" />
+			<string key="EVENT" value="SERVICE_CUSTOM_MESSAGE_3" />
+			<date key="TIME_STAMP" value="2023-08-02T14:14:56" />
+			<string key="SOURCE_NODE" value="&lt;0xF668F9..&gt;" />
+			<string key="SOURCE_AGENT" value="0ba13acc3cd93323fb87449799809b06" />
+			<string key="DESTINATION_NODE" value="" />
+			<string key="DESTINATION_AGENT" value="" />
+			<string key="REMARKS" value='{"user": "41de37a21eb0fbd7c8f2e57360ba443ce8f4081ee5af3a713f73d74c9d1251a5e3ea880b2aed52d9b4fed6a3f9df8f91", "serviceEndpoint": "https://mobsos.tech4comp.dbis.rwth-aachen.de/mensa/menu"}' />
+			<string key="concept:name" value="/menu start" />
+			<string key="RESOURCE" value="6840e28ea830d43602f6ace54daa2685181012018550639280d0cfaa2b285fc88303b98c459c21051070b43635b4705212a6773312998e774bd489bee3e9d586" />
+			<string key="RESOURCE_TYPE" value="bot" />
+			<string key="lifecycle:transition" value="start" />
+			<date key="time:timestamp" value="2023-08-02T12:14:56" />
+		</event>
+		<event>
+			<int key="ID" value="809" />
+			<string key="EVENT" value="SERVICE_CUSTOM_MESSAGE_3" />
+			<date key="TIME_STAMP" value="2023-08-02T14:14:56" />
+			<string key="SOURCE_NODE" value="&lt;0xF668F9..&gt;" />
+			<string key="SOURCE_AGENT" value="0ba13acc3cd93323fb87449799809b06" />
+			<string key="DESTINATION_NODE" value="" />
+			<string key="DESTINATION_AGENT" value="" />
+			<string key="REMARKS" value='{"user": "41de37a21eb0fbd7c8f2e57360ba443ce8f4081ee5af3a713f73d74c9d1251a5e3ea880b2aed52d9b4fed6a3f9df8f91", "serviceEndpoint": "https://mobsos.tech4comp.dbis.rwth-aachen.de/mensa/menu"}' />
+			<string key="concept:name" value="/menu complete" />
+			<string key="RESOURCE" value="6840e28ea830d43602f6ace54daa2685181012018550639280d0cfaa2b285fc88303b98c459c21051070b43635b4705212a6773312998e774bd489bee3e9d586" />
+			<string key="RESOURCE_TYPE" value="bot" />
+			<string key="lifecycle:transition" value="complete" />
+			<date key="time:timestamp" value="2023-08-02T12:14:56" />
+		</event>
+	</trace>
+	<trace>
+		<string key="concept:name" value="42a27fee-af7f-4c26-a623-e6a69abb79ba" />
+		<event>
+			<int key="ID" value="811" />
+			<string key="EVENT" value="SERVICE_CUSTOM_MESSAGE_1" />
+			<date key="TIME_STAMP" value="2023-08-02T14:15:01" />
+			<string key="SOURCE_NODE" value="&lt;0xF668F9..&gt;" />
+			<string key="SOURCE_AGENT" value="0ba13acc3cd93323fb87449799809b06" />
+			<string key="DESTINATION_NODE" value="" />
+			<string key="DESTINATION_AGENT" value="" />
+			<string key="REMARKS" value='{"user": "41de37a21eb0fbd7c8f2e57360ba443ce8f4081ee5af3a713f73d74c9d1251a5e3ea880b2aed52d9b4fed6a3f9df8f91"}' />
+			<string key="concept:name" value="startReview" />
+			<string key="RESOURCE" value="6840e28ea830d43602f6ace54daa2685181012018550639280d0cfaa2b285fc88303b98c459c21051070b43635b4705212a6773312998e774bd489bee3e9d586" />
+			<string key="RESOURCE_TYPE" value="bot" />
+			<string key="lifecycle:transition" value="complete" />
+			<date key="time:timestamp" value="2023-08-02T12:15:01" />
+		</event>
+		<event>
+			<int key="ID" value="813" />
+			<string key="EVENT" value="SERVICE_CUSTOM_MESSAGE_2" />
+			<date key="TIME_STAMP" value="2023-08-02T14:15:01" />
+			<string key="SOURCE_NODE" value="&lt;0xF668F9..&gt;" />
+			<string key="SOURCE_AGENT" value="0ba13acc3cd93323fb87449799809b06" />
+			<string key="DESTINATION_NODE" value="" />
+			<string key="DESTINATION_AGENT" value="" />
+			<string key="REMARKS" value='{"user": "41de37a21eb0fbd7c8f2e57360ba443ce8f4081ee5af3a713f73d74c9d1251a5e3ea880b2aed52d9b4fed6a3f9df8f91"}' />
+			<string key="concept:name" value="startReview:response" />
+			<string key="RESOURCE" value="6840e28ea830d43602f6ace54daa2685181012018550639280d0cfaa2b285fc88303b98c459c21051070b43635b4705212a6773312998e774bd489bee3e9d586" />
+			<string key="RESOURCE_TYPE" value="bot" />
+			<string key="lifecycle:transition" value="complete" />
+			<date key="time:timestamp" value="2023-08-02T12:15:01" />
+		</event>
+		<event>
+			<int key="ID" value="815" />
+			<string key="EVENT" value="SERVICE_CUSTOM_MESSAGE_1" />
+			<date key="TIME_STAMP" value="2023-08-02T14:15:06" />
+			<string key="SOURCE_NODE" value="&lt;0xF668F9..&gt;" />
+			<string key="SOURCE_AGENT" value="0ba13acc3cd93323fb87449799809b06" />
+			<string key="DESTINATION_NODE" value="" />
+			<string key="DESTINATION_AGENT" value="" />
+			<string key="REMARKS" value='{"user": "41de37a21eb0fbd7c8f2e57360ba443ce8f4081ee5af3a713f73d74c9d1251a5e3ea880b2aed52d9b4fed6a3f9df8f91"}' />
+			<string key="concept:name" value="quit" />
+			<string key="RESOURCE" value="6840e28ea830d43602f6ace54daa2685181012018550639280d0cfaa2b285fc88303b98c459c21051070b43635b4705212a6773312998e774bd489bee3e9d586" />
+			<string key="RESOURCE_TYPE" value="bot" />
+			<string key="lifecycle:transition" value="complete" />
+			<date key="time:timestamp" value="2023-08-02T12:15:06" />
+		</event>
+		<event>
+			<int key="ID" value="817" />
+			<string key="EVENT" value="SERVICE_CUSTOM_MESSAGE_2" />
+			<date key="TIME_STAMP" value="2023-08-02T14:15:06" />
+			<string key="SOURCE_NODE" value="&lt;0xF668F9..&gt;" />
+			<string key="SOURCE_AGENT" value="0ba13acc3cd93323fb87449799809b06" />
+			<string key="DESTINATION_NODE" value="" />
+			<string key="DESTINATION_AGENT" value="" />
+			<string key="REMARKS" value='{"user": "41de37a21eb0fbd7c8f2e57360ba443ce8f4081ee5af3a713f73d74c9d1251a5e3ea880b2aed52d9b4fed6a3f9df8f91"}' />
+			<string key="concept:name" value="default:response" />
+			<string key="RESOURCE" value="6840e28ea830d43602f6ace54daa2685181012018550639280d0cfaa2b285fc88303b98c459c21051070b43635b4705212a6773312998e774bd489bee3e9d586" />
+			<string key="RESOURCE_TYPE" value="bot" />
+			<string key="lifecycle:transition" value="complete" />
+			<date key="time:timestamp" value="2023-08-02T12:15:06" />
+		</event>
+	</trace>
+	<trace>
+		<string key="concept:name" value="51eab1a5-542a-43ef-b939-527105b9ef96" />
+		<event>
+			<int key="ID" value="819" />
+			<string key="EVENT" value="SERVICE_CUSTOM_MESSAGE_1" />
+			<date key="TIME_STAMP" value="2023-08-02T14:15:11" />
+			<string key="SOURCE_NODE" value="&lt;0xF668F9..&gt;" />
+			<string key="SOURCE_AGENT" value="0ba13acc3cd93323fb87449799809b06" />
+			<string key="DESTINATION_NODE" value="" />
+			<string key="DESTINATION_AGENT" value="" />
+			<string key="REMARKS" value='{"user": "41de37a21eb0fbd7c8f2e57360ba443ce8f4081ee5af3a713f73d74c9d1251a5e3ea880b2aed52d9b4fed6a3f9df8f91"}' />
+			<string key="concept:name" value="quit" />
+			<string key="RESOURCE" value="6840e28ea830d43602f6ace54daa2685181012018550639280d0cfaa2b285fc88303b98c459c21051070b43635b4705212a6773312998e774bd489bee3e9d586" />
+			<string key="RESOURCE_TYPE" value="bot" />
+			<string key="lifecycle:transition" value="complete" />
+			<date key="time:timestamp" value="2023-08-02T12:15:11" />
+		</event>
+	</trace>
+</log>
