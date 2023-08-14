@@ -24,7 +24,7 @@ mysql_port = os.environ['MYSQL_PORT']
 db_connection_events = get_db_connection(mysql_host,mysql_port, mysql_user, mysql_password, events_database)
 db_connection_bots = get_db_connection(mysql_host,mysql_port, mysql_user, mysql_password, bots_database)
 
-bot_model_file_path = "./models/bot_model.json"
+bot_model_file_path = "./models/test_bot_model.json"
 event_log_file_path = "event_logs/test_event_log.xes"
 tmp_event_log_file_path = "event_logs/tmp_event_log.xes"
 
