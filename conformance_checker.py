@@ -32,6 +32,15 @@ def load_default_bot_model():
             #load the json file
         bot_model = json.load(json_file)
         return bot_model
+    
+def load_bot_model(path=None):
+    if path is None:
+        return load_default_bot_model()
+    else:
+        with open(path) as json_file:
+            #load the json file
+            bot_model = json.load(json_file)
+            return bot_model
 
 def fetch_bot_model(name):
     # fetches a bot model from the social bot manager. available at <base_url>/models/{name}
