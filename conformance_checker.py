@@ -44,17 +44,21 @@ def load_bot_model(path=None):
             bot_model = json.load(json_file)
             return bot_model
 
-def fetch_bot_model(name):
+def fetch_bot_model(name , endpoint=bot_manager_endpoint):
     # fetches a bot model from the social bot manager. available at <base_url>/models/{name}
-    request = requests.get(f"{bot_manager_endpoint}/models/{name}")
+    print(f"Fetching bot model from {endpoint}/models/{name}")
+    request = requests.get(f"{endpoint}/models/{name}")
     if request.status_code == 200:
         return request.json()
     else:
         return None
 
-def fetch_event_log(resource_id):
+def fetch_event_log(resource_id, url=None):
+    if url is None:
+        url = f"https://mobsos.tech4comp.dbis.rwth-aachen.de/event-log"
     # fetches an event log from the social bot manager. available at <base_url>/event_logs/{name}
-    response = requests.get(f"https://mobsos.tech4comp.dbis.rwth-aachen.de/event-log/resource/{resource_id}")
+    print(f"Fetching event log from {url}/resource/{resource_id}")
+    response = requests.get(f"{url}/resource/{resource_id}")
     # response is xml, use pm4py to parse it
     if response.status_code == 200:
         xml = response.content
@@ -67,7 +71,7 @@ def fetch_event_log(resource_id):
         return pm4py.read_xes(tmp_event_log_file_path), os.remove(tmp_event_log_file_path)
     else:
         print(response.status_code)
-        return None
+        return None,None
 
 def get_bot_agentids(name):
     statement=f"SELECT REMARKS->>agentId FROM MESSAGE WHERE EVENT = 'SERVICE_CUSTOM_MESSAGE_3' AND REMARKS->>'botName' = '{name}' ORDER BY TIME_STAMP"
