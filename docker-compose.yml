@@ -1,0 +1,98 @@
+version: '3'
+
+services:
+  mobsos-data-processing:
+    image: registry.tech4comp.dbis.rwth-aachen.de/rwthacis/mobsos-data-processing:ma-lakhoune
+    environment:
+      MYSQL_HOST: db
+      MYSQL_PORT: 3306
+      MYSQL_USER: root
+      MYSQL_PASSWORD: root
+      LAS2PEER_PORT: 9013
+      BOOTSTRAP: social-bot-manager:9011
+    ports:
+      - "9013:9013"
+    depends_on:
+      - social-bot-manager
+  social-bot-manager:
+    image: las2peersocialbotmanagerservice:latest
+    environment:
+      DATABASE_NAME: SBF
+      DATABASE_HOST: db
+      DATABASE_PORT: 3306
+      DATABASE_USER: root
+      DATABASE_PASSWORD: root
+      WEBCONNECTOR_URL: http://127.0.0.1:8080
+      MONGO_HOST: mongo:8080
+      MONGO_DB: sbf
+      MONGO_USER: admin
+      MONGO_PASSWORD: password
+      MONGO_AUTH: auth
+      LRS_URL: ${LRL_URL:-http://127.0.0.1:8080}
+      LRS_AUTH_TOKEN: ${LRL_AUTH_TOKEN:-token} 
+    ports:
+      - "8080:8080"
+      - "9011:9011"
+    depends_on:
+      - db
+  
+  yjs: 
+    image: lakhoune/y-websocket:latest
+    ports:
+      - "1234:1234"
+  
+  rasa:
+    image: ${RASA_IMAGE:-rasa/rasa:3.3.10-full}
+    command: run --enable-api -m models --cors "*" --debug
+    ports:
+      - "5005:5005"
+  db:
+    image: mysql:8
+    platform: ${MYSQL_TARGETPLATFORM:-linux/amd64}
+    command: --default-authentication-plugin=mysql_native_password
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: SBF
+      MYSQL_INITDB_SQL: /docker-entrypoint-initdb.d/init.sql
+    volumes:
+      - ./assets/mysql-init-scripts:/docker-entrypoint-initdb.d/init.sql
+    ports:
+      - "8085:3306"
+
+  frontend:
+    image: registry.tech4comp.dbis.rwth-aachen.de/rwthacis/sbf-utils:ma-lakhoune
+    environment:
+      YJS: localhost:1234
+      PORT: 8082
+      OIDC_CLIENT_ID: localtestclient
+      YJS_RESOURCE_PATH: ${YJS_RESOURCE_PATH:-/socket.io}
+      RASA_NLU: http://rasa:5005
+      SBF_MANAGER: http://localhost:8080/SBFmanager
+      CONTACT_SERVICE_URL: ${CONTACT_SERVICE_URL:-http://localhost:8080/contactservice}
+      YJS_PROTOCOL: ws
+    depends_on:
+      - yjs
+      - rasa
+      - social-bot-manager
+
+    ports:
+      - "8082:8082"
+  mongo:
+      image: mongo
+      restart: always
+      environment:
+        MONGO_INITDB_ROOT_USERNAME: admin
+        MONGO_INITDB_ROOT_PASSWORD: password
+  
+  event-log-generator:
+    image: mobsoseventloggenerator:latest
+    environment:
+      MYSQL_USER: root
+      MYSQL_PASSWORD: root
+      MYSQL_HOST: db
+      MYSQL_PORT: 3306
+      MYSQL_DATABASE: LAS2PEERMON
+    ports:
+      - "8087:8087"
+    depends_on:
+      - db
