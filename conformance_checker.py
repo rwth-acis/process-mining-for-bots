@@ -53,16 +53,16 @@ def fetch_bot_model(name , endpoint=bot_manager_endpoint):
     else:
         return None
 
-def fetch_event_log(resource_id, url=None):
+def fetch_event_log(bot_name, url=None):
     if url is None:
         url = f"https://mobsos.tech4comp.dbis.rwth-aachen.de/event-log"
     # fetches an event log from the social bot manager. available at <base_url>/event_logs/{name}
-    print(f"Fetching event log from {url}/resource/{resource_id}")
-    response = requests.get(f"{url}/resource/{resource_id}")
+    print(f"Fetching event log from {url}/bot/{bot_name}")
+    response = requests.get(f"{url}/bot/{bot_name}")
     # response is xml, use pm4py to parse it
     if response.status_code == 200:
         xml = response.content
-        root = ET.fromstring(xml)
+        ET.fromstring(xml)
         # write the xml to a file 
         with open(tmp_event_log_file_path, "wb") as f:
             f.write(xml)
