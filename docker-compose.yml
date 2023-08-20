@@ -58,6 +58,7 @@ services:
       - ./assets/mysql-init-scripts:/docker-entrypoint-initdb.d/init.sql
     ports:
       - "8085:3306"
+    restart: always
 
   frontend:
     image: registry.tech4comp.dbis.rwth-aachen.de/rwthacis/sbf-utils:ma-lakhoune
