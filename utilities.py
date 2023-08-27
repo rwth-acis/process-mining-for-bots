@@ -4,9 +4,10 @@ import pm4py
 import os
 import pandas as pd
 import json
+from pm4py.objects.log.importer.xes import variants as xes_importer
 
-bot_model_file_path = "./models/test_bot_model.json"
-event_log_file_path = "event_logs/test_event_log.xes"
+bot_model_file_path = "./assets/models/test_bot_model.json"
+event_log_file_path = "assets/event_logs/test_event_log.xes"
 
 def fetch_bot_model(name , endpoint):
     # fetches a bot model from the social bot manager. available at <base_url>/models/{name}
@@ -18,8 +19,6 @@ def fetch_bot_model(name , endpoint):
         return None
 
 def fetch_event_log(bot_name, url=None):
-    tmp_event_log_file_path = "event_logs/tmp_event_log.xes"
-
     if url is None:
         url = f"https://mobsos.tech4comp.dbis.rwth-aachen.de/event-log"
     # fetches an event log from the social bot manager. available at <base_url>/event_logs/{name}
@@ -28,16 +27,14 @@ def fetch_event_log(bot_name, url=None):
     # response is xml, use pm4py to parse it
     if response.status_code == 200:
         xml = response.content
-        ET.fromstring(xml)
-        # write the xml to a file 
-        with open(tmp_event_log_file_path, "wb") as f:
-            f.write(xml)
-        
-        # read the file with pm4py and return the event log and delete the file
-        log = pm4py.read_xes(tmp_event_log_file_path)
-        os.remove(tmp_event_log_file_path)
+        try:
+            log = pm4py.convert_to_dataframe(xes_importer.iterparse.import_from_string(xml))
+        except  Exception as e:
+            print("Could not parse event log")
+            print(e)
+            return None
         if not "head" in dir(log):
-            print("Could not fetch event log")
+            print("log is empty")
             return None
         log['time:timestamp'] = pd.to_datetime(log['time:timestamp']) # convert timestamp to datetime
         log =log[(log['EVENT'] == 'SERVICE_REQUEST') | (log['EVENT'] == 'USER_MESSAGE')] # drop bot messages
@@ -45,7 +42,7 @@ def fetch_event_log(bot_name, url=None):
         return log
 
     else:
-        print(response.status_code)
+        print("Could not fetch event log, status code: ",response.status_code)
         return None
     
 
