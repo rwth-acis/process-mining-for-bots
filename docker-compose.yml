@@ -2,7 +2,7 @@ version: '3'
 
 services:
   mobsos-data-processing:
-    image: registry.tech4comp.dbis.rwth-aachen.de/rwthacis/mobsos-data-processing:ma-lakhoune
+    image: ${MOBSOS_DATA_PROCESSING_IMAGE:-registry.tech4comp.dbis.rwth-aachen.de/rwthacis/mobsos-data-processing:master}
     environment:
       MYSQL_HOST: db
       MYSQL_PORT: 3306
@@ -15,7 +15,7 @@ services:
     depends_on:
       - social-bot-manager
   social-bot-manager:
-    image: las2peersocialbotmanagerservice:latest
+    image: ${SOCIAL_BOT_MANAGER_IMAGE:-registry.tech4comp.dbis.rwth-aachen.de/rwthacis/social-bot-manager:master}
     environment:
       DATABASE_NAME: SBF
       DATABASE_HOST: db
@@ -61,7 +61,7 @@ services:
     restart: always
 
   frontend:
-    image: registry.tech4comp.dbis.rwth-aachen.de/rwthacis/sbf-utils:ma-lakhoune
+    image: ${SBF_IMAGE:-registry.tech4comp.dbis.rwth-aachen.de/rwthacis/sbf-utils:master}
     environment:
       YJS: localhost:1234
       PORT: 8082
@@ -86,7 +86,7 @@ services:
         MONGO_INITDB_ROOT_PASSWORD: password
   
   event-log-generator:
-    image: mobsoseventloggenerator:latest
+    image: ${EVENT_LOG_GENERATOR_IMAGE:-registry.tech4comp.dbis.rwth-aachen.de/rwthacis/event-log-generator:master}
     environment:
       MYSQL_USER: root
       MYSQL_PASSWORD: root
