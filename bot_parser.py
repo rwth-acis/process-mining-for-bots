@@ -42,16 +42,19 @@ class BotParser:
                 node_id, node, bot_model['edges'])
             self.idNameMap[node_id] = name
 
-    def to_petri_net(self):
+    def to_petri_net(self,dfg =None, start_activities=None, end_activities=None):
         """
-        Converts a bot model to a petri net
-        :param model: the bot model
+        Converts a dfg to a petri net with initial and final markings
+        :param dfg: the dfg of the bot model (optional) if not provided, it is computed from the bot model
+        :param start_activities: the start activities of the bot model (optional) if not provided, it is computed from the bot model
+        :param end_activities: the end activities of the bot model (optional) if not provided, it is computed from the bot model 
         :return: the petri net with initial and final markings
 
         :example:
         >>> petri_net,im,fm = to_petri_net(json)
         """
-        dfg, start_activities, end_activities = self.to_dfg()
+        if(dfg is None):
+            dfg, start_activities, end_activities = self.to_dfg()
 
         net, im, fm = convert_to_petri_net(
             dfg, start_activities, end_activities)
