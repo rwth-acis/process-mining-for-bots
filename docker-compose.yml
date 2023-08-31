@@ -23,12 +23,12 @@ services:
       DATABASE_USER: root
       DATABASE_PASSWORD: root
       WEBCONNECTOR_URL: http://127.0.0.1:8080
-      MONGO_HOST: mongo:8080
+      MONGO_HOST: mongo:8083
       MONGO_DB: sbf
       MONGO_USER: admin
       MONGO_PASSWORD: password
       MONGO_AUTH: auth
-      LRS_URL: ${LRL_URL:-http://127.0.0.1:8080}
+      LRS_URL: ${LRL_URL:-http://127.0.0.1:8084}
       LRS_AUTH_TOKEN: ${LRL_AUTH_TOKEN:-token} 
     ports:
       - "8080:8080"
