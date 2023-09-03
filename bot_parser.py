@@ -28,7 +28,7 @@ class BotParser:
 
     def __init__(self, bot_model):
         self.bot_model = bot_model
-        self.idNameMap = {}  # for each node id of interest, store a name representative of the node
+        self.id_name_map = {}  # for each node id of interest, store a name representative of the node
         self.node_types_of_interest = [
             'Incoming Message', 'Bot Action', 'Messenger']
         self.edge_types_of_interest = ['leadsTo', 'uses', 'generates']
@@ -40,7 +40,7 @@ class BotParser:
                 continue
             name = extract_activity_name(
                 node_id, node, bot_model['edges'])
-            self.idNameMap[node_id] = name
+            self.id_name_map[node_id] = name
 
     def to_petri_net(self,dfg =None, start_activities=None, end_activities=None):
         """
@@ -54,7 +54,7 @@ class BotParser:
         >>> petri_net,im,fm = to_petri_net(json)
         """
         if(dfg is None):
-            dfg, start_activities, end_activities = self.to_dfg()
+            dfg, start_activities, end_activities = self.get_dfg()
 
         net, im, fm = convert_to_petri_net(
             dfg, start_activities, end_activities)
@@ -65,7 +65,7 @@ class BotParser:
 
     
 
-    def to_dfg(self):
+    def get_dfg(self):
         """
         Converts a bot model to a direct follow graph (dfg)
         :param json: the bot model
@@ -156,17 +156,23 @@ class BotParser:
         :example:
         >>> node_id = get_node_id_by_name("n1")
         """
-        for node_id, node_name in self.idNameMap.items():
+        for node_id, node_name in self.id_name_map.items():
             if node_name == name:
                 return node_id
         return None
     
+    def add_id(self, identifier, name):
+        """
+        Maps an id to a name
+        :param id: the id
+        :param name: the name
+        """
+        self.id_name_map[identifier] = name
+    
     def rename_labels(self, net, im, fm):
         # replace the ids with the activity names
-        for node_id, node in self.nodes.items():
-            if node['type'] not in self.node_types_of_interest:
-                continue
-            name = self.idNameMap[node_id]
+        for node_id in self.id_name_map.keys():
+            name = self.id_name_map[node_id]
 
             for t in net.transitions:
                 if node_id == t._Transition__label:
