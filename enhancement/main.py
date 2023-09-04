@@ -3,8 +3,10 @@ from bot_parser import get_bot_parser
 import json
 from utilities import fetch_event_log
 import itertools
-import conformance.conformance_checker as cc
+import conformance.main as cc
 import uuid
+import sqlalchemy
+import pandas as pd
 
 bot_model_json_path = "./assets/models/test_bot_model.json"
 
@@ -70,3 +72,16 @@ def find_trace_in_log(log_moves, log):
         if (set(log_moves).issubset(set(case[1]["concept:name"].values))):
             return case[1]
     return None
+
+
+def get_intent_confidence(botName, connection):
+    """
+    Get the confidence of the intents in the bot model
+    :param botName: bot name
+    :param connection: database connection
+    :return: confidence of intents
+    """
+    statement = f"SELECT json_extract(REMARKS, '$.intent.intentKeyword') AS intentKeyword, AVG(json_extract(REMARKS, '$.intent.confidence')) AS averageConfidence FROM MESSAGE WHERE json_extract(REMARKS, '$.botName') = ? GROUP BY intentKeyword;"
+    
+    df = pd.read_sql(statement, con=connection, params=(botName,))
+    return df

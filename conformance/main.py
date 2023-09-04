@@ -35,15 +35,3 @@ def trace_is_fitting(trace, net, im, fm):
     from pm4py.algo.conformance.alignments.petri_net import algorithm as alignments
     return alignments.apply_trace(trace, net, im, fm)['fitness'] == 1
 
-def find_closest_fitting_trace(variant, event_log, net, im, fm):
-    alignments = pm4py.conformance.conformance_diagnostics_alignments(event_log,net,im,fm)
-
-    from pm4py.algo.conformance.alignments.petri_net import algorithm as alignments
-    
-    aligned_trace =  alignments.apply(event_log, net, im, fm)
-    if aligned_trace['trace_is_fit']:
-        return variant
-    else:
-        # remove all log only moves
-        print("Trace is not fitting, removing log only moves")
-
