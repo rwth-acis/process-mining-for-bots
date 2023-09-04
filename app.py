@@ -1,9 +1,9 @@
 from flask import Flask
 import os
-from db_utils import get_db_connection
-from enhancement import enhance_bot_model,get_intent_confidence
-from bot_parser import get_bot_parser, BotParser
-from utilities import fetch_event_log,fetch_bot_model
+from utils.db.connection import get_connection
+from utils.bot.parser import get_parser
+from utils.requests import fetch_event_log,fetch_bot_model
+from enhancement.main import enhance_bot_model,get_intent_confidence
 
 try:
     import psutil
@@ -28,7 +28,7 @@ mysql_host = os.environ['MYSQL_HOST']
 mysql_db = os.environ['MYSQL_DB']
 mysql_port = os.environ['MYSQL_PORT']
 
-db_connection = get_db_connection(mysql_host,mysql_port, mysql_user, mysql_password, mysql_db)
+db_connection = get_connection(mysql_host,mysql_port, mysql_user, mysql_password, mysql_db)
 
 
 app = Flask(__name__)
@@ -40,7 +40,7 @@ def index():
 @app.route('/<botName>/enhanced-bot-model')
 def enhanced_bot_model(botName):
     bot_model_json = fetch_bot_model(botName)
-    bot_parser = get_bot_parser(bot_model_json)
+    bot_parser = get_parser(bot_model_json)
     event_log = fetch_event_log(botName)
     bot_model_dfg, start_activities, end_activities = bot_parser.get_dfg()
     bot_model_dfg = enhance_bot_model(event_log, bot_model_dfg,bot_parser)

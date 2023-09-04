@@ -19,7 +19,7 @@ def read_events_into_df(db_connection,start_date = None, end_date =None, resourc
     df.rename(columns={'CASE_ID': 'case:concept:name', 'ACTIVITY_NAME': 'concept:name', 'TIME_OF_EVENT': 'time:timestamp', 'LIFECYCLE_PHASE': 'lifecycle:transition'}, inplace=True)
     return df
 
-def get_db_connection(host,port, user, password, db = 'LAS2PEERMON'):
+def get_connection(host,port, user, password, db = 'LAS2PEERMON'):
     if(host is None or user is None or password is None):
         raise ValueError('mysql host, user and password must be set')
     db_connection = sqlalchemy.create_engine(f'mysql+pymysql://{user}:{password}@{host}:{port}/{db}')

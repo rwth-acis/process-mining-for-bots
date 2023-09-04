@@ -2,7 +2,7 @@ from pm4py.convert import convert_to_petri_net
 
 bot_parsers = {}  # map of botParser instances for each bot
 
-def get_bot_parser(bot_model):
+def get_parser(bot_model):
     """
     Gets a bot parser instance for a bot model
     :param bot_model: the bot model

@@ -1,5 +1,5 @@
 import unittest
-from bot_parser import get_bot_parser, BotParser
+from utils.bot.parser import get_bot_parser, BotParser
 
 class TestBotParser(unittest.TestCase):
     def setUp(self):

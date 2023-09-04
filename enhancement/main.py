@@ -1,11 +1,5 @@
 import pm4py
-from bot_parser import get_bot_parser
-import json
-from utilities import fetch_event_log
-import itertools
-import conformance.main as cc
 import uuid
-import sqlalchemy
 import pandas as pd
 
 bot_model_json_path = "./assets/models/test_bot_model.json"
