@@ -1,9 +1,8 @@
 from flask import Flask
 import os
 from utils.db.connection import get_connection
-from utils.bot.parser import get_parser
-from utils.requests import fetch_event_log,fetch_bot_model
-from enhancement.main import enhance_bot_model,get_intent_confidence
+from bot_blueprint import bot_resource
+import sqlalchemy
 
 try:
     import psutil
@@ -25,35 +24,18 @@ load_dotenv(dotenv_path=current_dir+'/.env')
 mysql_user = os.environ['MYSQL_USER']
 mysql_password = os.environ['MYSQL_PASSWORD']
 mysql_host = os.environ['MYSQL_HOST']
-mysql_db = os.environ['MYSQL_DB']
+mysql_events_db = os.environ['MYSQL_EVENTS_DB']
 mysql_port = os.environ['MYSQL_PORT']
 
-db_connection = get_connection(mysql_host,mysql_port, mysql_user, mysql_password, mysql_db)
-
+db_connection = get_connection(mysql_host,mysql_port, mysql_user, mysql_password, mysql_events_db)
 
 app = Flask(__name__)
+app.db_connection = db_connection
+app.register_blueprint(bot_resource, url_prefix='/bot')
 
 @app.route('/')
 def index():
     return 'Hello, World!'
-
-@app.route('/<botName>/enhanced-bot-model')
-def enhanced_bot_model(botName):
-    bot_model_json = fetch_bot_model(botName)
-    bot_parser = get_parser(bot_model_json)
-    event_log = fetch_event_log(botName)
-    bot_model_dfg, start_activities, end_activities = bot_parser.get_dfg()
-    bot_model_dfg = enhance_bot_model(event_log, bot_model_dfg,bot_parser)
-    intent_confidence = get_intent_confidence(botName,db_connection)
-    return {
-        "dfg":{
-            "graph":bot_model_dfg,
-            "start_activities":start_activities,
-            "end_activities":end_activities
-        },
-        "intent_confidence": intent_confidence
-    }
-
 
 if __name__ == '__main__':
     app.run(debug=True)
