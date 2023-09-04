@@ -44,14 +44,14 @@ def enhanced_bot_model(botName):
     event_log = fetch_event_log(botName)
     bot_model_dfg, start_activities, end_activities = bot_parser.get_dfg()
     bot_model_dfg = enhance_bot_model(event_log, bot_model_dfg,bot_parser)
-    intent_confidence = get_intent_confidence
+    intent_confidence = get_intent_confidence(botName,db_connection)
     return {
         "dfg":{
             "graph":bot_model_dfg,
             "start_activities":start_activities,
             "end_activities":end_activities
         },
-        "intent_confidence": 
+        "intent_confidence": intent_confidence
     }
 
 
