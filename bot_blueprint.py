@@ -31,7 +31,6 @@ def enhanced_bot_model(botName):
     event_log = fetch_event_log(botName)
     bot_model_dfg, start_activities, end_activities = bot_parser.get_dfg()
     bot_model_dfg = enhance_bot_model(event_log, bot_model_dfg,bot_parser)
-    print("Enhanced bot model",bot_model_dfg)
     # serialize the bot model
     edges = []
     nodes = []
