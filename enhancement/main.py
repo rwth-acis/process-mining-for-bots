@@ -1,6 +1,8 @@
 import pm4py
 import uuid
 import pandas as pd
+from pm4py.statistics.traces.generic.log import case_statistics
+
 
 bot_model_json_path = "./assets/models/test_bot_model.json"
 
@@ -26,7 +28,7 @@ def enhance_bot_model(event_log, bot_model_dfg, bot_parser):
     for alignment in alignments:
         log_moves = list(move[0] for move in alignment if move[0] != ">>")
         # search for this trace in the event_log
-        trace_in_log = find_trace_in_log(log_moves, event_log)
+        trace_in_log = _find_trace_in_log(log_moves, event_log)
         trace_in_log['in-service-context'] = trace_in_log['in-service-context'].fillna(
             False)
 
@@ -52,7 +54,7 @@ def enhance_bot_model(event_log, bot_model_dfg, bot_parser):
     return bot_model_dfg
 
 
-def find_trace_in_log(log_moves, log):
+def _find_trace_in_log(log_moves, log):
     """
     Find a trace in the event log
     :param log_moves: moves of the trace
@@ -68,7 +70,7 @@ def find_trace_in_log(log_moves, log):
     return None
 
 
-def get_intent_confidence(botName, connection):
+def intent_confidence(botName, connection):
     """
     Get the confidence of the intents in the bot model
     :param botName: bot name
@@ -79,3 +81,32 @@ def get_intent_confidence(botName, connection):
     
     df = pd.read_sql(statement, con=connection, params=(botName,))
     return df
+
+def case_durations(log,ids=None):
+    """
+    Get the throughput times of the bot model
+    :param botName: bot name
+    :param log: event log
+    :return: throughput times
+    """
+    stats = case_statistics.get_cases_description(log)
+    if ids is None:
+        ids = log["case:concept:name"].unique()
+    
+    
+    traces = log.groupby("case:concept:name").agg({'concept:name':lambda x: list(x),'case:concept:name':'first' })
+    # add the traces to the case stats
+    for case_id, trace in traces.iterrows():
+        if case_id in ids:
+            stats[case_id]['trace'] = trace['concept:name']
+    return stats
+       
+
+
+# Call the get_cases_description function
+
+import utils.requests as r
+log = r.get_default_event_log()
+number_of_cases = log["case:concept:name"].nunique()
+case_stats = case_durations(log)
+print(case_stats)
