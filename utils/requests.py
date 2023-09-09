@@ -45,6 +45,9 @@ def fetch_event_log(bot_name, url=None):
         print("Could not fetch event log, status code: ",response.status_code)
         return None
     
+def get_default_event_log():
+    return pm4py.read_xes(event_log_file_path)
+    
 
 def load_default_bot_model():
     with open(bot_model_file_path) as json_file:
