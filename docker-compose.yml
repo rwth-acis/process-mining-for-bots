@@ -97,3 +97,16 @@ services:
       - "8087:8087"
     depends_on:
       - db
+
+  pm4bots:
+    image: ${PM4BOTS_IMAGE:-registry.tech4comp.dbis.rwth-aachen.de/rwthacis/pm4bots:main}
+    environment:
+      - MYSQL_USER=root
+      - MYSQL_PASSWORD=root
+      - MYSQL_HOST=db
+      - MYSQL_PORT=3306
+      - MYSQL_DATABASE=LAS2PEERMON
+    ports:
+      - "8088:8088"
+    depends_on:
+      - db
