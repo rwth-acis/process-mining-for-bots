@@ -9,7 +9,7 @@ from pm4py.objects.log.importer.xes import variants as xes_importer
 bot_model_file_path = "./assets/models/test_bot_model.json"
 event_log_file_path = "assets/event_logs/test_event_log.xes"
 
-def fetch_bot_model(name , endpoint):
+def fetch_bot_model(name , endpoint = "https://mobsos.tech4comp.dbis.rwth-aachen.de/SBFManager"):
     # fetches a bot model from the social bot manager. available at <base_url>/models/{name}
     print(f"Fetching bot model from {endpoint}/models/{name}")
     request = requests.get(f"{endpoint}/models/{name}")
