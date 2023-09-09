@@ -105,8 +105,8 @@ def case_durations(log,ids=None):
 
 # Call the get_cases_description function
 
-import utils.requests as r
-log = r.get_default_event_log()
-number_of_cases = log["case:concept:name"].nunique()
-case_stats = case_durations(log)
-print(case_stats)
+# import utils.requests as r
+# log = r.get_default_event_log()
+# number_of_cases = log["case:concept:name"].nunique()
+# case_stats = case_durations(log)
+# print(case_stats)
