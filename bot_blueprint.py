@@ -1,7 +1,7 @@
 from flask import Blueprint,current_app
 from utils.bot.parser import get_parser
 from utils.requests import fetch_event_log,fetch_bot_model
-from enhancement.main import enhance_bot_model,get_intent_confidence
+from enhancement.main import enhance_bot_model,intent_confidence
 
 bot_resource = Blueprint('dynamic_resource', __name__)
 
@@ -21,5 +21,5 @@ def enhanced_bot_model(botName):
 
 @bot_resource.route('/<botName>/intent-confidence')
 def intent_confidence(botName):
-    intent_confidence = get_intent_confidence(botName,current_app.db_connection)
+    intent_confidence = intent_confidence(botName,current_app.db_connection)
     return intent_confidence
