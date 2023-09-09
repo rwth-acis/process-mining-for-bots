@@ -1,0 +1,31 @@
+name: Build and Push Docker Image
+
+on:
+  push:
+    branches:
+      - master
+      - ma-lakhoune
+
+jobs:
+  build-and-push:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v3
+    - name: Extract branch name
+      shell: bash
+      run: echo "##[set-output name=branch;]$(echo ${GITHUB_REF#refs/heads/})"
+      id: extract_branch
+    - name: Build the Docker image
+      run: | 
+        docker build -t registry.tech4comp.dbis.rwth-aachen.de/rwthacis/pm4bots:${{ steps.extract_branch.outputs.branch }} .
+    - name: Push to registry
+      env:
+        DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}  
+        DOCKER_PW: ${{ secrets.DOCKER_PW }}
+      run: |
+        docker login -u $DOCKER_USERNAME -p $DOCKER_PW registry.tech4comp.dbis.rwth-aachen.de
+        docker push registry.tech4comp.dbis.rwth-aachen.de/rwthacis/pm4bots:${{ steps.extract_branch.outputs.branch }}
+
+
+    
