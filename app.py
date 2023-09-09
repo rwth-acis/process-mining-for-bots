@@ -2,7 +2,6 @@ from flask import Flask
 import os
 from utils.db.connection import get_connection
 from bot_blueprint import bot_resource
-import sqlalchemy
 
 try:
     import psutil
@@ -12,7 +11,6 @@ try:
 except psutil.NoSuchProcess:
     print("No such process")
     parent_name = "unknown"
-import pm4py
 
 
 # current directory
