@@ -1,4 +1,4 @@
-from flask import Blueprint,current_app
+from flask import Blueprint,current_app,request
 from flasgger import Swagger, swag_from
 from utils.bot.parser import get_parser
 from utils.requests import fetch_event_log,fetch_bot_model
@@ -10,7 +10,18 @@ bot_resource = Blueprint('dynamic_resource', __name__)
 @bot_resource.route('/<botName>/enhanced-model')
 @swag_from('enhanced-model.yml')
 def enhanced_bot_model(botName):
-    bot_model_json = fetch_bot_model(botName)
+    # check if ?url=<url> is set
+    if 'bot-manager-url' in request.args:
+        bot_manager_url = request.args['bot-manager-url']
+    else:
+        bot_manager_url = current_app.bot_manager_url
+
+    if 'event-log-url' in request.args:
+        event_log_url = request.args['event-log-url']
+    else:
+        event_log_url = current_app.event_log_url
+
+    bot_model_json = fetch_bot_model(botName,bot_manager_url)
     if bot_model_json is None:
         print("Could not fetch bot model")
         return {

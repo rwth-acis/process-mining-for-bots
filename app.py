@@ -31,6 +31,8 @@ db_connection = get_connection(mysql_host,mysql_port, mysql_user, mysql_password
 app = Flask(__name__)
 swagger = Swagger(app)
 app.db_connection = db_connection
+app.bot_manager_url = os.environ['SOCIAL_BOT_MANAGER_ENDPOINT']
+app.event_log_url = os.environ['EVENT_LOG_ENDPOINT']
 app.swagger = swagger
 app.register_blueprint(bot_resource, url_prefix='/bot')
 
