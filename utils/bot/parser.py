@@ -8,6 +8,8 @@ def get_parser(bot_model):
     :param bot_model: the bot model
     :return: the bot parser instance
     """
+    if 'nodes' not in bot_model or 'edges' not in bot_model:
+        raise Exception("Invalid bot model")
     for node_id, node in bot_model['nodes'].items():
         if node['type'] == "Bot":
             bot_id = node_id
