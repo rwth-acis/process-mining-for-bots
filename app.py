@@ -3,7 +3,7 @@ import os
 from utils.db.connection import get_connection
 from bot_blueprint import bot_resource
 from flasgger import Swagger
-
+from flask_cors import CORS
 try:
     import psutil
 
@@ -29,6 +29,7 @@ mysql_port = os.environ['MYSQL_PORT']
 db_connection = get_connection(mysql_host,mysql_port, mysql_user, mysql_password, mysql_events_db)
 
 app = Flask(__name__)
+CORS(app, resources={r"/*": {"origins": "http://localhost:8082"}})
 swagger = Swagger(app)
 app.db_connection = db_connection
 app.bot_manager_url = os.environ['SOCIAL_BOT_MANAGER_ENDPOINT']
