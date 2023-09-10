@@ -25,8 +25,8 @@ def enhanced_bot_model(botName):
     if bot_model_json is None:
         print("Could not fetch bot model")
         return {
-            "error":"Could not fetch bot model"
-        }
+            "error":f"Could not fetch bot model from {bot_manager_url}"
+        }, 500
     bot_parser = get_parser(bot_model_json)
     event_log = fetch_event_log(botName)
     bot_model_dfg, start_activities, end_activities = bot_parser.get_dfg()
