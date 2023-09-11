@@ -4,6 +4,8 @@ from utils.db.connection import get_connection
 from bot_blueprint import bot_resource
 from flasgger import Swagger
 from flask_cors import CORS
+import logging
+
 try:
     import psutil
 
@@ -29,6 +31,13 @@ mysql_port = os.environ['MYSQL_PORT']
 db_connection = get_connection(mysql_host,mysql_port, mysql_user, mysql_password, mysql_events_db)
 
 app = Flask(__name__)
+# Configure logging
+log_format = '%(asctime)s - %(name)s - %(levelname)s - %(message)s'
+logging.basicConfig(level=logging.DEBUG, format=log_format)
+
+# Define a logger
+logger = logging.getLogger(__name__)
+
 CORS(app, resources={r"/*": {"origins": "http://localhost:8082"}})
 swagger = Swagger(app)
 app.db_connection = db_connection
@@ -52,3 +61,6 @@ def index():
 
 if __name__ == '__main__':
     app.run(debug=True,port=8088)
+    file_handler = logging.FileHandler('app.log')
+    file_handler.setFormatter(logging.Formatter(log_format))
+    logger.addHandler(file_handler)
