@@ -38,7 +38,6 @@ def enhanced_bot_model(botName):
     avg_confidence_df = average_intent_confidence(botName,current_app.db_connection)
     avg_confidence = {}
     for index, row in avg_confidence_df.iterrows():
-        print(row['intentKeyword'],row['averageConfidence'])
         avg_confidence[row['intentKeyword']] = row['averageConfidence']
 
 
