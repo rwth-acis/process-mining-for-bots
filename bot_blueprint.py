@@ -2,7 +2,8 @@ from flask import Blueprint,current_app,request
 from flasgger import Swagger, swag_from
 from utils.bot.parser import get_parser
 from utils.requests import fetch_event_log,fetch_bot_model
-from enhancement.main import enhance_bot_model,intent_confidence,case_durations
+from enhancement.main import enhance_bot_model,average_intent_confidence,case_durations
+import pm4py
 
 bot_resource = Blueprint('dynamic_resource', __name__)
 
@@ -28,22 +29,32 @@ def enhanced_bot_model(botName):
             "error":f"Could not fetch bot model from {bot_manager_url}"
         }, 500
     bot_parser = get_parser(bot_model_json)
-    event_log = fetch_event_log(botName)
+    event_log = fetch_event_log(botName,event_log_url)
     bot_model_dfg, start_activities, end_activities = bot_parser.get_dfg()
-    bot_model_dfg = enhance_bot_model(event_log, bot_model_dfg,bot_parser)
+    bot_model_dfg,performance = enhance_bot_model(event_log, bot_model_dfg,bot_parser)
     # serialize the bot model
     edges = []
     nodes = []
+    avg_confidence_df = average_intent_confidence(botName,current_app.db_connection)
+    avg_confidence = {}
+    for index, row in avg_confidence_df.iterrows():
+        print(row['intentKeyword'],row['averageConfidence'])
+        avg_confidence[row['intentKeyword']] = row['averageConfidence']
+
+
     for edge in bot_model_dfg.keys():
+        source_label = bot_parser.id_name_map[edge[0]]
+        target_label = bot_parser.id_name_map[edge[1]]
         edges.append({
             "source":edge[0],
             "target":edge[1],
-            "value":bot_model_dfg[edge]
+            "performance": performance[(source_label, target_label)] if (source_label, target_label) in performance else None
         })
+
         if edge[0] not in nodes:
-            nodes.append(edge[0])
+            nodes.append({"id":edge[0],"label":source_label,"avg_confidence":avg_confidence[source_label] if source_label in avg_confidence else None})
         if edge[1] not in nodes:
-            nodes.append(edge[1])
+            nodes.append({"id":edge[1],"label":target_label,"avg_confidence":avg_confidence[target_label] if target_label in avg_confidence else None})
     
     return {
         
@@ -52,12 +63,13 @@ def enhanced_bot_model(botName):
                 "edges": edges
             },
             "start_activities":list(start_activities),
-            "end_activities":list(end_activities)
+            "end_activities":list(end_activities),
+            "confidence": avg_confidence
     }
 
 @bot_resource.route('/<botName>/intent-confidence')
 def get_intent_confidence(botName):
-    return intent_confidence(botName,current_app.db_connection)
+    return average_intent_confidence(botName,current_app.db_connection)
 
 @bot_resource.route('/<botName>/case-durations')
 def get_case_durations(botName):

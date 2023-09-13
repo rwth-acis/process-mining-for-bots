@@ -51,7 +51,8 @@ def enhance_bot_model(event_log, bot_model_dfg, bot_parser):
                 anchor = {'name': row['concept:name'], 'id': bot_parser.get_node_id_by_name(
                     row['concept:name'])}  # defines the (potential) start of a subprocess
                 tmp = anchor.copy()
-    return bot_model_dfg
+    performance = pm4py.discovery.discover_performance_dfg(event_log)
+    return bot_model_dfg, performance[0]
 
 
 def _find_trace_in_log(log_moves, log):
@@ -69,17 +70,29 @@ def _find_trace_in_log(log_moves, log):
             return case[1]
     return None
 
+def _closest_aligned_trace(alignment, ):
+    """
+    Find the closest aligned trace in the event log
+    :param alignment: alignment
+    :param log: event log
+    :return: trace
+    """
+    log = log.copy()
+    log_moves = tuple(move[0] for move in alignment if move[0] != ">>")
+    filtered_log =  pm4py.filtering.filter_variants(log,[log_moves])
+    print(filtered_log)
 
-def intent_confidence(botName, connection):
+
+def average_intent_confidence(botName, connection):
     """
     Get the confidence of the intents in the bot model
     :param botName: bot name
     :param connection: database connection
     :return: confidence of intents
     """
-    statement = f"SELECT json_extract(REMARKS, '$.intent.intentKeyword') AS intentKeyword, AVG(json_extract(REMARKS, '$.intent.confidence')) AS averageConfidence FROM MESSAGE WHERE json_extract(REMARKS, '$.botName') = ? GROUP BY intentKeyword;"
+    statement = "SELECT json_extract(REMARKS, '$.intent.intentKeyword') AS intentKeyword, AVG(json_extract(REMARKS, '$.intent.confidence')) AS averageConfidence FROM MESSAGE WHERE json_extract(REMARKS, '$.botName') = %s  GROUP BY intentKeyword;"
     
-    df = pd.read_sql(statement, con=connection, params=(botName,))
+    df = pd.read_sql(statement, con=connection,params=(botName,))
     return df
 
 def case_durations(log,ids=None):
@@ -106,7 +119,9 @@ def case_durations(log,ids=None):
 # Call the get_cases_description function
 
 # import utils.requests as r
+# import utils.bot.parser as p
 # log = r.get_default_event_log()
-# number_of_cases = log["case:concept:name"].nunique()
-# case_stats = case_durations(log)
-# print(case_stats)
+# bot_model =  r.load_default_bot_model()
+# bot_parser = p.get_parser(bot_model)
+# net, im, fm = bot_parser.to_petri_net()
+# print(pm4py.discovery.discover_performance_dfg(log))
