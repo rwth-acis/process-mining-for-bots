@@ -21,8 +21,14 @@ def enhanced_bot_model(botName):
         event_log_url = request.args['event-log-url']
     else:
         event_log_url = current_app.event_log_url
-
-    bot_model_json = fetch_bot_model(botName,bot_manager_url)
+    try:
+        bot_model_json = fetch_bot_model(botName,bot_manager_url)
+    except Exception as e:
+        print(e)
+        return {
+            "error":f"Could not fetch bot model from {bot_manager_url}, make sure the service is running and the bot name is correct"
+        }, 500
+    
     if bot_model_json is None:
         print("Could not fetch bot model")
         return {
