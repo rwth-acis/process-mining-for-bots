@@ -54,7 +54,7 @@ def enhanced_bot_model(botName):
             nodes.append({"id":edge[0],"label":source_label,"avg_confidence":avg_confidence[source_label] if source_label in avg_confidence else None})
         if edge[1] not in nodes:
             nodes.append({"id":edge[1],"label":target_label,"avg_confidence":avg_confidence[target_label] if target_label in avg_confidence else None})
-    
+    print("sending response")
     return {
         
             "graph": {

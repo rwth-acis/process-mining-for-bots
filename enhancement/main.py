@@ -91,7 +91,6 @@ def average_intent_confidence(botName, connection):
     :return: confidence of intents
     """
     statement = "SELECT json_extract(REMARKS, '$.intent.intentKeyword') AS intentKeyword, AVG(json_extract(REMARKS, '$.intent.confidence')) AS averageConfidence FROM MESSAGE WHERE json_extract(REMARKS, '$.botName') = %s  GROUP BY intentKeyword;"
-    print("reading from database")
     df = pd.read_sql(statement, con=connection,params=(botName,))
     return df
 
