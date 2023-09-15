@@ -22,11 +22,12 @@ def enhance_bot_model(event_log, bot_parser):
     :param bot_model_dfg: bot model as a DFG
     :return: enhanced bot model
     """
-    dfg, start_activities, end_activities = bot_parser.get_dfg() # initial dfg
-    dfg = repair_bot_model(event_log, dfg, bot_parser) # repair the dfg
-    dfg = add_edge_frequency(event_log, dfg, bot_parser) # add the edge frequency
+    dfg, start_activities, end_activities = bot_parser.get_dfg()  # initial dfg
+    dfg = repair_bot_model(event_log, dfg, bot_parser)  # repair the dfg
+    dfg = add_edge_frequency(event_log, dfg, start_activities,
+                             end_activities, bot_parser)  # add the edge frequency
     performance = pm4py.discovery.discover_performance_dfg(event_log)
-    return bot_model_dfg,start_activities,end_activities,performance[0]
+    return dfg, start_activities, end_activities, performance[0]
 
 
 def repair_bot_model(event_log, bot_model_dfg, bot_parser):
@@ -73,42 +74,38 @@ def repair_bot_model(event_log, bot_model_dfg, bot_parser):
                 tmp = anchor.copy()
     return bot_model_dfg
 
-def add_edge_frequency(event_log, bot_model_dfg, bot_parser):
-    params = {}
-    params[Parameters.PARAM_ALIGNMENT_RESULT_IS_SYNC_PROD_AWARE] = True
-    aligment_results = alignments_algorithm.apply(event_log, net, im, fm,{Parameters.PARAM_ALIGNMENT_RESULT_IS_SYNC_PROD_AWARE: True})
+
+def add_edge_frequency(event_log, bot_model_dfg, start_act, end_act, bot_parser):
+    net, im, fm = bot_parser.to_petri_net(bot_model_dfg, start_act, end_act)
+    alignments_results = alignments_algorithm.apply(event_log, net, im, fm, {
+                                                  Parameters.PARAM_ALIGNMENT_RESULT_IS_SYNC_PROD_AWARE: True})
     variants = pm4py.stats.get_variants_as_tuples(event_log)
-    for alignment in list(diagnostic['alignment'] for diagnostic in aligment_results):
-        log_trace = tuple(log_move[0] for model_move,log_move in alignment if log_move[0] != ">>" )
-        model_trace = tuple(log_move[1] for model_move,log_move in alignment if model_move[1] != ">>")
-
-
+    for alignment in list(diagnostic['alignment'] for diagnostic in alignments_results):
+        log_trace = tuple(log_move[0] for model_move,
+                          log_move in alignment if log_move[0] != ">>")
+        # model_trace = tuple(
+        #     log_move[1] for model_move, log_move in alignment if model_move[1] != ">>") # for debugging
         # count the number of times this trace is in the log
-        
-        log_trace_count = variants[log_trace] 
-        
-        
-        # pairs of transitions in the model_trace
-        for ((source,align_source),(target,align_target)) in itertools.pairwise(alignment):
-            if(source[1] == ">>"): 
+        log_trace_count = variants[log_trace]
+
+        for ((source, align_source), (target, align_target)) in itertools.pairwise(alignment):
+            if (source[1] == ">>"):
                 source_id = str(uuid.uuid4())
                 bot_parser.id_name_map[source_id] = align_source[0]
             else:
-                source_id = source[1].split("_")[0] 
-            if(target[1] == ">>"):
+                source_id = source[1].split("_")[0]
+            if (target[1] == ">>"):
                 target_id = str(uuid.uuid4())
                 bot_parser.id_name_map[target_id] = align_target[0]
             else:
                 target_id = target[1].split("_")[0]
-            if (source_id,target_id) in bot_model_dfg:
-                bot_model_dfg[(source_id,target_id)] += log_trace_count
+            if (source_id, target_id) in bot_model_dfg:
+                bot_model_dfg[(source_id, target_id)] += log_trace_count
             else:
-                bot_model_dfg[(source_id,target_id)] = log_trace_count
+                bot_model_dfg[(source_id, target_id)] = log_trace_count
 
-    return bot_model_dfg    
+    return bot_model_dfg
 
-
-            
 
 def _find_trace_in_log(log_moves, log):
     """
@@ -125,6 +122,7 @@ def _find_trace_in_log(log_moves, log):
             return case[1]
     return None
 
+
 def _closest_aligned_trace(alignment, ):
     """
     Find the closest aligned trace in the event log
@@ -134,7 +132,7 @@ def _closest_aligned_trace(alignment, ):
     """
     log = log.copy()
     log_moves = tuple(move[0] for move in alignment if move[0] != ">>")
-    filtered_log =  pm4py.filtering.filter_variants(log,[log_moves])
+    filtered_log = pm4py.filtering.filter_variants(log, [log_moves])
     print(filtered_log)
 
 
@@ -146,10 +144,11 @@ def average_intent_confidence(botName, connection):
     :return: confidence of intents
     """
     statement = "SELECT json_extract(REMARKS, '$.intent.intentKeyword') AS intentKeyword, AVG(json_extract(REMARKS, '$.intent.confidence')) AS averageConfidence FROM MESSAGE WHERE json_extract(REMARKS, '$.botName') = %s  GROUP BY intentKeyword;"
-    df = pd.read_sql(statement, con=connection,params=(botName,))
+    df = pd.read_sql(statement, con=connection, params=(botName,))
     return df
 
-def case_durations(log,ids=None):
+
+def case_durations(log, ids=None):
     """
     Get the throughput times of the bot model
     :param botName: bot name
@@ -159,15 +158,14 @@ def case_durations(log,ids=None):
     stats = case_statistics.get_cases_description(log)
     if ids is None:
         ids = log["case:concept:name"].unique()
-    
-    
-    traces = log.groupby("case:concept:name").agg({'concept:name':lambda x: list(x),'case:concept:name':'first' })
+
+    traces = log.groupby("case:concept:name").agg(
+        {'concept:name': lambda x: list(x), 'case:concept:name': 'first'})
     # add the traces to the case stats
     for case_id, trace in traces.iterrows():
         if case_id in ids:
             stats[case_id]['trace'] = trace['concept:name']
     return stats
-       
 
 
 # Call the get_cases_description function
