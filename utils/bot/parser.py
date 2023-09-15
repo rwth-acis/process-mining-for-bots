@@ -90,7 +90,7 @@ class BotParser:
                 target_id = edge['target']
                 if (source_id, target_id) not in dfg:
                     dfg[(source_id, target_id)] = 0
-                dfg[(source_id, target_id)] += 1
+
                 # remove the uses edge since we have already handled it
                 edges_to_remove.add(edge_id)
 
@@ -104,7 +104,7 @@ class BotParser:
 
                         if (source_id, target_id) not in dfg:
                             dfg[(source_id, target_id)] = 0
-                        dfg[(source_id, target_id)] += 1
+
                         # remove the leadsTo edge
                         # remove the leadsTo edge since it is now replaced by Bot Action -> Incoming Message
                         edges_to_remove.add(edge2_id)
@@ -129,7 +129,7 @@ class BotParser:
 
             if (source_id, target_id) not in dfg:
                 dfg[(source_id, target_id)] = 0
-            dfg[(source_id, target_id)] += 1
+
 
         # find end activities which are nodes with no outgoing edge
         for node_id, node in self.nodes.items():

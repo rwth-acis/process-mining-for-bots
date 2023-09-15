@@ -1,13 +1,16 @@
 import pm4py
 import uuid
 import pandas as pd
+import itertools
+import uuid
 from pm4py.statistics.traces.generic.log import case_statistics
-
+from pm4py.algo.conformance.alignments.petri_net import algorithm as alignments_algorithm
+from pm4py.algo.conformance.alignments.petri_net.variants.state_equation_a_star import Parameters
 
 bot_model_json_path = "./assets/models/test_bot_model.json"
 
 
-def enhance_bot_model(event_log, bot_model_dfg, bot_parser):
+def enhance_bot_model(event_log, bot_parser):
     """
     Enhance the bot model using the event log.
     We assume that the bot model is incomplete 
@@ -19,9 +22,26 @@ def enhance_bot_model(event_log, bot_model_dfg, bot_parser):
     :param bot_model_dfg: bot model as a DFG
     :return: enhanced bot model
     """
+    dfg, start_activities, end_activities = bot_parser.get_dfg() # initial dfg
+    dfg = repair_bot_model(event_log, dfg, bot_parser) # repair the dfg
+    dfg = add_edge_frequency(event_log, dfg, bot_parser) # add the edge frequency
+    performance = pm4py.discovery.discover_performance_dfg(event_log)
+    return bot_model_dfg,start_activities,end_activities,performance[0]
 
+
+def repair_bot_model(event_log, bot_model_dfg, bot_parser):
+    """
+    Enhance the bot model using the event log.
+    We assume that the bot model is incomplete 
+    as it does not contain subprocesses which are logged when 
+    the bot is communicating with an external service.
+    We say that the bot is in the service context in that case.
+    The event log contains the information whether we are in a service context as an additional attribute.
+    :param event_log: event log
+    :param bot_model_dfg: bot model as a DFG
+    :return: enhanced bot model 
+    """
     net, im, fm = bot_parser.to_petri_net()
-
     alignments = list(a['alignment'] for a in pm4py.conformance.conformance_diagnostics_alignments(
         event_log, net, im, fm))
 
@@ -51,9 +71,44 @@ def enhance_bot_model(event_log, bot_model_dfg, bot_parser):
                 anchor = {'name': row['concept:name'], 'id': bot_parser.get_node_id_by_name(
                     row['concept:name'])}  # defines the (potential) start of a subprocess
                 tmp = anchor.copy()
-    performance = pm4py.discovery.discover_performance_dfg(event_log)
-    return bot_model_dfg, performance[0]
+    return bot_model_dfg
 
+def add_edge_frequency(event_log, bot_model_dfg, bot_parser):
+    params = {}
+    params[Parameters.PARAM_ALIGNMENT_RESULT_IS_SYNC_PROD_AWARE] = True
+    aligment_results = alignments_algorithm.apply(event_log, net, im, fm,{Parameters.PARAM_ALIGNMENT_RESULT_IS_SYNC_PROD_AWARE: True})
+    variants = pm4py.stats.get_variants_as_tuples(event_log)
+    for alignment in list(diagnostic['alignment'] for diagnostic in aligment_results):
+        log_trace = tuple(log_move[0] for model_move,log_move in alignment if log_move[0] != ">>" )
+        model_trace = tuple(log_move[1] for model_move,log_move in alignment if model_move[1] != ">>")
+
+
+        # count the number of times this trace is in the log
+        
+        log_trace_count = variants[log_trace] 
+        
+        
+        # pairs of transitions in the model_trace
+        for ((source,align_source),(target,align_target)) in itertools.pairwise(alignment):
+            if(source[1] == ">>"): 
+                source_id = str(uuid.uuid4())
+                bot_parser.id_name_map[source_id] = align_source[0]
+            else:
+                source_id = source[1].split("_")[0] 
+            if(target[1] == ">>"):
+                target_id = str(uuid.uuid4())
+                bot_parser.id_name_map[target_id] = align_target[0]
+            else:
+                target_id = target[1].split("_")[0]
+            if (source_id,target_id) in bot_model_dfg:
+                bot_model_dfg[(source_id,target_id)] += log_trace_count
+            else:
+                bot_model_dfg[(source_id,target_id)] = log_trace_count
+
+    return bot_model_dfg    
+
+
+            
 
 def _find_trace_in_log(log_moves, log):
     """
@@ -117,10 +172,33 @@ def case_durations(log,ids=None):
 
 # Call the get_cases_description function
 
+# import pm4py.objects.petri_net.utils.align_utils as align_utils
+
+# def my_reconstruct_alignment(state, visited, queued, traversed, ret_tuple_as_trans_desc=True, lp_solved=0):
+#     alignment = list()
+#     if state.p is not None and state.t is not None:
+#         parent = state.p
+#         if ret_tuple_as_trans_desc:
+#             alignment = [(state.t.name, state.t.label)]
+#             while parent.p is not None:
+#                 alignment = [(parent.t.name, parent.t.label)] + alignment
+#                 parent = parent.p
+#         else:
+#             alignment = [state.t.label]
+#             while parent.p is not None:
+#                 alignment = [parent.t.label] + alignment
+#                 parent = parent.p
+#     return {'alignment': alignment, 'cost': state.g, 'visited_states': visited, 'queued_states': queued,
+#             'traversed_arcs': traversed, 'lp_solved': lp_solved}
+
+# align_utils.__reconstruct_alignment = my_reconstruct_alignment
+
 # import utils.requests as r
 # import utils.bot.parser as p
 # log = r.get_default_event_log()
 # bot_model =  r.load_default_bot_model()
 # bot_parser = p.get_parser(bot_model)
 # net, im, fm = bot_parser.to_petri_net()
-# print(pm4py.discovery.discover_performance_dfg(log))
+# bot_model_dfg = bot_parser.get_dfg()[0]
+# res = add_edge_frequency(log, bot_model_dfg,bot_parser)
+# print(res)
