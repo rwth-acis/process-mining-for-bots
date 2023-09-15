@@ -46,7 +46,12 @@ def fetch_event_log(bot_name, url=None):
         return None
     
 def get_default_event_log():
-    return pm4py.read_xes(event_log_file_path)
+    log = pm4py.read_xes(event_log_file_path)
+    # remove events lifecycle:transition=start
+    log = log[(log['lifecycle:transition'] == 'complete') ]
+    # remove bot messages
+    log =log[(log['EVENT'] == 'SERVICE_REQUEST') | (log['EVENT'] == 'USER_MESSAGE')]
+    return log
     
 
 def load_default_bot_model():
