@@ -3,6 +3,7 @@ import uuid
 import pandas as pd
 import itertools
 import uuid
+import numpy as np
 from pm4py.statistics.traces.generic.log import case_statistics
 from pm4py.algo.conformance.alignments.petri_net import algorithm as alignments_algorithm
 from pm4py.algo.conformance.alignments.petri_net.variants.state_equation_a_star import Parameters
@@ -27,7 +28,9 @@ def enhance_bot_model(event_log, bot_parser):
     dfg = add_edge_frequency(event_log, dfg, start_activities,
                              end_activities, bot_parser)  # add the edge frequency
     performance = pm4py.discovery.discover_performance_dfg(event_log)
-    return dfg, start_activities, end_activities, performance[0]
+    # replace NaN values with None 
+    performance = __replace_nan_with_null(performance)
+    return dfg, start_activities, end_activities, performance
 
 
 def repair_bot_model(event_log, bot_model_dfg, bot_parser):
@@ -200,3 +203,26 @@ def case_durations(log, ids=None):
 # bot_model_dfg = bot_parser.get_dfg()[0]
 # res = add_edge_frequency(log, bot_model_dfg,bot_parser)
 # print(res)
+
+def __replace_nan_with_null(obj):
+    """
+    Replace NaN values with null
+    :param obj: dictionary
+    :return: dictionary
+    """
+
+    # Recursively replace nan values with null
+    def replace_nan(obj):
+        if isinstance(obj, dict):
+            return {k: replace_nan(v) for k, v in obj.items()}
+        elif isinstance(obj, list):
+            return [replace_nan(v) for v in obj]
+        elif isinstance(obj, float) and np.isnan(obj):
+            return None
+        else:
+            return obj
+
+    # Replace nan values with null
+    obj = replace_nan(obj)
+
+    return obj

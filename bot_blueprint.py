@@ -47,6 +47,7 @@ def enhanced_bot_model(botName):
     for _, row in avg_confidence_df.iterrows():
         avg_confidence[row['intentKeyword']] = row['averageConfidence']
 
+    
     for edge in bot_model_dfg.keys():
         source_label = bot_parser.id_name_map[edge[0]]
         target_label = bot_parser.id_name_map[edge[1]]
