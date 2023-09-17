@@ -29,7 +29,7 @@ def enhance_bot_model(event_log, bot_parser):
                              end_activities, bot_parser)  # add the edge frequency
     performance = pm4py.discovery.discover_performance_dfg(event_log)
     # replace NaN values with None 
-    performance = __replace_nan_with_null(performance)
+    performance = __replace_nan_with_null(performance[0])
     return dfg, start_activities, end_activities, performance
 
 
@@ -210,7 +210,7 @@ def __replace_nan_with_null(obj):
     :param obj: dictionary
     :return: dictionary
     """
-
+    print(obj)
     # Recursively replace nan values with null
     def replace_nan(obj):
         if isinstance(obj, dict):
