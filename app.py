@@ -37,8 +37,8 @@ logging.basicConfig(level=logging.DEBUG, format=log_format)
 
 # Define a logger
 logger = logging.getLogger(__name__)
-
-CORS(app, resources={r"/*": {"origins": "http://localhost:8082"}})
+# add cors origin 
+CORS(app, resources={r"/*": {"origins": os.environ['CORS_ORIGIN']}}) 
 swagger = Swagger(app)
 app.db_connection = db_connection
 app.bot_manager_url = os.environ['SOCIAL_BOT_MANAGER_ENDPOINT']
