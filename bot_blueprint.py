@@ -4,13 +4,15 @@ from utils.bot.parser import get_parser
 from utils.requests import fetch_event_log, fetch_bot_model
 from enhancement.main import enhance_bot_model, average_intent_confidence, case_durations
 import pm4py
+from pm4py.visualization.petri_net import visualizer as pn_visualizer
+from pm4py.visualization.dfg import visualizer as dfg_visualizer
 
 bot_resource = Blueprint('dynamic_resource', __name__)
-
 
 @bot_resource.route('/<botName>/enhanced-model')
 @swag_from('enhanced-model.yml')
 def enhanced_bot_model(botName):
+
     # check if ?url=<url> is set
     if 'bot-manager-url' in request.args:
         bot_manager_url = request.args['bot-manager-url']
@@ -21,6 +23,7 @@ def enhanced_bot_model(botName):
         event_log_url = request.args['event-log-url']
     else:
         event_log_url = current_app.event_log_url
+    res_format = request.args.get('format', 'json')
     try:
         bot_model_json = fetch_bot_model(botName, bot_manager_url)
     except Exception as e:
@@ -38,6 +41,10 @@ def enhanced_bot_model(botName):
     event_log = fetch_event_log(botName, event_log_url)
     bot_model_dfg, start_activities, end_activities, performance = enhance_bot_model(
         event_log, bot_parser)
+    if res_format == 'svg':
+        gviz = dfg_visualizer.apply(bot_model_dfg)
+        return gviz.pipe(format='svg').decode('utf-8')
+    
     # serialize the bot model
     edges = []
     nodes = []
@@ -71,10 +78,44 @@ def enhanced_bot_model(botName):
         },
         "start_activities": list(start_activities),
         "end_activities": list(end_activities),
-        "confidence": avg_confidence
+        "confidence": avg_confidence,
+        "names": bot_parser.id_name_map
     }
-    print("sending response", res)
+
     return res
+
+@bot_resource.route('/<botName>/petri-net')
+def get_petri_net(botName):
+    if 'bot-manager-url' in request.args:
+        bot_manager_url = request.args['bot-manager-url']
+    else:
+        bot_manager_url = current_app.bot_manager_url
+
+    if 'event-log-url' in request.args:
+        event_log_url = request.args['event-log-url']
+    else:
+        event_log_url = current_app.event_log_url
+    
+    try:
+        bot_model_json = fetch_bot_model(botName, bot_manager_url)
+    except Exception as e:
+        print(e)
+        return {
+            "error": f"Could not fetch bot model from {bot_manager_url}, make sure the service is running and the bot name is correct"
+        }, 500
+
+    if bot_model_json is None:
+        print("Could not fetch bot model")
+        return {
+            "error": f"Could not fetch bot model from {bot_manager_url}"
+        }, 500
+    bot_parser = get_parser(bot_model_json)
+    event_log = fetch_event_log(botName, event_log_url)
+    bot_model_dfg, start_activities, end_activities, performance = enhance_bot_model(
+        event_log, bot_parser)
+    net, im, fm = bot_parser.to_petri_net(bot_model_dfg, start_activities, end_activities)
+    gviz = pn_visualizer.apply(net, im, fm, variant=pn_visualizer.Variants.PERFORMANCE)
+    return gviz.pipe(format='svg').decode('utf-8')
 
 
 @bot_resource.route('/<botName>/intent-confidence')
