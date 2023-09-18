@@ -26,19 +26,33 @@ def enhanced_bot_model(botName):
     res_format = request.args.get('format', 'json')
     try:
         bot_model_json = fetch_bot_model(botName, bot_manager_url)
+        if bot_model_json is None:
+            print(f"Could not fetch bot model from {bot_manager_url}")
+            return {
+                "error": f"Could not fetch bot model from {bot_manager_url}"
+            }, 500
     except Exception as e:
         print(e)
         return {
             "error": f"Could not fetch bot model from {bot_manager_url}, make sure the service is running and the bot name is correct"
         }, 500
+    
+    try:
 
-    if bot_model_json is None:
-        print("Could not fetch bot model")
+        event_log = fetch_event_log(botName, event_log_url)
+        if event_log is None:
+            print(f"Could not fetch event log from {event_log_url}")
+            return {
+                "error": f"Could not fetch event log from {event_log_url}"
+            }, 500
+    except Exception as e:
+        print(e)
         return {
-            "error": f"Could not fetch bot model from {bot_manager_url}"
+            "error": f"Could not fetch event log from {event_log_url}, make sure the service is running and the bot name is correct"
         }, 500
+
     bot_parser = get_parser(bot_model_json)
-    event_log = fetch_event_log(botName, event_log_url)
+    
     bot_model_dfg, start_activities, end_activities, performance = enhance_bot_model(
         event_log, bot_parser)
     if res_format == 'svg':
