@@ -37,7 +37,7 @@ logging.basicConfig(level=logging.DEBUG, format=log_format)
 
 # Define a logger
 logger = logging.getLogger(__name__)
-origins = os.environ['CORS_ORIGIN'] + ['http://localhost:8082'] if 'CORS_ORIGIN' in os.environ else []
+origins = list(os.environ['CORS_ORIGIN'])  if 'CORS_ORIGIN' in os.environ else ['http://localhost:8082']
 # add cors origin 
 CORS(app, origins=origins) 
 swagger = Swagger(app)
