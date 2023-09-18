@@ -6,7 +6,7 @@ from flasgger import Swagger
 from flask_cors import CORS
 import logging
 
-try:
+try: # sometimes psutil is not working on M1 Macs
     import psutil
 
     parent_pid = os.getpid()
