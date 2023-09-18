@@ -10,7 +10,7 @@ COPY . /app
 RUN mv .env.example .env
 
 # Install required packages (including MySQL client and pm4py dependencies)
-RUN apt-get update && apt-get install -y default-mysql-client 
+RUN apt-get update && apt-get install -y default-mysql-client graphviz
 RUN pip install -r requirements.txt
 
 # run as privileged user
