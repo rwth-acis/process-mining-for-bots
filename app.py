@@ -33,7 +33,7 @@ db_connection = get_connection(mysql_host,mysql_port, mysql_user, mysql_password
 app = Flask(__name__)
 # Configure logging
 log_format = '%(asctime)s - %(name)s - %(levelname)s - %(message)s'
-logging.basicConfig(level=logging.DEBUG, format=log_format)
+logging.basicConfig(level=logging.DEBUG, format=log_format ,filename='app.log')
 
 # Define a logger
 logger = logging.getLogger(__name__)
