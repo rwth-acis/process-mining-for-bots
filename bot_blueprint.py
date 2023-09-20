@@ -96,6 +96,8 @@ def enhanced_bot_model(botName):
         "names": bot_parser.id_name_map
     }
 
+    print("sending response", res)
+
     return res
 
 @bot_resource.route('/<botName>/petri-net')
