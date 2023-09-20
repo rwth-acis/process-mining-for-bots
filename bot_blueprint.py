@@ -1,11 +1,11 @@
 from flask import Blueprint, current_app, request
-from flasgger import Swagger, swag_from
+from flasgger import swag_from
 from utils.bot.parser import get_parser
 from utils.requests import fetch_event_log, fetch_bot_model
 from enhancement.main import enhance_bot_model, average_intent_confidence, case_durations
-import pm4py
 from pm4py.visualization.petri_net import visualizer as pn_visualizer
 from pm4py.visualization.dfg import visualizer as dfg_visualizer
+import math 
 
 bot_resource = Blueprint('dynamic_resource', __name__)
 
@@ -66,7 +66,8 @@ def enhanced_bot_model(botName):
         botName, current_app.db_connection)
     avg_confidence = {}
     for _, row in avg_confidence_df.iterrows():
-        avg_confidence[row['intentKeyword']] = row['averageConfidence']
+        if row['intentKeyword'] in avg_confidence:
+            avg_confidence[row['intentKeyword']] = row['averageConfidence'] if row['averageConfidence'] != math.nan else 0
 
     
     for edge in bot_model_dfg.keys():
