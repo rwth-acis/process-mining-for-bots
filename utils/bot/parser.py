@@ -163,13 +163,28 @@ class BotParser:
                 return node_id
         return None
     
-    def add_id(self, identifier, name):
+    def add_name(self, identifier, name):
         """
         Maps an id to a name
         :param id: the id
         :param name: the name
+        :return: None
+
+        :example:
+        >>> add_name("n1", "name")
         """
         self.id_name_map[identifier] = name
+    
+    def get_name(self, name):
+        """
+        Gets the name of a node by its id
+        :param id: the id of the node
+        :return: the name of the node
+
+        :example:
+        >>> name = get_name("n1")
+        """
+        return self.id_name_map[name]
     
     def rename_labels(self, net, im, fm):
         # replace the ids with the activity names
