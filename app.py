@@ -1,6 +1,7 @@
-from flask import Flask
+from flask import Flask,request
 import os
 from utils.db.connection import get_connection
+from utils import api_requests
 from bot_blueprint import bot_resource
 from flasgger import Swagger
 from flask_cors import CORS
@@ -44,6 +45,9 @@ swagger = Swagger(app)
 app.db_connection = db_connection
 app.bot_manager_url = os.environ['SOCIAL_BOT_MANAGER_ENDPOINT']
 app.event_log_url = os.environ['EVENT_LOG_ENDPOINT']
+app.success_model_url = os.environ['SUCCESS_MODEL_ENDPOINT']
+app.default_bot_pw = os.environ['DEFAULT_BOT_PASSWORD']
+app.contact_service_url = os.environ['CONTACT_SERVICE_URL']
 app.swagger = swagger
 app.register_blueprint(bot_resource, url_prefix='/bot')
 
@@ -59,6 +63,10 @@ def index():
           type: string
     """
     return 'Hello World!'
+
+@app.route("/services")
+def getL2PServices():
+    return api_requests.fetchL2PServices(request.args['services-endpoint'])
 
 if __name__ == '__main__':
     app.run(debug=True,port=8088)
