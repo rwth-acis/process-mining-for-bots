@@ -1,7 +1,7 @@
 from flask import Blueprint, current_app, request
 from flasgger import swag_from
 from utils.bot.parser import get_parser
-from utils.requests import fetch_event_log, fetch_bot_model
+from utils.api_requests import fetch_event_log, fetch_bot_model,fetch_success_model, fetchL2PGroups
 from enhancement.main import enhance_bot_model, average_intent_confidence, case_durations
 from pm4py.visualization.petri_net import visualizer as pn_visualizer
 from pm4py.visualization.dfg import visualizer as dfg_visualizer
@@ -144,3 +144,16 @@ def get_intent_confidence(botName):
 def get_case_durations(botName):
     event_log = fetch_event_log(botName)
     return case_durations(event_log)
+
+@bot_resource.route('/<botName>/success-model')
+def get_success_model(botName):
+    group_id = request.args.get('group-id', current_app.default_group_id)
+    service_id = request.args.get('service-id', current_app.default_service_id)
+    return fetch_success_model(current_app.success_model_url,botName,current_app.default_bot_pw,group_id,service_id)
+
+@bot_resource.route('/<botName>/groups')
+def get_groups(botName):
+    """
+    Fetches the groups that the bot is assigned to from the contact service
+    """
+    return fetchL2PGroups(current_app.contact_service_url,botName,current_app.default_bot_pw)
