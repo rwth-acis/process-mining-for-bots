@@ -1,0 +1,94 @@
+{
+  "nodes": {
+    "A": {
+      "label": {
+        "id": "8ed946006ec40742bb4a8d33[label]",
+        "name": "Label",
+        "value": {
+          "id": "8ed946006ec40742bb4a8d33[label]",
+          "name": "Label",
+          "value": ""
+        }
+      },
+      "type": "Incoming Message",
+      "attributes": {
+        "869849f65db9be737e99bd24": {
+          "id": "8ed946006ec40742bb4a8d33[intent keyword]",
+          "name": "Intent Keyword",
+          "value": {
+            "id": "8ed946006ec40742bb4a8d33[intent keyword]",
+            "name": "Intent Keyword",
+            "value": ""
+          }
+        },
+        "e7d374a1e2d32c5e67bc68cc": {
+          "id": "8ed946006ec40742bb4a8d33[intent label]",
+          "name": "Intent Label",
+          "value": {
+            "id": "8ed946006ec40742bb4a8d33[intent label]",
+            "name": "Intent Label",
+            "value": ""
+          }
+        },
+        "3e8bfec67da28c354a969b46": {
+          "id": "8ed946006ec40742bb4a8d33[nlu id]",
+          "name": "NLU ID",
+          "value": {
+            "id": "8ed946006ec40742bb4a8d33[nlu id]",
+            "name": "NLU ID",
+            "value": ""
+          }
+        }
+      }
+    },
+    "B": {
+      "label": {
+        "id": "c867ac69ae0c06ff14766a08[label]",
+        "name": "Label",
+        "value": {
+          "id": "c867ac69ae0c06ff14766a08[label]",
+          "name": "Label",
+          "value": ""
+        }
+      },
+      "type": "Incoming Message",
+      "attributes": {
+        "869849f65db9be737e99bd24": {
+          "id": "c867ac69ae0c06ff14766a08[intent keyword]",
+          "name": "Intent Keyword",
+          "value": {
+            "id": "c867ac69ae0c06ff14766a08[intent keyword]",
+            "name": "Intent Keyword",
+            "value": ""
+          }
+        },
+        "e7d374a1e2d32c5e67bc68cc": {
+          "id": "c867ac69ae0c06ff14766a08[intent label]",
+          "name": "Intent Label",
+          "value": {
+            "id": "c867ac69ae0c06ff14766a08[intent label]",
+            "name": "Intent Label",
+            "value": ""
+          }
+        }
+      }
+    }
+  },
+  "edges": {
+    "e": {
+      "label": {
+        "id": "2aaa0031796a12603fb973bc[label]",
+        "name": "Label",
+        "value": {
+          "id": "2aaa0031796a12603fb973bc[label]",
+          "name": "Label",
+          "value": "e"
+        }
+      },
+      "source": "8ed946006ec40742bb4a8d33",
+      "target": "c867ac69ae0c06ff14766a08",
+      "attributes": {},
+      "type": "leadsTo"
+    }
+  }
+}

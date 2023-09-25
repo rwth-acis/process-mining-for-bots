@@ -1,0 +1,85 @@
+{
+  "nodes": {
+    "A": {
+      "type": "Incoming Message",
+      "attributes": {
+        "869849f65db9be737e99bd24": {
+          "id": "8ed946006ec40742bb4a8d33[intent keyword]",
+          "name": "Intent Keyword",
+          "value": {
+            "id": "8ed946006ec40742bb4a8d33[intent keyword]",
+            "name": "Intent Keyword",
+            "value": "A"
+          }
+        }
+      }
+    },
+    "Bot": {
+      "label": {
+        "id": "cf2852949e5451ecb17b14eb[name]",
+        "name": "Name",
+        "value": {
+          "id": "cf2852949e5451ecb17b14eb[name]",
+          "name": "Name",
+          "value": "Bot"
+        }
+      },
+      "type": "Bot",
+      "attributes": {
+        "80f33463988c54141b8c4dd8": {
+          "id": "cf2852949e5451ecb17b14eb[name]",
+          "name": "Name",
+          "value": {
+            "id": "cf2852949e5451ecb17b14eb[name]",
+            "name": "Name",
+            "value": "Bot"
+          }
+        }
+      }
+    },
+    "Messenger": {
+      "label": {
+        "id": "Messenger[name]",
+        "name": "Name",
+        "value": {
+          "id": "Messenger[name]",
+          "name": "Name",
+          "value": ""
+        }
+      },
+      "type": "Messenger"
+    }
+  },
+  "edges": {
+    "8365ea94f8efe84fd144d582": {
+      "label": {
+        "id": "8365ea94f8efe84fd144d582[label]",
+        "name": "Label",
+        "value": {
+          "id": "8365ea94f8efe84fd144d582[label]",
+          "name": "Label",
+          "value": ""
+        }
+      },
+      "source": "Messenger",
+      "target": "A",
+      "attributes": {},
+      "type": "generates"
+    },
+    "c81f079e6e825744e5952beb": {
+      "label": {
+        "id": "c81f079e6e825744e5952beb[label]",
+        "name": "Label",
+        "value": {
+          "id": "c81f079e6e825744e5952beb[label]",
+          "name": "Label",
+          "value": ""
+        }
+      },
+      "source": "cf2852949e5451ecb17b14eb",
+      "target": "Messenger",
+      "attributes": {},
+      "type": "has"
+    }
+  }
+}
