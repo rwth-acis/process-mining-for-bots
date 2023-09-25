@@ -7,6 +7,16 @@ on:
       - ma-lakhoune
 
 jobs:
+  run-tests:
+    runs-on: ubuntu-latest  
+    steps:
+    - uses: actions/checkout@v3
+    - name: Run bot parser tests (utils/bot/test.py)
+      run: |
+        python3 -m pip install -r requirements.txt
+        python3 utils/bot/test.py
+
+
   build-and-push:
     runs-on: ubuntu-latest
 
