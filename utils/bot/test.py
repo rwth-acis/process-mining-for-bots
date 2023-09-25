@@ -71,7 +71,7 @@ class TestBotParser(unittest.TestCase):
         self.assertEqual(start, {'A'})
         self.assertEqual(end, {"empty_intent"})
         self.assertEqual(dfg, {('A', "empty_intent"): 0})
-    def fail():
+    def fail(self):
         self.assertTrue(False)
 
 
