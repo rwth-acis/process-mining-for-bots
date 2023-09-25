@@ -1,5 +1,5 @@
 from pm4py.convert import convert_to_petri_net
-
+from pm4py import reduce_petri_net_invisibles
 bot_parsers = {}  # map of botParser instances for each bot
 
 def get_parser(bot_model):
@@ -8,6 +8,7 @@ def get_parser(bot_model):
     :param bot_model: the bot model
     :return: the bot parser instance
     """
+    bot_id = None
     if 'nodes' not in bot_model or 'edges' not in bot_model:
         raise Exception("Invalid bot model")
     for node_id, node in bot_model['nodes'].items():
@@ -29,20 +30,33 @@ class BotParser:
     """
 
     def __init__(self, bot_model):
+        self.bot_name = None
         self.bot_model = bot_model
         self.id_name_map = {}  # for each node id of interest, store a name representative of the node
         self.node_types_of_interest = [
-            'Incoming Message', 'Bot Action', 'Messenger']
+            'Incoming Message', 'Bot Action']
         self.edge_types_of_interest = ['leadsTo', 'uses', 'generates']
+        if 'nodes' not in bot_model or 'edges' not in bot_model:
+            raise Exception("Invalid bot model")
+
         self.nodes = bot_model['nodes']
         self.edges = bot_model['edges']
         
         for node_id, node in bot_model['nodes'].items():
+            if node['type'] == 'Bot':
+                for a in node['attributes'].values():
+                    if a['name'] == 'Name':
+                        self.bot_name = a['value']['value']
+                        break
+                continue
             if node['type'] not in self.node_types_of_interest:
                 continue
             name = extract_activity_name(
                 node_id, node, bot_model['edges'])
             self.id_name_map[node_id] = name
+        
+        if self.bot_name is None:
+            raise Exception("Bot name not found in bot model")
 
     def to_petri_net(self,dfg =None, start_activities=None, end_activities=None):
         """
@@ -60,10 +74,9 @@ class BotParser:
 
         net, im, fm = convert_to_petri_net(
             dfg, start_activities, end_activities)
-        # from pm4py.objects.petri_net.utils.check_soundness import check_easy_soundness_net_in_fin_marking
-        # check_easy_soundness_net_in_fin_marking(net, im, fm)
-
-        return self.rename_labels(net, im, fm)
+        net, im , fm = self.rename_labels(net, im, fm)
+        net = reduce_petri_net_invisibles(net) 
+        return net, im, fm
 
     
 
@@ -123,7 +136,7 @@ class BotParser:
 
             # nodes connected to the messenger are start activities
             if self.nodes[source_id]['type'] == 'Messenger':
-                start_activities.add(source_id)
+                start_activities.add(target_id)
             if self.nodes[source_id]['type'] not in self.node_types_of_interest or self.nodes[target_id]['type'] not in self.node_types_of_interest:
                 continue
 
@@ -137,14 +150,16 @@ class BotParser:
                 continue
             has_outgoing_edge = False
             for source, _ in dfg.keys():
-                if source == node_id and edge['type'] in self.edge_types_of_interest:
+                if source == node_id :
                     has_outgoing_edge = True
                     break
             if not has_outgoing_edge:
-                # also check whether the node is in the dfg, if not it is a start activity and an end activity
-                if node_id in start_activities and (node_id, _) not in dfg:
-                    dfg[("None", node_id)] = 0
-                end_activities.add(node_id)
+                # also check whether the ode is in the dfg, if not it is a start activity and an end activity
+                if node_id in start_activities and not self.dfg_contains_node(dfg,node_id):
+                    dfg[(node_id, 'empty_intent')] = 0
+                    end_activities.add("empty_intent")
+                else:  
+                    end_activities.add(node_id)
         return dfg, start_activities, end_activities
 
 
@@ -174,6 +189,20 @@ class BotParser:
         >>> add_name("n1", "name")
         """
         self.id_name_map[identifier] = name
+
+    def dfg_contains_node(self, dfg, node_id):
+        """
+        Checks whether a node is in the dfg
+        :param node_id: the id of the node
+        :return: True if the node is in the dfg, False otherwise
+
+        :example:
+        >>> contains_node("n1")
+        """
+        for source, target in dfg.keys():
+            if source == node_id or target == node_id:
+                return True
+        return False
     
     def get_name(self, name):
         """
@@ -192,7 +221,9 @@ class BotParser:
             name = self.id_name_map[node_id]
 
             for t in net.transitions:
-                if node_id == t._Transition__label:
+                if t._Transition__label == "empty_intent" or  t._Transition__label == "empty_activity":
+                    t._Transition__label = None
+                if node_id == t._Transition__label: 
                     if name == "empty_intent" or name == "empty_activity":
                         t._Transition__label = None
                     else:
