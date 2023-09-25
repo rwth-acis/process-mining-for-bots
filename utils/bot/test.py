@@ -1,5 +1,5 @@
 import unittest
-from parser import get_parser, BotParser
+from utils.bot.parse_lib import get_parser, BotParser
 import json
 import os
 
@@ -71,8 +71,6 @@ class TestBotParser(unittest.TestCase):
         self.assertEqual(start, {'A'})
         self.assertEqual(end, {"empty_intent"})
         self.assertEqual(dfg, {('A', "empty_intent"): 0})
-    def fail(self):
-        self.assertTrue(False)
 
 
 if __name__ == '__main__':
