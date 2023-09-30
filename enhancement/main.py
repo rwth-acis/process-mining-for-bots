@@ -7,6 +7,7 @@ import numpy as np
 from pm4py.statistics.traces.generic.log import case_statistics
 from pm4py.algo.conformance.alignments.petri_net import algorithm as alignments_algorithm
 from pm4py.algo.conformance.alignments.petri_net.variants.state_equation_a_star import Parameters
+from process_model_repair_algorithm import repair_process_model
 
 bot_model_json_path = "./assets/models/test_bot_model.json"
 
@@ -31,6 +32,22 @@ def enhance_bot_model(event_log, bot_parser):
     # replace NaN values with None 
     performance = __replace_nan_with_null(performance[0])
     return dfg, start_activities, end_activities, performance
+
+def _enhance_bot_model(event_log, bot_parser):
+    """
+    Enhance the bot model using the event log.
+    We assume that the bot model is incomplete 
+    as it does not contain subprocesses which are logged when 
+    the bot is communicating with an external service.
+    We say that the bot is in the service context in that case.
+    The event log contains the information whether we are in a service context as an additional attribute.
+    :param event_log: event log
+    :param bot_model_dfg: bot model as a DFG
+    :return: enhanced bot model
+    """
+    net,im,fm = bot_parser.to_petri_net()
+    net,im,fm = repair_process_model(net,im,fm,event_log)
+    return net,im,fm
 
 
 def repair_bot_model(event_log, bot_parser, bot_model_dfg, start_activities, end_activities):
@@ -107,10 +124,28 @@ def repair_bot_model(event_log, bot_parser, bot_model_dfg, start_activities, end
                 end_activities.add(potential_end_activity)
 
     return bot_model_dfg, start_activities, end_activities
-    
 
 
 def add_edge_frequency(event_log, bot_model_dfg, start_act, end_act, bot_parser):
+    """
+    Add the edge frequency to the bot model
+    :param event_log: event log
+    :param bot_model_dfg: bot model as a DFG
+    :param start_act: start activities
+    :param end_act: end activities
+    :param bot_parser: bot parser
+    :return: bot model with edge frequency
+    """
+    variants = pm4py.stats.get_variants_as_tuples(event_log)
+
+    #
+    net, im, fm = bot_parser.to_petri_net(bot_model_dfg, start_act, end_act)
+    alignments_results = alignments_algorithm.apply(event_log, net, im, fm, {
+                                                  Parameters.PARAM_ALIGNMENT_RESULT_IS_SYNC_PROD_AWARE: True})
+    for variant in variants:
+        alignment = get_alignment_for_variant(variant, alignments_results)
+
+def __add_edge_frequency(event_log, bot_model_dfg, start_act, end_act, bot_parser):
     """
     Add the edge frequency to the bot model
     :param event_log: event log
@@ -260,7 +295,22 @@ def __replace_nan_with_null(obj):
     return obj
 
 
-# # debug 
+def get_alignment_for_variant(variant, alignments_results):
+    """
+    Get the alignment for a variant
+    :param variant: variant
+    :param alignments_results: alignments results
+    :return: alignment
+    """
+    for alignment in alignments_results:
+        log_trace = tuple(log_move[0] for model_move,
+                          log_move in alignment if log_move[0] != ">>")
+        if log_trace == variant:
+            return alignment
+    return None
+
+
+# debug 
 # import sys
 # import os
 
@@ -268,13 +318,15 @@ def __replace_nan_with_null(obj):
 # sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
 # # Rest of your code
-# from utils.bot.parser import get_parser
-# from utils.requests import load_default_bot_model,get_default_event_log
+# from utils.bot.parse_lib import get_parser
+# from utils.api_requests import load_default_bot_model,get_default_event_log
 # if __name__ == "__main__":
     
 #     event_log = get_default_event_log()
+#     # test if time:timestamp is a datetime
+#     # make time:timestamp to datetime
+#     event_log['time:timestamp'] = pd.to_datetime(event_log['time:timestamp'])
 #     bot_model_json = load_default_bot_model()
 #     bot_parser = get_parser(bot_model_json)
-#     dfg,start,end,p = enhance_bot_model(event_log, bot_parser)
-#     net, im, fm = bot_parser.to_petri_net(dfg, start, end)
+#     net, im, fm  = _enhance_bot_model(event_log, bot_parser)
 #     pm4py.view_petri_net(net, im, fm)
