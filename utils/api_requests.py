@@ -59,6 +59,8 @@ def get_default_event_log():
     # remove bot messages
     log = log[(log['EVENT'] == 'SERVICE_REQUEST')
               | (log['EVENT'] == 'USER_MESSAGE')]
+    # convert timestamp to datetime
+    log['time:timestamp'] = pd.to_datetime(log['time:timestamp'])
     return log
 
 
@@ -134,12 +136,12 @@ def fetchVisualization(endpoint, username, password, SQLQuery, vizFormat="CSV"):
         'query': SQLQuery,
     }
     response = r.post(endpoint, data=json.dumps(body), headers={'authorization': __getAuthorizationHeader(
-        username, password)})
-    return response.content if response.status_code == 200 else None
+        username, password),'Content-Type': 'application/json'})
+    return response.content if response.status_code < 300 else None
 
 
-print(fetchVisualization(None, "MensaBot", "actingAgent",
-      "SELECT REMARKS->\"$.url\" as url , AVG(REMARKS->\"$.duration\") as duration FROM LAS2PEERMON.MESSAGE WHERE EVENT = 'SERVICE_CUSTOM_MESSAGE_40' AND REMARKS->\"$.duration\"<300 GROUP BY  REMARKS->\"$.url\" ", "CSV"))
+# print(fetchVisualization(None, "MensaBot", "actingAgent",
+#       "SELECT REMARKS->\"$.url\" as url , AVG(REMARKS->\"$.duration\") as duration FROM LAS2PEERMON.MESSAGE WHERE EVENT = 'SERVICE_CUSTOM_MESSAGE_40' AND REMARKS->\"$.duration\"<300 GROUP BY  REMARKS->\"$.url\" ", "GOOGLEBARCHART"))
 
 # CSV: { ID: 0, STRING: 'csv' },
 # JSON: { ID: 1, STRING: 'JSON' },
