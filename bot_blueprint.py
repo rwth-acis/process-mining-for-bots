@@ -1,13 +1,14 @@
 from flask import Blueprint, current_app, request
 from flasgger import swag_from
 from utils.bot.parse_lib import get_parser
-from utils.api_requests import fetch_event_log, fetch_bot_model,fetch_success_model, fetchL2PGroups
-from enhancement.main import enhance_bot_model, average_intent_confidence, case_durations
+from utils.api_requests import fetch_event_log, fetch_bot_model, fetch_success_model, fetchL2PGroups
+from enhancement.main import repair_petri_net, enhance_bot_model, average_intent_confidence, case_durations
 from pm4py.visualization.petri_net import visualizer as pn_visualizer
 from pm4py.visualization.dfg import visualizer as dfg_visualizer
-import math 
+import math
 
 bot_resource = Blueprint('dynamic_resource', __name__)
+
 
 @bot_resource.route('/<botName>/enhanced-model')
 @swag_from('enhanced-model.yml')
@@ -36,7 +37,7 @@ def enhanced_bot_model(botName):
         return {
             "error": f"Could not fetch bot model from {bot_manager_url}, make sure the service is running and the bot name is correct"
         }, 500
-    
+
     try:
 
         event_log = fetch_event_log(botName, event_log_url)
@@ -52,13 +53,13 @@ def enhanced_bot_model(botName):
         }, 500
 
     bot_parser = get_parser(bot_model_json)
-    
+
     bot_model_dfg, start_activities, end_activities, performance = enhance_bot_model(
         event_log, bot_parser)
     if res_format == 'svg':
         gviz = dfg_visualizer.apply(bot_model_dfg)
         return gviz.pipe(format='svg').decode('utf-8')
-    
+
     # serialize the bot model
     edges = []
     nodes = []
@@ -67,9 +68,9 @@ def enhanced_bot_model(botName):
     avg_confidence = {}
     for _, row in avg_confidence_df.iterrows():
         if row['intentKeyword'] in avg_confidence:
-            avg_confidence[row['intentKeyword']] = row['averageConfidence'] if row['averageConfidence'] != math.nan else 0
+            avg_confidence[row['intentKeyword']
+                           ] = row['averageConfidence'] if row['averageConfidence'] != math.nan else 0
 
-    
     for edge in bot_model_dfg.keys():
         source_label = bot_parser.id_name_map[edge[0]]
         target_label = bot_parser.id_name_map[edge[1]]
@@ -101,6 +102,7 @@ def enhanced_bot_model(botName):
 
     return res
 
+
 @bot_resource.route('/<botName>/petri-net')
 def get_petri_net(botName):
     if 'bot-manager-url' in request.args:
@@ -112,7 +114,7 @@ def get_petri_net(botName):
         event_log_url = request.args['event-log-url']
     else:
         event_log_url = current_app.event_log_url
-    
+
     try:
         bot_model_json = fetch_bot_model(botName, bot_manager_url)
     except Exception as e:
@@ -128,10 +130,10 @@ def get_petri_net(botName):
         }, 500
     bot_parser = get_parser(bot_model_json)
     event_log = fetch_event_log(botName, event_log_url)
-    bot_model_dfg, start_activities, end_activities, performance = enhance_bot_model(
-        event_log, bot_parser)
-    net, im, fm = bot_parser.to_petri_net(bot_model_dfg, start_activities, end_activities)
-    gviz = pn_visualizer.apply(net, im, fm, variant=pn_visualizer.Variants.PERFORMANCE)
+    net,im,fm =  bot_parser.to_petri_net()
+    net, im, fm = repair_petri_net(event_log,net,im,fm)
+    gviz = pn_visualizer.apply(
+        net, im, fm, variant=pn_visualizer.Variants.PERFORMANCE)
     return gviz.pipe(format='svg').decode('utf-8')
 
 
@@ -145,15 +147,17 @@ def get_case_durations(botName):
     event_log = fetch_event_log(botName)
     return case_durations(event_log)
 
+
 @bot_resource.route('/<botName>/success-model')
 def get_success_model(botName):
     group_id = request.args.get('group-id', current_app.default_group_id)
     service_id = request.args.get('service-id', current_app.default_service_id)
-    return fetch_success_model(current_app.success_model_url,botName,current_app.default_bot_pw,group_id,service_id)
+    return fetch_success_model(current_app.success_model_url, botName, current_app.default_bot_pw, group_id, service_id)
+
 
 @bot_resource.route('/<botName>/groups')
 def get_groups(botName):
     """
     Fetches the groups that the bot is assigned to from the contact service
     """
-    return fetchL2PGroups(current_app.contact_service_url,botName,current_app.default_bot_pw)
+    return fetchL2PGroups(current_app.contact_service_url, botName, current_app.default_bot_pw)
