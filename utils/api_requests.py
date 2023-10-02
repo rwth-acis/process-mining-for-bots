@@ -86,7 +86,7 @@ def fetch_success_model(endpoint, botName, bot_pw, group_id=None, service_id=Non
         group_id = "343da947a6db1296fadb5eca3987bf71f2e36a6d088e224a006f4e20e6e7935bb0d5ce0c13ada9966228f86ea7cc2cf3a1435827a48329f46b0e3963213123e0"
     if service_id is None:
         service_id = "i5.las2peer.services.mensaService.MensaService"
-    endpoint += group_id + "/" + service_id
+    endpoint += "/models/" + group_id + "/" + service_id
     headers = {'authorization': __getAuthorizationHeader(botName, bot_pw)}
     print(f"Fetching success model from {endpoint}")
     success_model_response = r.get(f"{endpoint}", headers=headers)
@@ -136,7 +136,7 @@ def fetchVisualization(endpoint, username, password, SQLQuery, vizFormat="CSV"):
         'query': SQLQuery,
     }
     response = r.post(endpoint, data=json.dumps(body), headers={'authorization': __getAuthorizationHeader(
-        username, password),'Content-Type': 'application/json'})
+        username, password), 'Content-Type': 'application/json'})
     return response.content if response.status_code < 300 else None
 
 
