@@ -52,16 +52,22 @@ def enhanced_bot_model(botName):
             "error": f"Could not fetch event log from {event_log_url}, make sure the service is running and the bot name is correct"
         }, 500
 
-    bot_parser = get_parser(bot_model_json)
+    try:
+        bot_parser = get_parser(bot_model_json)
 
-    bot_model_dfg, start_activities, end_activities, performance = enhance_bot_model(
-        event_log, bot_parser)
-    if res_format == 'svg':
-        gviz = dfg_visualizer.apply(bot_model_dfg)
-        return gviz.pipe(format='svg').decode('utf-8')
+        bot_model_dfg, start_activities, end_activities, performance = enhance_bot_model(
+            event_log, bot_parser)
+        if res_format == 'svg':
+            gviz = dfg_visualizer.apply(bot_model_dfg)
+            return gviz.pipe(format='svg').decode('utf-8')
 
-    return serialize_response(
-        bot_model_dfg, bot_parser, start_activities, end_activities, performance, botName)
+        return serialize_response(
+            bot_model_dfg, bot_parser, start_activities, end_activities, performance, botName)
+    except Exception as e:
+        print(e)
+        return {
+            "error": "Could not enhance bot model"
+        }, 500
 
 
 @bot_resource.route('/<botName>/petri-net')
