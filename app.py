@@ -23,11 +23,11 @@ current_dir = os.path.dirname(os.path.realpath(__file__))
 from dotenv import load_dotenv
 load_dotenv(dotenv_path=current_dir+'/.env')
 
-mysql_user = os.environ['MYSQL_USER']
-mysql_password = os.environ['MYSQL_PASSWORD']
-mysql_host = os.environ['MYSQL_HOST']
-mysql_events_db = os.environ['MYSQL_EVENTS_DB']
-mysql_port = os.environ['MYSQL_PORT']
+mysql_user = os.environ.get('MYSQL_USER', 'root')
+mysql_password = os.environ.get('MYSQL_PASSWORD', 'root')
+mysql_host = os.environ.get('MYSQL_HOST', 'localhost')
+mysql_events_db = os.environ.get('MYSQL_EVENTS_DB', 'LAS2PEERMON')
+mysql_port = os.environ.get('MYSQL_PORT', '3306')
 
 db_connection = get_connection(mysql_host,mysql_port, mysql_user, mysql_password, mysql_events_db)
 
@@ -40,14 +40,17 @@ logging.basicConfig(level=logging.DEBUG, format=log_format ,filename='app.log')
 logger = logging.getLogger(__name__)
 origins = list(os.environ['CORS_ORIGIN'])  if 'CORS_ORIGIN' in os.environ else ['http://localhost:8082']
 # add cors origin 
-CORS(app, origins=origins) 
+if 'DEVELOPMENT_MODE' in os.environ:
+    CORS(app) 
+else:
+    CORS(app, origins=origins)
 swagger = Swagger(app)
 app.db_connection = db_connection
-app.bot_manager_url = os.environ['SOCIAL_BOT_MANAGER_ENDPOINT']
-app.event_log_url = os.environ['EVENT_LOG_ENDPOINT']
-app.success_model_url = os.environ['SUCCESS_MODEL_ENDPOINT']
-app.default_bot_pw = os.environ['DEFAULT_BOT_PASSWORD']
-app.contact_service_url = os.environ['CONTACT_SERVICE_URL']
+app.bot_manager_url = os.environ.get('SOCIAL_BOT_MANAGER_ENDPOINT', 'http://localhost:8080/SBFManager')
+app.event_log_url = os.environ.get('EVENT_LOG_ENDPOINT', 'http://localhost:8087')
+app.success_model_url = os.environ.get('SUCCESS_MODEL_ENDPOINT', 'http://localhost:8080/mobsos-success-modeling/apiv2')
+app.default_bot_pw = os.environ.get('DEFAULT_BOT_PASSWORD', '123456')
+app.contact_service_url = os.environ.get('CONTACT_SERVICE_URL', 'http://localhost:8080/contactservice')
 app.swagger = swagger
 app.register_blueprint(bot_resource, url_prefix='/bot')
 
