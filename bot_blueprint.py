@@ -2,7 +2,7 @@ from flask import Blueprint, current_app, request
 from flasgger import swag_from
 from utils.bot.parse_lib import get_parser
 from utils.api_requests import fetch_event_log, fetch_bot_model, fetch_success_model, fetchL2PGroups
-from enhancement.main import _enhance_bot_model, enhance_bot_model, average_intent_confidence, case_durations
+from enhancement.main import repair_petri_net, enhance_bot_model, average_intent_confidence, case_durations
 from pm4py.visualization.petri_net import visualizer as pn_visualizer
 from pm4py.visualization.dfg import visualizer as dfg_visualizer
 import math
@@ -130,7 +130,8 @@ def get_petri_net(botName):
         }, 500
     bot_parser = get_parser(bot_model_json)
     event_log = fetch_event_log(botName, event_log_url)
-    net, im, fm = _enhance_bot_model(event_log, bot_parser)
+    net,im,fm =  bot_parser.to_petri_net()
+    net, im, fm = repair_petri_net(event_log,net,im,fm)
     gviz = pn_visualizer.apply(
         net, im, fm, variant=pn_visualizer.Variants.PERFORMANCE)
     return gviz.pipe(format='svg').decode('utf-8')
