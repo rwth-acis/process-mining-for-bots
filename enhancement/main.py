@@ -144,6 +144,7 @@ def add_edge_frequency(event_log, bot_model_dfg, start_act, end_act, bot_parser)
     alignments_results = alignments_algorithm.apply(event_log, net, im, fm, {
                                                   Parameters.PARAM_ALIGNMENT_RESULT_IS_SYNC_PROD_AWARE: True})
     variants = pm4py.stats.get_variants_as_tuples(event_log)
+    new_nodes = dict() # nodes that are added to the bot model
     for alignment in list(diagnostic['alignment'] for diagnostic in alignments_results):
         log_trace = tuple(log_move[0] for model_move,
                           log_move in alignment if log_move[0] != ">>") # trace as it is in the log
@@ -155,13 +156,21 @@ def add_edge_frequency(event_log, bot_model_dfg, start_act, end_act, bot_parser)
 
         for ((source, align_source), (target, align_target)) in itertools.pairwise(alignment):
             if (source[1] == ">>"):
-                source_id = str(uuid.uuid4())
-                bot_parser.id_name_map[source_id] = align_source[0]
+                if align_source[0] in new_nodes.keys(): 
+                    source_id = new_nodes[align_source[0]]
+                else:
+                    source_id = str(uuid.uuid4())
+                    new_nodes[align_source[0]] = source_id 
+                    bot_parser.id_name_map[source_id] = align_source[0]
             else:
                 source_id = source[1].split("_")[0]
             if (target[1] == ">>"):
-                target_id = str(uuid.uuid4())
-                bot_parser.id_name_map[target_id] = align_target[0]
+                if align_target[0] in new_nodes.keys():
+                    target_id = new_nodes[align_target[0]]
+                else:
+                    target_id = str(uuid.uuid4())
+                    new_nodes[align_target[0]] = target_id
+                    bot_parser.id_name_map[target_id] = align_target[0]
             else:
                 target_id = target[1].split("_")[0]
 
@@ -191,7 +200,6 @@ def add_edge_frequency(event_log, bot_model_dfg, start_act, end_act, bot_parser)
                     break
             if not has_outgoing_edge and potential_end_activity not in end_act:
                 end_act.add(potential_end_activity)
-
     return bot_model_dfg
 
 
@@ -293,24 +301,24 @@ def get_alignment_for_variant(variant, alignments_results):
     return None
 
 
-# debug 
-import sys
-import os
+# # debug 
+# import sys
+# import os
 
-# Add parent folder to Python path
-sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
+# # Add parent folder to Python path
+# sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
-# Rest of your code
-from utils.bot.parse_lib import get_parser
-from utils.api_requests import load_default_bot_model,get_default_event_log
-if __name__ == "__main__":
+# # Rest of your code
+# from utils.bot.parse_lib import get_parser
+# from utils.api_requests import load_default_bot_model,get_default_event_log
+# if __name__ == "__main__":
     
-    event_log = get_default_event_log()
-    # test if time:timestamp is a datetime
-    # make time:timestamp to datetime
-    event_log['time:timestamp'] = pd.to_datetime(event_log['time:timestamp'],utc=True)
-    bot_model_json = load_default_bot_model()
-    bot_parser = get_parser(bot_model_json)
-    dfg,start,end, p = enhance_bot_model(event_log,bot_parser)
-    net,im,fm = bot_parser.to_petri_net(dfg,start,end)
-    pm4py.view_petri_net(net,im,fm)
+#     event_log = get_default_event_log()
+#     # test if time:timestamp is a datetime
+#     # make time:timestamp to datetime
+#     event_log['time:timestamp'] = pd.to_datetime(event_log['time:timestamp'],utc=True)
+#     bot_model_json = load_default_bot_model()
+#     bot_parser = get_parser(bot_model_json)
+#     dfg,start,end, p = enhance_bot_model(event_log,bot_parser)
+#     pm4py.view_dfg(dfg, start_activities=start, end_activities=end)
+#     # pm4py.view_petri_net(net,im,fm)
