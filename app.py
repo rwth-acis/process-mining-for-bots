@@ -76,3 +76,5 @@ if __name__ == '__main__':
     file_handler = logging.FileHandler('app.log')
     file_handler.setFormatter(logging.Formatter(log_format))
     logger.addHandler(file_handler)
+    if 'DEVELOPMENT_MODE' in os.environ:
+        print("Development mode")
