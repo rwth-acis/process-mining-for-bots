@@ -100,7 +100,7 @@ def get_petri_net(botName):
     net,im,fm =  bot_parser.to_petri_net()
     net, im, fm = repair_petri_net(event_log,net,im,fm)
     gviz = pn_visualizer.apply(
-        net, im, fm, variant=pn_visualizer.Variants.PERFORMANCE)
+        net, fm, im, variant=pn_visualizer.Variants.PERFORMANCE)
     return gviz.pipe(format='svg').decode('utf-8')
 
 
