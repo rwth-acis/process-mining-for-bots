@@ -60,47 +60,8 @@ def enhanced_bot_model(botName):
         gviz = dfg_visualizer.apply(bot_model_dfg)
         return gviz.pipe(format='svg').decode('utf-8')
 
-    # serialize the bot model
-    edges = []
-    nodes = []
-    avg_confidence_df = average_intent_confidence(
-        botName, current_app.db_connection)
-    avg_confidence = {}
-    for _, row in avg_confidence_df.iterrows():
-        if row['intentKeyword'] in avg_confidence:
-            avg_confidence[row['intentKeyword']
-                           ] = row['averageConfidence'] if row['averageConfidence'] != math.nan else 0
-
-    for edge in bot_model_dfg.keys():
-        source_label = bot_parser.id_name_map[edge[0]]
-        target_label = bot_parser.id_name_map[edge[1]]
-        edges.append({
-            "source": edge[0],
-            "target": edge[1],
-            "performance": performance[(source_label, target_label)] if (source_label, target_label) in performance else None
-        })
-
-        if edge[0] not in nodes:
-            nodes.append({"id": edge[0], "label": source_label,
-                         "avg_confidence": avg_confidence[source_label] if source_label in avg_confidence else None})
-        if edge[1] not in nodes:
-            nodes.append({"id": edge[1], "label": target_label,
-                         "avg_confidence": avg_confidence[target_label] if target_label in avg_confidence else None})
-
-    res = {
-        "graph": {
-            "nodes": nodes,
-            "edges": edges
-        },
-        "start_activities": list(start_activities),
-        "end_activities": list(end_activities),
-        "confidence": avg_confidence,
-        "names": bot_parser.id_name_map
-    }
-
-    print("sending response", res)
-
-    return res
+    return serialize_response(
+        bot_model_dfg, bot_parser, start_activities, end_activities, performance, botName)
 
 
 @bot_resource.route('/<botName>/petri-net')
@@ -161,3 +122,47 @@ def get_groups(botName):
     Fetches the groups that the bot is assigned to from the contact service
     """
     return fetchL2PGroups(current_app.contact_service_url, botName, current_app.default_bot_pw)
+
+def serialize_response( bot_model_dfg, bot_parser, start_activities, end_activities, performance, botName):
+    try:
+    # serialize the bot model
+        edges = []
+        nodes = []
+        avg_confidence_df = average_intent_confidence(
+            botName, current_app.db_connection)
+        avg_confidence = {}
+        for _, row in avg_confidence_df.iterrows():
+            if row['intentKeyword'] in avg_confidence:
+                avg_confidence[row['intentKeyword']
+                            ] = row['averageConfidence'] if row['averageConfidence'] != math.nan else 0
+        for edge in bot_model_dfg.keys():
+            source_label = bot_parser.id_name_map[edge[0]] if edge[0] in bot_parser.id_name_map else edge[0]
+            target_label = bot_parser.id_name_map[edge[1]] if edge[1] in bot_parser.id_name_map else edge[1]
+            edges.append({
+                "source": edge[0],
+                "target": edge[1],
+                "performance": performance[(source_label, target_label)] if (source_label, target_label) in performance else None
+            })
+
+            if edge[0] not in nodes:
+                nodes.append({"id": edge[0], "label": source_label,
+                            "avg_confidence": avg_confidence[source_label] if source_label in avg_confidence else None})
+            if edge[1] not in nodes:
+                nodes.append({"id": edge[1], "label": target_label,
+                            "avg_confidence": avg_confidence[target_label] if target_label in avg_confidence else None})
+
+        res = {
+            "graph": {
+                "nodes": nodes,
+                "edges": edges
+            },
+            "start_activities": list(start_activities),
+            "end_activities": list(end_activities),
+            "confidence": avg_confidence,
+            "names": bot_parser.id_name_map
+        }
+
+        return res
+    except Exception as e:
+        print("Exception: ", e)
+        return None
