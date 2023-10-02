@@ -119,7 +119,7 @@ def get_case_durations(botName):
 def get_success_model(botName):
     group_id = request.args.get('group-id', current_app.default_group_id)
     service_id = request.args.get('service-id', current_app.default_service_id)
-    return fetch_success_model(current_app.success_model_url, botName, current_app.default_bot_pw, group_id, service_id)
+    return fetch_success_model(current_app.success_model_url, botName, current_app.default_bot_pw, service_id=service_id, group_id=group_id)
 
 
 @bot_resource.route('/<botName>/groups')
