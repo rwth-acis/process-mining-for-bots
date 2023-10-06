@@ -97,6 +97,11 @@ def get_petri_net(botName):
         }, 500
     bot_parser = get_parser(bot_model_json)
     event_log = fetch_event_log(botName, event_log_url)
+    if event_log is None:
+        print("Could not fetch event log")
+        return {
+            "error": f"Could not fetch event log from {event_log_url}"
+        }, 500
     net,im,fm =  bot_parser.to_petri_net()
     net, im, fm = repair_petri_net(event_log,net,im,fm)
     gviz = pn_visualizer.apply(
