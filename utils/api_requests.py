@@ -89,8 +89,13 @@ def fetch_success_model(endpoint, botName, bot_pw, group_id=None, service_id=Non
     endpoint += "/models/" + group_id + "/" + service_id
     headers = {'authorization': __getAuthorizationHeader(botName, bot_pw)}
     print(f"Fetching success model from {endpoint}")
-    success_model_response = r.get(f"{endpoint}", headers=headers)
-    return success_model_response.json()["xml"] if success_model_response.status_code == 200 else None
+    try:
+        success_model_response = r.get(f"{endpoint}", headers=headers)
+        return success_model_response.json()["xml"] if success_model_response.status_code == 200 else None
+    except Exception as e:
+        print("Could not fetch success model")
+        print(e)
+        return None
 
 
 def __getAuthorizationHeader(user_name, pw):
