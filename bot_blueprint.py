@@ -13,18 +13,20 @@ bot_resource = Blueprint('dynamic_resource', __name__)
 @bot_resource.route('/<botName>/enhanced-model')
 @swag_from('enhanced-model.yml')
 def enhanced_bot_model(botName):
-
-    # check if ?url=<url> is set
-    if 'bot-manager-url' in request.args:
-        bot_manager_url = request.args['bot-manager-url']
-    else:
-        bot_manager_url = current_app.bot_manager_url
-
-    if 'event-log-url' in request.args:
-        event_log_url = request.args['event-log-url']
-    else:
-        event_log_url = current_app.event_log_url
+    if 'bot-manager-url' not in request.args:
+        return {
+            "error": "bot-manager-url parameter is missing"
+        }, 400
+    
+    if 'event-log-url' not in request.args:
+        return {
+            "error": "event-log-url parameter is missing"
+        }, 400
+        
+    event_log_url = request.args['event-log-url']
+    bot_manager_url = request.args['bot-manager-url']
     res_format = request.args.get('format', 'json')
+
     try:
         bot_model_json = fetch_bot_model(botName, bot_manager_url)
         if bot_model_json is None:
@@ -72,15 +74,17 @@ def enhanced_bot_model(botName):
 
 @bot_resource.route('/<botName>/petri-net')
 def get_petri_net(botName):
-    if 'bot-manager-url' in request.args:
-        bot_manager_url = request.args['bot-manager-url']
-    else:
-        bot_manager_url = current_app.bot_manager_url
-
-    if 'event-log-url' in request.args:
-        event_log_url = request.args['event-log-url']
-    else:
-        event_log_url = current_app.event_log_url
+    if 'bot-manager-url' not in request.args:
+        return {
+            "error": "bot-manager-url parameter is missing"
+        }, 400
+    if 'event-log-url' not  in request.args:
+        return {
+            "error": "event-log-url parameter is missing"
+        }, 400
+        
+    bot_manager_url = request.args['bot-manager-url']
+    event_log_url = request.args['event-log-url']
 
     try:
         bot_model_json = fetch_bot_model(botName, bot_manager_url)
@@ -102,8 +106,11 @@ def get_petri_net(botName):
         return {
             "error": f"Could not fetch event log from {event_log_url}"
         }, 500
+    
     net,im,fm =  bot_parser.to_petri_net()
-    net, im, fm = repair_petri_net(event_log,net,im,fm)
+    if request.args.get('enhance', 'false') == 'true':
+        net, im, fm = repair_petri_net(event_log,net,im,fm)
+    
     gviz = pn_visualizer.apply(
         net, fm, im, variant=pn_visualizer.Variants.PERFORMANCE)
     return gviz.pipe(format='svg').decode('utf-8')
@@ -124,7 +131,13 @@ def get_case_durations(botName):
 def get_success_model(botName):
     group_id = request.args.get('group-id', current_app.default_group_id)
     service_id = request.args.get('service-id', current_app.default_service_id)
-    return fetch_success_model(current_app.success_model_url, botName, current_app.default_bot_pw, service_id=service_id, group_id=group_id)
+    success_model_url = request.args.get("success-model-url",None)
+    if success_model_url is None:
+        return {
+            "error": "success-model-url parameter is missing"
+        }, 400
+    
+    return fetch_success_model(success_model_url, botName, current_app.default_bot_pw, service_id=service_id, group_id=group_id)
 
 
 @bot_resource.route('/<botName>/groups')
@@ -132,7 +145,12 @@ def get_groups(botName):
     """
     Fetches the groups that the bot is assigned to from the contact service
     """
-    return fetchL2PGroups(current_app.contact_service_url, botName, current_app.default_bot_pw)
+    contact_service_url = request.args.get('contact-service-url', None)
+    if contact_service_url is None:
+        return {
+            "error": "contact-service-url parameter is missing"
+        }, 400
+    return fetchL2PGroups(contact_service_url, botName, current_app.default_bot_pw)
 
 def serialize_response( bot_model_dfg, bot_parser, start_activities, end_activities, performance, botName):
     try:
@@ -146,6 +164,7 @@ def serialize_response( bot_model_dfg, bot_parser, start_activities, end_activit
             if row['intentKeyword'] in avg_confidence:
                 avg_confidence[row['intentKeyword']
                             ] = row['averageConfidence'] if row['averageConfidence'] != math.nan else 0
+        
         for edge in bot_model_dfg.keys():
             source_label = bot_parser.id_name_map[edge[0]] if edge[0] in bot_parser.id_name_map else edge[0]
             target_label = bot_parser.id_name_map[edge[1]] if edge[1] in bot_parser.id_name_map else edge[1]

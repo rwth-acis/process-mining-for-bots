@@ -33,46 +33,25 @@ db_connection = get_connection(
     mysql_host, mysql_port, mysql_user, mysql_password, mysql_events_db)
 
 app = Flask(__name__)
-# Configure logging
-log_format = '%(asctime)s - %(name)s - %(levelname)s - %(message)s'
-logging.basicConfig(level=logging.DEBUG, format=log_format, filename='app.log')
 
 # Define a logger
+log_format = '%(asctime)s - %(name)s - %(levelname)s - %(message)s'
+logging.basicConfig(level=logging.DEBUG, format=log_format, filename='app.log')
 logger = logging.getLogger(__name__)
-# add cors origin
 
+# add cors origin
 CORS(app, resources={r"/*": {"origins": "http://localhost:8082"}}, origins="http://localhost:8082", supports_credentials=True,
      allow_headers=('Content-Type', 'Authorization', 'Access-Control-Allow-Origin', 'Access-Control-Allow-Headers', 'Access-Control-Allow-Methods'))
 
 swagger = Swagger(app)
+
 app.db_connection = db_connection
-app.bot_manager_url = os.environ.get(
-    'SOCIAL_BOT_MANAGER_ENDPOINT', 'http://localhost:8080/SBFManager')
-app.event_log_url = os.environ.get(
-    'EVENT_LOG_ENDPOINT', 'http://localhost:8087')
-app.success_model_url = os.environ.get(
-    'SUCCESS_MODEL_URL', 'http://localhost:8080/mobsos-success-modeling/apiv2')
 app.default_bot_pw = os.environ.get('DEFAULT_BOT_PASSWORD', '123456')
 app.default_group_id = "343da947a6db1296fadb5eca3987bf71f2e36a6d088e224a006f4e20e6e7935bb0d5ce0c13ada9966228f86ea7cc2cf3a1435827a48329f46b0e3963213123e0"
 app.default_service_id = "i5.las2peer.services.mensaService.MensaService"
-app.contact_service_url = os.environ.get(
-    'CONTACT_SERVICE_URL', 'http://localhost:8080/contactservice')
+
 app.swagger = swagger
 app.register_blueprint(bot_resource, url_prefix='/bot')
-
-
-@app.route('/')
-def index():
-    """
-    A simple hello world endpoint
-    ---
-    responses:
-      200:
-        description: A simple hello world message
-        schema:
-          type: string
-    """
-    return 'Hello World!'
 
 
 @app.route("/services")
@@ -85,5 +64,3 @@ if __name__ == '__main__':
     file_handler = logging.FileHandler('app.log')
     file_handler.setFormatter(logging.Formatter(log_format))
     logger.addHandler(file_handler)
-    if 'DEVELOPMENT_MODE' in os.environ:
-        print("Development mode")

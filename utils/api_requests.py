@@ -41,8 +41,8 @@ def fetch_event_log(bot_name, url=None):
             return None
         log['time:timestamp'] = pd.to_datetime(
             log['time:timestamp'])  # convert timestamp to datetime
-        log = log[(log['EVENT'] == 'SERVICE_REQUEST') | (
-            log['EVENT'] == 'USER_MESSAGE')]  # drop bot messages
+        log = log[(log['EVENT_TYPE'] == 'SERVICE_REQUEST') | (
+            log['EVENT_TYPE'] == 'USER_MESSAGE')]  # drop bot messages
         # only complete events
         log = log[(log['lifecycle:transition'] == 'complete')]
         return log
@@ -57,8 +57,8 @@ def get_default_event_log():
     # remove events lifecycle:transition=start
     log = log[(log['lifecycle:transition'] == 'complete')]
     # remove bot messages
-    log = log[(log['EVENT'] == 'SERVICE_REQUEST')
-              | (log['EVENT'] == 'USER_MESSAGE')]
+    log = log[(log['EVENT_TYPE'] == 'SERVICE_REQUEST')
+              | (log['EVENT_TYPE'] == 'USER_MESSAGE')]
     # convert timestamp to datetime
     log['time:timestamp'] = pd.to_datetime(log['time:timestamp'])
     return log
