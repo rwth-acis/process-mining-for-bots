@@ -28,8 +28,7 @@ jobs:
         
     - name: Build the Docker image
       run: |
-        docker build -t registry.tech4comp.dbis.rwth-aachen.de/rwthacis/social-bot-manager:${{ steps.get_tag.outputs.tag }} .
-    #    docker tag registry.tech4comp.dbis.rwth-aachen.de/rwthacis/social-bot-manager:${{ steps.get_tag.outputs.tag }} registry.tech4comp.dbis.rwth-aachen.de/rwthacis/social-bot-manager:${{ steps.get_version.outputs.version }}
+        docker build -t registry.tech4comp.dbis.rwth-aachen.de/rwthacis/pm4bots:${{ steps.get_tag.outputs.tag }} .
     
     - name: Push to the registry
       env:
@@ -37,5 +36,4 @@ jobs:
         DOCKER_PW: ${{ secrets.DOCKER_PW }}
       run: |
         docker login -u $DOCKER_USERNAME -p $DOCKER_PW registry.tech4comp.dbis.rwth-aachen.de
-        docker push registry.tech4comp.dbis.rwth-aachen.de/rwthacis/social-bot-manager:${{ steps.get_tag.outputs.tag }}
-    #    docker push registry.tech4comp.dbis.rwth-aachen.de/rwthacis/social-bot-manager:${{ steps.get_version.outputs.version }}
+        docker push registry.tech4comp.dbis.rwth-aachen.de/rwthacis/spm4bots:${{ steps.get_tag.outputs.tag }}
