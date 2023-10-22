@@ -287,7 +287,21 @@ def extract_activity_name(node_id, node, edges):
     >>> activity_name = extract_activity_name("n1", node, edges)
     """
     if node['type'] == 'Incoming Message':
-        return extract_intent_keyword(node_id, node, edges)
+        return extract_state_label(node)
+        # return extract_intent_keyword(node_id, node, edges)
     elif node['type'] == 'Bot Action':
         return extract_function_name(node)
     return "empty_activity"
+
+def extract_state_label(node):
+    """
+    Extracts the state label from a node. 
+    """
+    for attr in node['attributes'].values():
+        if attr['name'] == 'Intent Label':
+            intent_keyword = attr['value']['value']
+            if intent_keyword != "" and intent_keyword is not None:
+                return intent_keyword
+            else:
+                return None
+    return None
