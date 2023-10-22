@@ -26,7 +26,7 @@ def enhance_bot_model(event_log, bot_parser):
     """
     dfg, start_activities, end_activities = bot_parser.get_dfg()  # initial dfg
     net,im,fm = bot_parser.to_petri_net()
-    net,im,fm = repair_petri_net(event_log,net,im,fm)  # repair the dfg
+    net,_,_ = repair_petri_net(event_log,net,im,fm)  # repair the dfg
     dfg = add_edge_frequency(event_log, dfg, start_activities,
                              end_activities,bot_parser)  # add the edge frequency
     performance = pm4py.discovery.discover_performance_dfg(event_log)
@@ -46,7 +46,7 @@ def repair_petri_net(event_log, net,im,fm):
     :param bot_model_dfg: bot model as a DFG
     :return: enhanced bot model
     """
-    net,im,fm = repair_process_model(net,im,fm,event_log)
+    net,_,_ = repair_process_model(net,im,fm,event_log)
     net = pm4py.reduce_petri_net_invisibles(net)
     net,im,fm = pm4py.reduce_petri_net_implicit_places(net,im,fm)
     # for some very weird reasons the repair function swaps the initial and final places. As a workaround we return the final marking as the initial marking and vice versa
