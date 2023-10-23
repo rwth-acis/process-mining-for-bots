@@ -50,7 +50,7 @@ def fetch_event_log(bot_name, url=None,botManagerUrl = None):
         return log
 
     else:
-        print("Could not fetch event log, status code: ", response.status_code)
+        print("Could not fetch event log, status code: ", response.status_code, response.content)
         return None
 
 
