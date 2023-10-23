@@ -20,12 +20,14 @@ def fetch_bot_model(name, endpoint="https://mobsos.tech4comp.dbis.rwth-aachen.de
         return None
 
 
-def fetch_event_log(bot_name, url=None):
+def fetch_event_log(bot_name, url=None,botManagerUrl = None):
     if url is None:
         url = f"https://mobsos.tech4comp.dbis.rwth-aachen.de/event-log"
+    if botManagerUrl is None:
+        botManagerUrl = f"https://mobsos.tech4comp.dbis.rwth-aachen.de/SBFManager"
     # fetches an event log from the social bot manager. available at <base_url>/event_logs/{name}
     print(f"Fetching event log from {url}/bot/{bot_name}")
-    response = r.get(f"{url}/bot/{bot_name}")
+    response = r.get(f"{url}/bot/{bot_name}?bot-manager-url={botManagerUrl}")
     # response is xml, use pm4py to parse it
     if response.status_code == 200:
         xml = response.content
