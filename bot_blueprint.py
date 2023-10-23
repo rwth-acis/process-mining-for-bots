@@ -5,6 +5,7 @@ from utils.api_requests import fetch_event_log, fetch_bot_model, fetch_success_m
 from enhancement.main import repair_petri_net, enhance_bot_model, average_intent_confidence, case_durations
 from pm4py.visualization.petri_net import visualizer as pn_visualizer
 from pm4py.visualization.dfg import visualizer as dfg_visualizer
+from discovery.main import bot_statistics
 import math
 
 bot_resource = Blueprint('dynamic_resource', __name__)
@@ -138,6 +139,21 @@ def get_success_model(botName):
         }, 400
     
     return fetch_success_model(success_model_url, botName, current_app.default_bot_pw, service_id=service_id, group_id=group_id)
+
+
+@bot_resource.route('/<botName>/statistics')
+def get_bot_statistics(botName):
+    """
+    Fetches the statistics of the bot 
+    """
+    event_log_generator_url = request.args.get('event-log-url', None)
+    if event_log_generator_url is None:
+        return {
+            "error": "event-log-generator-url parameter is missing"
+        }, 400
+    event_log = fetch_event_log(botName, event_log_generator_url)
+    
+    return bot_statistics(event_log)
 
 
 @bot_resource.route('/<botName>/groups')

@@ -1,5 +1,6 @@
 import pm4py
-from pm4py.algo.conformance.alignments.petri_net.variants.discounted_a_star import Parameters
+from utils.api_requests import fetch_event_log
+
 
 def custom_trace_cost_function(log):
     """
