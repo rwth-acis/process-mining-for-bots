@@ -75,3 +75,10 @@ def discover_bpmn(event_log):
         discovered bpmn
     """
     return pm4py.discover_bpmn_inductive(event_log)
+
+def bot_statistics(event_log):
+    stats = dict()
+    stats['numberOfConversations'] = event_log.groupby('case:concept:name').ngroups
+    stats['numberOfStates'] = event_log['concept:name'].nunique()
+    stats['numberOfUsers'] = event_log['user'].nunique()
+    return stats

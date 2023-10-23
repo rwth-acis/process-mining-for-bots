@@ -17,7 +17,6 @@ except psutil.NoSuchProcess:
     print("No such process")
     parent_name = "unknown"
 
-
 # current directory
 current_dir = os.path.dirname(os.path.realpath(__file__))
 # load environment variables
