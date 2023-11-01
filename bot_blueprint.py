@@ -18,12 +18,12 @@ def enhanced_bot_model(botName):
         return {
             "error": "bot-manager-url parameter is missing"
         }, 400
-    
+
     if 'event-log-url' not in request.args:
         return {
             "error": "event-log-url parameter is missing"
         }, 400
-        
+
     event_log_url = request.args['event-log-url']
     bot_manager_url = request.args['bot-manager-url']
     res_format = request.args.get('format', 'json')
@@ -79,11 +79,11 @@ def get_petri_net(botName):
         return {
             "error": "bot-manager-url parameter is missing"
         }, 400
-    if 'event-log-url' not  in request.args:
+    if 'event-log-url' not in request.args:
         return {
             "error": "event-log-url parameter is missing"
         }, 400
-        
+
     bot_manager_url = request.args['bot-manager-url']
     event_log_url = request.args['event-log-url']
 
@@ -107,11 +107,11 @@ def get_petri_net(botName):
         return {
             "error": f"Could not fetch event log from {event_log_url}"
         }, 500
-    
-    net,im,fm =  bot_parser.to_petri_net()
+
+    net, im, fm = bot_parser.to_petri_net()
     if request.args.get('enhance', 'false') == 'true':
-        net, _, _ = repair_petri_net(event_log,net,im,fm)
-    
+        net, _, _ = repair_petri_net(event_log, net, im, fm)
+
     gviz = pn_visualizer.apply(
         net, im, fm, variant=pn_visualizer.Variants.PERFORMANCE)
     return gviz.pipe(format='svg').decode('utf-8')
@@ -132,12 +132,12 @@ def get_case_durations(botName):
 def get_success_model(botName):
     group_id = request.args.get('group-id', current_app.default_group_id)
     service_id = request.args.get('service-id', current_app.default_service_id)
-    success_model_url = request.args.get("success-model-url",None)
+    success_model_url = request.args.get("success-model-url", None)
     if success_model_url is None:
         return {
             "error": "success-model-url parameter is missing"
         }, 400
-    
+
     return fetch_success_model(success_model_url, botName, current_app.default_bot_pw, service_id=service_id, group_id=group_id)
 
 
@@ -152,7 +152,7 @@ def get_bot_statistics(botName):
             "error": "event-log-generator-url parameter is missing"
         }, 400
     event_log = fetch_event_log(botName, event_log_generator_url)
-    
+
     return bot_statistics(event_log)
 
 
@@ -168,22 +168,29 @@ def get_groups(botName):
         }, 400
     return fetchL2PGroups(contact_service_url, botName, current_app.default_bot_pw)
 
-def serialize_response( bot_model_dfg, bot_parser, start_activities, end_activities, performance, botName):
+
+def serialize_response(bot_model_dfg, bot_parser, start_activities, end_activities, performance, botName):
     try:
-    # serialize the bot model
+        # serialize the bot model
         edges = []
         nodes = []
         avg_confidence_df = average_intent_confidence(
             botName, current_app.db_connection)
         avg_confidence = {}
         for _, row in avg_confidence_df.iterrows():
-            if row['intentKeyword'] in avg_confidence:
-                avg_confidence[row['intentKeyword']
-                            ] = row['averageConfidence'] if row['averageConfidence'] != math.nan else 0
-        
+            if row['intentKeyword'] is not None:
+                keyword = row['intentKeyword']
+                keyword = keyword.replace('"', "")
+                if keyword not in avg_confidence:
+                    if row['averageConfidence'] == math.nan:
+                        avg_confidence[keyword] = 0
+                    else:
+                        avg_confidence[keyword] = row['averageConfidence']
         for edge in bot_model_dfg.keys():
-            source_label = bot_parser.id_name_map[edge[0]] if edge[0] in bot_parser.id_name_map else edge[0]
-            target_label = bot_parser.id_name_map[edge[1]] if edge[1] in bot_parser.id_name_map else edge[1]
+            source_label = bot_parser.id_name_map[edge[0]
+                                                  ] if edge[0] in bot_parser.id_name_map else edge[0]
+            target_label = bot_parser.id_name_map[edge[1]
+                                                  ] if edge[1] in bot_parser.id_name_map else edge[1]
             edges.append({
                 "source": edge[0],
                 "target": edge[1],
@@ -192,10 +199,10 @@ def serialize_response( bot_model_dfg, bot_parser, start_activities, end_activit
 
             if edge[0] not in nodes:
                 nodes.append({"id": edge[0], "label": source_label,
-                            "avg_confidence": avg_confidence[source_label] if source_label in avg_confidence else None})
+                              "avg_confidence": avg_confidence[source_label] if source_label in avg_confidence else None})
             if edge[1] not in nodes:
                 nodes.append({"id": edge[1], "label": target_label,
-                            "avg_confidence": avg_confidence[target_label] if target_label in avg_confidence else None})
+                              "avg_confidence": avg_confidence[target_label] if target_label in avg_confidence else None})
 
         res = {
             "graph": {
