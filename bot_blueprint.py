@@ -186,7 +186,7 @@ def serialize_response(bot_model_dfg, bot_parser, start_activities, end_activiti
                         avg_confidence[keyword] = 0
                     else:
                         avg_confidence[keyword] = row['averageConfidence']
-        for edge in bot_model_dfg.keys():
+        for edge, frequency in bot_model_dfg.items():
             source_label = bot_parser.id_name_map[edge[0]
                                                   ] if edge[0] in bot_parser.id_name_map else edge[0]
             target_label = bot_parser.id_name_map[edge[1]
@@ -194,7 +194,8 @@ def serialize_response(bot_model_dfg, bot_parser, start_activities, end_activiti
             edges.append({
                 "source": edge[0],
                 "target": edge[1],
-                "performance": performance[(source_label, target_label)] if (source_label, target_label) in performance else None
+                "performance": performance[(source_label, target_label)] if (source_label, target_label) in performance else None,
+                "frequency": frequency
             })
 
             if edge[0] not in nodes:
