@@ -238,7 +238,7 @@ def get_improvements_for_dfg(botName):
     prompt = llm.recommendations_from_event_log(event_log)
     return llm.send_prompt(prompt,api_key)
 
-@bot_resource.route('/<botName>/llm/intent-improvements')
+@bot_resource.route('/<botName>/llm/intent-improvements',methods=['POST'])
 def get_improvements_for_intents(botName):
     api_key = request.get_json().get('openai-key', None)
     if api_key is None:
@@ -249,7 +249,7 @@ def get_improvements_for_intents(botName):
     prompt = llm.recommendations_for_intents(average_intent_confidence_df)
     return llm.send_prompt(prompt,api_key)
 
-@bot_resource.route('/<botName>/llm/describe')
+@bot_resource.route('/<botName>/llm/describe',methods=['POST'])
 def describe_bot_model(botName):
     api_key = request.get_json().get('openai-key', None)
     if api_key is None:
