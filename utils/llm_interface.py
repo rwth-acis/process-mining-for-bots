@@ -20,6 +20,39 @@ def recommendations_for_intents(intents_df):
     return prompt
 
 
+def custom_prompt(inputPrompt, intents_df, log, net, initial_marking, final_marking):
+    if ("`botModel`" in inputPrompt):
+        # split the inputPrompt at `botModel` and insert the bot model
+        prompt = inputPrompt.split("`botModel`")
+        for i in range(len(prompt)):
+            if i % 2 == 1:
+                prompt[i] = pm4py.llm.abstract_petri_net(
+                    net, initial_marking, final_marking)
+        prompt = "".join(prompt)
+
+    if ("`botIntents`" in prompt):
+        # split the inputPrompt at `botIntents` and insert the bot intents
+        prompt = "".join(prompt).split("`botIntents`")
+        for i in range(len(prompt)):
+            if i % 2 == 1:
+                prompt[i] = ""
+                for index, row in intents_df.iterrows():
+                    if row['intentKeyword'] is not None:
+                        prompt[i] += f"{row['intentKeyword']}: {row['averageConfidence']}\n"
+        prompt = "".join(prompt)
+
+    if ("`botLog`" in prompt):
+        # split the inputPrompt at `botLog` and insert the bot log
+        prompt = "".join(prompt).split("`botLog`")
+        for i in range(len(prompt)):
+            if i % 2 == 1:
+                prompt[i] = pm4py.llm.abstract_dfg(log)
+
+        prompt = "".join(prompt)
+
+    return prompt
+
+
 def find_subprocesses(net, initial_marking, final_marking):
     prompt = "Here is a chatbot conversation model:\n\n"
     prompt += pm4py.llm.abstract_petri_net(net, initial_marking, final_marking)

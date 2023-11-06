@@ -222,6 +222,7 @@ def serialize_response(bot_model_dfg, bot_parser, start_activities, end_activiti
         print("Exception: ", e)
         return None
 
+
 @bot_resource.route('/<botName>/llm/dfg-improvements', methods=['POST'])
 def get_improvements_for_dfg(botName):
     api_key = request.get_json().get('openai-key', None)
@@ -236,20 +237,66 @@ def get_improvements_for_dfg(botName):
         }, 400
     event_log = fetch_event_log(botName, event_log_generator_url)
     prompt = llm.recommendations_from_event_log(event_log)
-    return llm.send_prompt(prompt,api_key)
+    return llm.send_prompt(prompt, api_key)
 
-@bot_resource.route('/<botName>/llm/intent-improvements',methods=['POST'])
+
+@bot_resource.route('/<botName>/llm/intent-improvements', methods=['POST'])
 def get_improvements_for_intents(botName):
     api_key = request.get_json().get('openai-key', None)
     if api_key is None:
         return {
             "error": "api_key parameter is missing"
         }, 400
-    average_intent_confidence_df = average_intent_confidence(botName, current_app.db_connection)
+    average_intent_confidence_df = average_intent_confidence(
+        botName, current_app.db_connection)
     prompt = llm.recommendations_for_intents(average_intent_confidence_df)
-    return llm.send_prompt(prompt,api_key)
+    return llm.send_prompt(prompt, api_key)
 
-@bot_resource.route('/<botName>/llm/describe',methods=['POST'])
+
+@bot_resource.route('/<botName>/llm/custom-prompt', methods=['POST'])
+def get_custom_improvements(botName):
+    average_intent_confidence_df = None
+    event_log = None
+    net = None
+    initial_marking = None
+    final_marking = None
+
+    api_key = request.get_json().get('openai-key', None)
+    if api_key is None:
+        return {
+            "error": "api_key parameter is missing"
+        }, 400
+    inputPrompt = request.get_json().get('inputPrompt', None)
+    if inputPrompt is None:
+        return {
+            "error": "inputPrompt parameter is missing"
+        }, 400
+    if ("`botModel`" in inputPrompt):
+        if 'bot-manager-url' not in request.args:
+            return {
+                "error": "bot-manager-url parameter is missing"
+            }, 400
+        bot_manager_url = request.args['bot-manager-url']
+        bot_model_json = fetch_bot_model(botName, bot_manager_url)
+        bot_parser = get_parser(bot_model_json)
+        net, initial_marking, final_marking = bot_parser.to_petri_net()
+    if ("`botIntents`" in inputPrompt):
+        average_intent_confidence_df = average_intent_confidence(
+            botName, current_app.db_connection)
+    if ("`botLog`" in inputPrompt):
+        event_log_generator_url = request.args.get('event-log-url', None)
+        if event_log_generator_url is None:
+            return {
+                "error": "event-log-url parameter is missing"
+            }, 400
+        event_log = fetch_event_log(botName, event_log_generator_url)
+
+    prompt = llm.custom_prompt(inputPrompt, average_intent_confidence_df,
+                               event_log, net, initial_marking, final_marking)
+    return llm.send_prompt(prompt, api_key)
+
+
+@bot_resource.route('/<botName>/llm/describe', methods=['POST'])
 def describe_bot_model(botName):
     api_key = request.get_json().get('openai-key', None)
     if api_key is None:
@@ -257,14 +304,15 @@ def describe_bot_model(botName):
             "error": "api_key parameter is missing"
         }, 400
     try:
-        bot_model_json = fetch_bot_model(botName, current_app.default_bot_manager_url)
+        bot_model_json = fetch_bot_model(
+            botName, current_app.default_bot_manager_url)
         bot_parser = get_parser(bot_model_json)
         net, im, fm = bot_parser.to_petri_net()
-        prompt = llm.describe_bot(net,im,fm)
+        prompt = llm.describe_bot(net, im, fm)
         return llm.send_prompt(prompt)
     except Exception as e:
         print(e)
         return {
             "error": "Could not describe bot model",
-            "message": e 
+            "message": e
         }, 500
