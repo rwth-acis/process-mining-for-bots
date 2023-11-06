@@ -6,6 +6,7 @@ from enhancement.main import repair_petri_net, enhance_bot_model, average_intent
 from pm4py.visualization.petri_net import visualizer as pn_visualizer
 from pm4py.visualization.dfg import visualizer as dfg_visualizer
 from discovery.main import bot_statistics
+import utils.llm_interface as llm
 import math
 
 bot_resource = Blueprint('dynamic_resource', __name__)
@@ -220,3 +221,50 @@ def serialize_response(bot_model_dfg, bot_parser, start_activities, end_activiti
     except Exception as e:
         print("Exception: ", e)
         return None
+
+@bot_resource.route('/<botName>/llm/dfg-improvements', methods=['POST'])
+def get_improvements_for_dfg(botName):
+    api_key = request.get_json().get('openai-key', None)
+    if api_key is None:
+        return {
+            "error": "api_key parameter is missing"
+        }, 400
+    event_log_generator_url = request.args.get('event-log-url', None)
+    if event_log_generator_url is None:
+        return {
+            "error": "event-log-url parameter is missing"
+        }, 400
+    event_log = fetch_event_log(botName, event_log_generator_url)
+    prompt = llm.recommendations_from_event_log(event_log)
+    return llm.send_prompt(prompt,api_key)
+
+@bot_resource.route('/<botName>/llm/intent-improvements')
+def get_improvements_for_intents(botName):
+    api_key = request.get_json().get('openai-key', None)
+    if api_key is None:
+        return {
+            "error": "api_key parameter is missing"
+        }, 400
+    average_intent_confidence_df = average_intent_confidence(botName, current_app.db_connection)
+    prompt = llm.recommendations_for_intents(average_intent_confidence_df)
+    return llm.send_prompt(prompt,api_key)
+
+@bot_resource.route('/<botName>/llm/describe')
+def describe_bot_model(botName):
+    api_key = request.get_json().get('openai-key', None)
+    if api_key is None:
+        return {
+            "error": "api_key parameter is missing"
+        }, 400
+    try:
+        bot_model_json = fetch_bot_model(botName, current_app.default_bot_manager_url)
+        bot_parser = get_parser(bot_model_json)
+        net, im, fm = bot_parser.to_petri_net()
+        prompt = llm.describe_bot(net,im,fm)
+        return llm.send_prompt(prompt)
+    except Exception as e:
+        print(e)
+        return {
+            "error": "Could not describe bot model",
+            "message": e 
+        }, 500
