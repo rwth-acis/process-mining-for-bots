@@ -94,20 +94,28 @@ def get_petri_net(botName):
         print(e)
         return {
             "error": f"Could not fetch bot model from {bot_manager_url}, make sure the service is running and the bot name is correct"
-        }, 500
+        }, 400
 
     if bot_model_json is None:
         print("Could not fetch bot model")
         return {
             "error": f"Could not fetch bot model from {bot_manager_url}"
-        }, 500
+        }, 400
     bot_parser = get_parser(bot_model_json)
-    event_log = fetch_event_log(botName, event_log_url)
+    try:
+        event_log = fetch_event_log(botName, event_log_url)
+
+    except Exception as e:
+        print(e)
+        return {
+            "error": f"Could not fetch event log from {event_log_url}, make sure the service is running and the bot name is correct"
+        }, 400
+
     if event_log is None:
         print("Could not fetch event log")
         return {
             "error": f"Could not fetch event log from {event_log_url}"
-        }, 500
+        }, 400
 
     net, im, fm = bot_parser.to_petri_net()
     if request.args.get('enhance', 'false') == 'true':
@@ -125,6 +133,20 @@ def get_intent_confidence(botName):
 
 @bot_resource.route('/<botName>/case-durations')
 def get_case_durations(botName):
+    event_log_generator_url = request.args.get('event-log-url', None)
+    if event_log_generator_url is None:
+        return {
+            "error": "event-log-generator-url parameter is missing"
+        }, 400
+    try:
+        event_log = fetch_event_log(botName, event_log_generator_url)
+
+    except Exception as e:
+        print(e)
+        return {
+            "error": f"Could not fetch event log from {event_log_generator_url}, make sure the service is running and the bot name is correct"
+        }, 500
+
     event_log = fetch_event_log(botName)
     return case_durations(event_log)
 
@@ -152,7 +174,14 @@ def get_bot_statistics(botName):
         return {
             "error": "event-log-generator-url parameter is missing"
         }, 400
-    event_log = fetch_event_log(botName, event_log_generator_url)
+    try:
+        event_log = fetch_event_log(botName, event_log_generator_url)
+
+    except Exception as e:
+        print(e)
+        return {
+            "error": f"Could not fetch event log from {event_log_generator_url}, make sure the service is running and the bot name is correct"
+        }, 400
 
     return bot_statistics(event_log)
 
@@ -277,7 +306,13 @@ def get_custom_improvements(botName):
                 "error": "bot-manager-url parameter is missing"
             }, 400
         bot_manager_url = request.args['bot-manager-url']
-        bot_model_json = fetch_bot_model(botName, bot_manager_url)
+        try:
+            bot_model_json = fetch_bot_model(botName, bot_manager_url)
+        except Exception as e:
+            print(e)
+            return {
+                "error": f"Could not fetch bot model from {bot_manager_url}, make sure the service is running and the bot name is correct"
+            }, 500
         bot_parser = get_parser(bot_model_json)
         net, initial_marking, final_marking = bot_parser.to_petri_net()
     if ("`botIntents`" in inputPrompt):

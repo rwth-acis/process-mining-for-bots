@@ -12,7 +12,6 @@ event_log_file_path = "assets/event_logs/test_event_log.xes"
 
 def fetch_bot_model(name, endpoint="https://mobsos.tech4comp.dbis.rwth-aachen.de/SBFManager"):
     # fetches a bot model from the social bot manager. available at <base_url>/models/{name}
-    print(f"Fetching bot model from {endpoint}/models/{name}")
     request = r.get(f"{endpoint}/models/{name}")
     if request.status_code == 200:
         return request.json()
