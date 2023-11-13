@@ -5,7 +5,7 @@ import os
 def recommendations_from_event_log(log):
     prompt = "Here is a DFG of a chatbot conversation. Performance is how long a request took on average in seconds. Frequency is how often this edge has been traversed.\n\n"
     prompt += pm4py.llm.abstract_dfg(log)
-    prompt += "\n\List five improvements that can be made to the chatbot? Format your response as html\n\n"
+    prompt += "\n\List five improvements that can be made to the chatbot? Split the recommendations into ones for frontend bot developers and backend specialists. Format your response as html\n\n"
     return prompt
 
 
@@ -75,7 +75,7 @@ def send_prompt(prompt, api_key):
         if "503" in str(e):
             return "OpenAI API is unavailable. Please try again later"
         # handle 429 errors
-        elif "429" in str(e):
+        elif "443" in str(e):
             return "OpenAI API is unavailable. Please try again later"
         # handle wrong api key
         elif "Incorrect API key" in str(e):

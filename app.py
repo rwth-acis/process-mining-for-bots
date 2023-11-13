@@ -50,6 +50,7 @@ app.default_group_id = "343da947a6db1296fadb5eca3987bf71f2e36a6d088e224a006f4e20
 app.default_service_id = "i5.las2peer.services.mensaService.MensaService"
 
 app.swagger = swagger
+app.logger = logger
 app.register_blueprint(bot_resource, url_prefix='/bot')
 
 

@@ -280,6 +280,8 @@ def get_improvements_for_dfg(botName):
         }, 400
     event_log = fetch_event_log(botName, event_log_generator_url)
     prompt = llm.recommendations_from_event_log(event_log)
+    # log the prompt
+    current_app.logger.info(prompt)
     return llm.send_prompt(prompt, api_key)
 
 
@@ -293,6 +295,7 @@ def get_improvements_for_intents(botName):
     average_intent_confidence_df = average_intent_confidence(
         botName, current_app.db_connection)
     prompt = llm.recommendations_for_intents(average_intent_confidence_df)
+    current_app.logger.info(prompt)
     return llm.send_prompt(prompt, api_key)
 
 
@@ -342,6 +345,7 @@ def get_custom_improvements(botName):
 
     prompt = llm.custom_prompt(inputPrompt, average_intent_confidence_df,
                                event_log, net, initial_marking, final_marking)
+    current_app.logger.info(prompt)
     return llm.send_prompt(prompt, api_key)
 
 
