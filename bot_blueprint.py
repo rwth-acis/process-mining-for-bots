@@ -191,7 +191,6 @@ def get_bot_statistics(botName):
             bot_model_json = fetch_bot_model(botName, bot_manager_url)
             bot_parser = get_parser(bot_model_json)
             net, im, fm = bot_parser.to_petri_net()
-            net = repair_petri_net(event_log, net, im, fm)[0]
             conformance_results = conformance(event_log, net, im, fm)
             statistics['conformance'] = conformance_results
         except Exception as e:

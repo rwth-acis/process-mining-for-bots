@@ -68,4 +68,17 @@ def describe_bot(net, initial_marking, final_marking):
 
 
 def send_prompt(prompt, api_key):
-    return pm4py.llm.openai_query(prompt, api_key=api_key, openai_model="gpt-3.5-turbo-16k")
+    try:
+        return pm4py.llm.openai_query(prompt, api_key=api_key, openai_model="gpt-3.5-turbo-16k")
+    except Exception as e:
+        # handle 503 errors
+        if "503" in str(e):
+            return "OpenAI API is unavailable. Please try again later"
+        # handle 429 errors
+        elif "429" in str(e):
+            return "OpenAI API is unavailable. Please try again later"
+        # handle wrong api key
+        elif "Incorrect API key" in str(e):
+            return "OpenAI API key is invalid. Please try again with a valid API key"
+        else:
+            return "Something went wrong. Please try again later"
