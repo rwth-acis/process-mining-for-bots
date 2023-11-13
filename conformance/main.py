@@ -19,8 +19,15 @@ def custom_trace_cost_function(log):
 
 
 def conformance( event_log, net, im, fm):
-    fitness = pm4py.conformance.fitness_alignments(event_log,net,im,fm)
-    precision=pm4py.conformance.precision_alignments(event_log,net,im,fm)
+    try:
+        fitness = pm4py.conformance.fitness_alignments(event_log, net, im, fm)
+    except:
+        fitness = None
+    try:
+        precision = pm4py.conformance.precision_alignments(
+            event_log, net, im, fm)
+    except:
+        precision = None
     return {
         "fitness":fitness,
         "precision":precision,

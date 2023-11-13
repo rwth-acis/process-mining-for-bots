@@ -6,6 +6,7 @@ from enhancement.main import repair_petri_net, enhance_bot_model, average_intent
 from pm4py.visualization.petri_net import visualizer as pn_visualizer
 from pm4py.visualization.dfg import visualizer as dfg_visualizer
 from discovery.main import bot_statistics
+from conformance.main import conformance
 import utils.llm_interface as llm
 import math
 
@@ -182,8 +183,22 @@ def get_bot_statistics(botName):
         return {
             "error": f"Could not fetch event log from {event_log_generator_url}, make sure the service is running and the bot name is correct"
         }, 400
+    statistics = bot_statistics(event_log)
+    bot_manager_url = request.args.get('bot-manager-url', None)
 
-    return bot_statistics(event_log)
+    if bot_manager_url is not None:
+        try:
+            bot_model_json = fetch_bot_model(botName, bot_manager_url)
+            bot_parser = get_parser(bot_model_json)
+            net, im, fm = bot_parser.to_petri_net()
+            net = repair_petri_net(event_log, net, im, fm)[0]
+            conformance_results = conformance(event_log, net, im, fm)
+            statistics['conformance'] = conformance_results
+        except Exception as e:
+            print(e)
+            statistics['conformance'] = None
+
+    return statistics
 
 
 @bot_resource.route('/<botName>/groups')
