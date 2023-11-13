@@ -3,9 +3,9 @@ import os
 
 
 def recommendations_from_event_log(log):
-    prompt = "Here is a DFG of a chatbot conversation. Performance is how long a request took on average in seconds. Frequency is how often this edge has been traversed.\n\n"
+    prompt = "Here is a DFG of a chatbot conversation. Performance is how long a request took on average in seconds. Frequency is how often this edge has been traversed.\n"
     prompt += pm4py.llm.abstract_dfg(log)
-    prompt += "\n\List five improvements that can be made to the chatbot? Split the recommendations into ones for frontend bot developers and backend specialists. Format your response as html\n\n"
+    prompt += "\nList five improvements that can be made to the chatbot? Split the recommendations into ones for bot developers and backend specialists. Format your response as html\n\n"
     return prompt
 
 
