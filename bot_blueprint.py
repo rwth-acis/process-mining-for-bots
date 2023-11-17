@@ -269,6 +269,7 @@ def serialize_response(bot_model_dfg, bot_parser, start_activities, end_activiti
 @bot_resource.route('/<botName>/llm/dfg-improvements', methods=['POST'])
 def get_improvements_for_dfg(botName):
     api_key = request.get_json().get('openai-key', None)
+    openai_model = request.get_json().get('openai-model', 'gpt-3.5-turbo-16k')
     if api_key is None:
         return {
             "error": "api_key parameter is missing"
@@ -282,12 +283,16 @@ def get_improvements_for_dfg(botName):
     prompt = llm.recommendations_from_event_log(event_log)
     # log the prompt
     current_app.logger.info(prompt)
-    return llm.send_prompt(prompt, api_key)
+    content = llm.send_prompt(prompt, api_key, openai_model)
+    current_app.logger.info(content)
+    return content
 
 
 @bot_resource.route('/<botName>/llm/intent-improvements', methods=['POST'])
 def get_improvements_for_intents(botName):
     api_key = request.get_json().get('openai-key', None)
+    openai_model = request.get_json().get('openai-model', 'gpt-3.5-turbo-16k')
+
     if api_key is None:
         return {
             "error": "api_key parameter is missing"
@@ -296,7 +301,9 @@ def get_improvements_for_intents(botName):
         botName, current_app.db_connection)
     prompt = llm.recommendations_for_intents(average_intent_confidence_df)
     current_app.logger.info(prompt)
-    return llm.send_prompt(prompt, api_key)
+    content = llm.send_prompt(prompt, api_key, openai_model)
+    current_app.logger.info(content)
+    return content
 
 
 @bot_resource.route('/<botName>/llm/custom-prompt', methods=['POST'])
@@ -306,6 +313,8 @@ def get_custom_improvements(botName):
     net = None
     initial_marking = None
     final_marking = None
+    openai_model = request.get_json().get('openai-model', 'gpt-3.5-turbo-16k')
+
 
     api_key = request.get_json().get('openai-key', None)
     if api_key is None:
@@ -346,12 +355,16 @@ def get_custom_improvements(botName):
     prompt = llm.custom_prompt(inputPrompt, average_intent_confidence_df,
                                event_log, net, initial_marking, final_marking)
     current_app.logger.info(prompt)
-    return llm.send_prompt(prompt, api_key)
+    content = llm.send_prompt(prompt, api_key, openai_model)
+    current_app.logger.info(content)
+    return content
 
 
 @bot_resource.route('/<botName>/llm/describe', methods=['POST'])
 def describe_bot_model(botName):
     api_key = request.get_json().get('openai-key', None)
+    openai_model = request.get_json().get('openai-model', 'gpt-3.5-turbo-16k')
+
     if api_key is None:
         return {
             "error": "api_key parameter is missing"
@@ -362,7 +375,10 @@ def describe_bot_model(botName):
         bot_parser = get_parser(bot_model_json)
         net, im, fm = bot_parser.to_petri_net()
         prompt = llm.describe_bot(net, im, fm)
-        return llm.send_prompt(prompt)
+        current_app.logger.info(prompt)
+        content = llm.send_prompt(prompt, api_key, openai_model)
+        current_app.logger.info(content)
+        return content
     except Exception as e:
         print(e)
         return {

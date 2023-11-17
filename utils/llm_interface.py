@@ -1,3 +1,4 @@
+from openai import OpenAI
 import pm4py
 import os
 
@@ -67,9 +68,19 @@ def describe_bot(net, initial_marking, final_marking):
     return prompt
 
 
-def send_prompt(prompt, api_key):
+def send_prompt(prompt, api_key, openai_model="gpt-3.5-turbo-16k"):
     try:
-        return pm4py.llm.openai_query(prompt, api_key=api_key, openai_model="gpt-3.5-turbo-16k")
+
+        client = OpenAI(api_key=api_key)
+        response = client.chat.completions.create(model=openai_model,
+                                                  messages=[
+                                                      {"role": "system", "content": "You are a helpful Process Mining Expert. You are helping users improve their chatbot. Petri nets refer to the chatbot conversation model. DFG refers to the chatbot conversation model."},
+                                                      {"role": "user",
+                                                       "content": prompt}
+                                                  ])
+        content = response.choices[0].message.content
+        return content
+        # return pm4py.llm.openai_query(prompt, api_key=api_key, openai_model=openai_model)
     except Exception as e:
         # handle 503 errors
         if "503" in str(e):
