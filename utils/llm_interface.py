@@ -69,27 +69,12 @@ def describe_bot(net, initial_marking, final_marking):
 
 
 def send_prompt(prompt, api_key, openai_model="gpt-3.5-turbo-16k"):
-    try:
-
-        client = OpenAI(api_key=api_key)
-        response = client.chat.completions.create(model=openai_model,
-                                                  messages=[
-                                                      {"role": "system", "content": "You are a helpful Process Mining Expert. You are helping users improve their chatbot. Petri nets refer to the chatbot conversation model. DFG refers to the chatbot conversation model."},
-                                                      {"role": "user",
-                                                       "content": prompt}
-                                                  ])
-        content = response.choices[0].message.content
-        return content
-        # return pm4py.llm.openai_query(prompt, api_key=api_key, openai_model=openai_model)
-    except Exception as e:
-        # handle 503 errors
-        if "503" in str(e):
-            return "OpenAI API is unavailable. Please try again later"
-        # handle 429 errors
-        elif "443" in str(e):
-            return "OpenAI API is unavailable. Please try again later"
-        # handle wrong api key
-        elif "Incorrect API key" in str(e):
-            return "OpenAI API key is invalid. Please try again with a valid API key"
-        else:
-            return "Something went wrong. Please try again later"
+    client = OpenAI(api_key=api_key)
+    response = client.chat.completions.create(model=openai_model,
+                                              messages=[
+                                                  {"role": "system", "content": "You are a helpful Process Mining Expert. You are helping users improve their chatbot. Petri nets refer to the chatbot conversation model. DFG refers to the chatbot conversation model."},
+                                                  {"role": "user",
+                                                   "content": prompt}
+                                              ])
+    content = response.choices[0].message.content
+    return content
