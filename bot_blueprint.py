@@ -5,6 +5,8 @@ from utils.api_requests import fetch_event_log, fetch_bot_model, fetch_success_m
 from enhancement.main import repair_petri_net, enhance_bot_model, average_intent_confidence, case_durations
 from pm4py.visualization.petri_net import visualizer as pn_visualizer
 from pm4py.visualization.dfg import visualizer as dfg_visualizer
+from pm4py.visualization.bpmn import visualizer as bpmn_visualizer
+from pm4py.convert import convert_to_bpmn
 from discovery.main import bot_statistics
 from conformance.main import conformance
 import utils.llm_interface as llm
@@ -124,6 +126,58 @@ def get_petri_net(botName):
 
     gviz = pn_visualizer.apply(
         net, im, fm, variant=pn_visualizer.Variants.PERFORMANCE)
+    return gviz.pipe(format='svg').decode('utf-8')
+
+
+@bot_resource.route('/<botName>/bpmn')
+def get_bpmn(botName):
+    if 'bot-manager-url' not in request.args:
+        return {
+            "error": "bot-manager-url parameter is missing"
+        }, 400
+    if 'event-log-url' not in request.args:
+        return {
+            "error": "event-log-url parameter is missing"
+        }, 400
+
+    bot_manager_url = request.args['bot-manager-url']
+    event_log_url = request.args['event-log-url']
+
+    try:
+        bot_model_json = fetch_bot_model(botName, bot_manager_url)
+    except Exception as e:
+        print(e)
+        return {
+            "error": f"Could not fetch bot model from {bot_manager_url}, make sure the service is running and the bot name is correct"
+        }, 400
+
+    if bot_model_json is None:
+        print("Could not fetch bot model")
+        return {
+            "error": f"Could not fetch bot model from {bot_manager_url}"
+        }, 400
+    bot_parser = get_parser(bot_model_json)
+    try:
+        event_log = fetch_event_log(botName, event_log_url)
+
+    except Exception as e:
+        print(e)
+        return {
+            "error": f"Could not fetch event log from {event_log_url}, make sure the service is running and the bot name is correct"
+        }, 400
+
+    if event_log is None:
+        print("Could not fetch event log")
+        return {
+            "error": f"Could not fetch event log from {event_log_url}"
+        }, 400
+
+    net, im, fm = bot_parser.to_petri_net()
+    if request.args.get('enhance', 'false') == 'true':
+        net, _, _ = repair_petri_net(event_log, net, im, fm)
+
+    bpmn_graph = convert_to_bpmn(net, im, fm)
+    gviz = bpmn_visualizer.apply(bpmn_graph)
     return gviz.pipe(format='svg').decode('utf-8')
 
 
