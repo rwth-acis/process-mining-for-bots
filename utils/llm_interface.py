@@ -68,7 +68,7 @@ def describe_bot(net, initial_marking, final_marking):
     return prompt
 
 
-def send_prompt(prompt, api_key, openai_model="gpt-3.5-turbo-16k"):
+def send_prompt(prompt, api_key, openai_model="gpt-3.5-turbo-1106"):
     client = OpenAI(api_key=api_key)
     response = client.chat.completions.create(model=openai_model,
                                               messages=[
