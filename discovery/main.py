@@ -78,6 +78,8 @@ def discover_bpmn(event_log):
 
 def bot_statistics(event_log):
     stats = dict()
+    if (event_log is None):
+        return stats
     stats['numberOfConversations'] = event_log.groupby('case:concept:name').ngroups
     stats['numberOfStates'] = event_log['concept:name'].nunique()
     stats['numberOfUsers'] = event_log['user'].nunique()
