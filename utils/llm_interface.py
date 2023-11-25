@@ -11,12 +11,12 @@ def recommendations_from_event_log(log):
 
 
 def recommendations_for_intents(intents_df):
-    prompt = "Knowing that a confidence score bigger than 0.9 is considered good. \n\n"
+    prompt = "Knowing that a confidence score bigger than 0.9 is considered good. nlu_fallback describes cases where intents were not recognized. \n\n"
     prompt += "Here is a list of intents and the average bot confidence score:\n\n"
     for index, row in intents_df.iterrows():
         if row['intentKeyword'] is not None:
             prompt += f"{row['intentKeyword']}: {row['averageConfidence']}\n"
-    prompt += "\n\What improvements can be made to the chatbot? Note that the training data is passed to Rasa to train. \n\n"
+    prompt += "\nWhat improvements can be made to the chatbot? Note that the training data is passed to Rasa to train. \n\n"
     prompt += "Format the response as html. Also include the list along with the confidence scores as a table\n\n"
     return prompt
 
