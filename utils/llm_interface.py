@@ -20,7 +20,6 @@ def recommendations_for_intents(intents_df):
 
 
 def custom_prompt(inputPrompt, intents_df, log, net, initial_marking, final_marking):
-    inputPrompt = inputPrompt.replace("\n", "")
     if ("`botModel`" in inputPrompt):
         replacement = pm4py.llm.abstract_petri_net(
             net, initial_marking, final_marking)
