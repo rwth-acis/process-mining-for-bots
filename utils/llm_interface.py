@@ -11,45 +11,28 @@ def recommendations_from_event_log(log):
 
 
 def recommendations_for_intents(intents_df):
-    prompt = "Knowing that a confidence score bigger than 0.9 is considered good. nlu_fallback describes cases where intents were not recognized. \n\n"
+    prompt = "Knowing that a confidence score bigger than 0.9 is considered good. nlu_fallback describes cases where intents were not recognized, which is also problematic \n\n"
     prompt += "Here is a list of intents and the average bot confidence score:\n\n"
-    for index, row in intents_df.iterrows():
-        if row['intentKeyword'] is not None:
-            prompt += f"{row['intentKeyword']}: {row['averageConfidence']}\n"
-    prompt += "\nWhat improvements can be made to the chatbot? Note that the training data is passed to Rasa to train. \n\n"
-    prompt += "Format the response as html. Also include the list along with the confidence scores as a table\n\n"
+    prompt += get_intent_list(intents_df)
+    prompt += "\nWhat improvements can be made to the chatbot? Note that the training data is passed to Rasa to train. Also include the list along with the confidence scores as a table \n\n"
+    prompt += "Format the response as html. \n\n"
     return prompt
 
 
 def custom_prompt(inputPrompt, intents_df, log, net, initial_marking, final_marking):
+    inputPrompt = inputPrompt.replace("\n", "")
     if ("`botModel`" in inputPrompt):
-        # split the inputPrompt at `botModel` and insert the bot model
-        prompt = inputPrompt.split("`botModel`")
-        for i in range(len(prompt)):
-            if i % 2 == 1:
-                prompt[i] = pm4py.llm.abstract_petri_net(
-                    net, initial_marking, final_marking)
-        prompt = "".join(prompt)
+        replacement = pm4py.llm.abstract_petri_net(
+            net, initial_marking, final_marking)
+        prompt = replacePlaceholder(inputPrompt, "`botModel`", replacement)
 
     if ("`botIntents`" in prompt):
-        # split the inputPrompt at `botIntents` and insert the bot intents
-        prompt = "".join(prompt).split("`botIntents`")
-        for i in range(len(prompt)):
-            if i % 2 == 1:
-                prompt[i] = ""
-                for index, row in intents_df.iterrows():
-                    if row['intentKeyword'] is not None:
-                        prompt[i] += f"{row['intentKeyword']}: {row['averageConfidence']}\n"
-        prompt = "".join(prompt)
+        prompt = replacePlaceholder(
+            inputPrompt, "`botIntents`", get_intent_list(intents_df))
 
     if ("`botLog`" in prompt):
-        # split the inputPrompt at `botLog` and insert the bot log
-        prompt = "".join(prompt).split("`botLog`")
-        for i in range(len(prompt)):
-            if i % 2 == 1:
-                prompt[i] = pm4py.llm.abstract_dfg(log)
-
-        prompt = "".join(prompt)
+        replacement = pm4py.llm.abstract_dfg(log)
+        prompt = replacePlaceholder(inputPrompt, "`botLog`", replacement)
 
     return prompt
 
@@ -78,3 +61,15 @@ def send_prompt(prompt, api_key, openai_model="gpt-3.5-turbo-1106"):
                                               ])
     content = response.choices[0].message.content
     return content
+
+
+def replacePlaceholder(prompt, placeholder, replacement):
+    return prompt.replace(placeholder, replacement)
+
+
+def get_intent_list(intents_df):
+    res = ""
+    for index, row in intents_df.iterrows():
+        if row['intentKeyword'] is not None:
+            res += f"{row['intentKeyword']}: {row['averageConfidence']}\n"
+    return res
