@@ -323,6 +323,8 @@ def serialize_response(bot_model_dfg, bot_parser, start_activities, end_activiti
 @bot_resource.route('/<botName>/llm/dfg-improvements', methods=['POST'])
 def get_improvements_for_dfg(botName):
     api_key = request.get_json().get('openai-key', None)
+    api_key = current_app.openai_key if api_key == "evaluation-lakhoune" else api_key
+
     openai_model = request.get_json().get('openai-model', 'gpt-3.5-turbo-16k')
     if api_key is None:
         return {
@@ -352,6 +354,8 @@ def get_improvements_for_dfg(botName):
 @bot_resource.route('/<botName>/llm/intent-improvements', methods=['POST'])
 def get_improvements_for_intents(botName):
     api_key = request.get_json().get('openai-key', None)
+    api_key = current_app.openai_key if api_key == "evaluation-lakhoune" else api_key
+
     openai_model = request.get_json().get('openai-model', 'gpt-3.5-turbo-16k')
 
     if api_key is None:
@@ -382,9 +386,9 @@ def get_custom_improvements(botName):
     initial_marking = None
     final_marking = None
     openai_model = request.get_json().get('openai-model', 'gpt-3.5-turbo-16k')
-
-
     api_key = request.get_json().get('openai-key', None)
+    api_key = current_app.openai_key if api_key == "evaluation-lakhoune" else api_key
+
     if api_key is None:
         return {
             "error": "api_key parameter is missing"
@@ -438,6 +442,7 @@ def get_custom_improvements(botName):
 @bot_resource.route('/<botName>/llm/describe', methods=['POST'])
 def describe_bot_model(botName):
     api_key = request.get_json().get('openai-key', None)
+    api_key = current_app.openai_key if api_key == "evaluation-lakhoune" else api_key
     openai_model = request.get_json().get('openai-model', 'gpt-3.5-turbo-16k')
 
     if api_key is None:

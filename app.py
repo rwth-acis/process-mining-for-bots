@@ -32,6 +32,7 @@ db_connection = get_connection(
     mysql_host, mysql_port, mysql_user, mysql_password, mysql_events_db)
 
 app = Flask(__name__)
+app.openai_key = os.environ.get('OPENAI_API_KEY', '123456')
 
 # Define a logger
 log_format = '%(asctime)s - %(name)s - %(levelname)s - %(message)s'
