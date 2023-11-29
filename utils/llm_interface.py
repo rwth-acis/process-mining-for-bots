@@ -54,7 +54,7 @@ def send_prompt(prompt, api_key, openai_model="gpt-3.5-turbo-1106"):
     client = OpenAI(api_key=api_key)
     response = client.chat.completions.create(model=openai_model,
                                               messages=[
-                                                  {"role": "system", "content": "You are a helpful Process Mining Expert. You are helping users improve their chatbot. Petri nets refer to the chatbot conversation model. DFG refers to the chatbot conversation model."},
+                                                  {"role": "system", "content": "You are a helpful Process Mining Expert. You are helping users improve their chatbot. Petri nets refer to the chatbot conversation model. DFG refers to the chatbot conversation model. Furthermore, you should only return html. dont include ```html"},
                                                   {"role": "user",
                                                    "content": prompt}
                                               ])
