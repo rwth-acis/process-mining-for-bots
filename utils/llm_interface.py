@@ -25,11 +25,11 @@ def custom_prompt(inputPrompt, intents_df, log, net, initial_marking, final_mark
             net, initial_marking, final_marking)
         prompt = replacePlaceholder(inputPrompt, "`botModel`", replacement)
 
-    if ("`botIntents`" in prompt):
+    if ("`botIntents`" in inputPrompt):
         prompt = replacePlaceholder(
             inputPrompt, "`botIntents`", get_intent_list(intents_df))
 
-    if ("`botLog`" in prompt):
+    if ("`botLog`" in inputPrompt):
         replacement = pm4py.llm.abstract_dfg(log)
         prompt = replacePlaceholder(inputPrompt, "`botLog`", replacement)
 
