@@ -81,33 +81,39 @@ def enhanced_bot_model(botName):
         }, 500
 
 
-@bot_resource.route('/<botName>/petri-net')
+@bot_resource.route('/<botName>/petri-net', methods=['GET', 'POST'])
 def get_petri_net(botName):
-    if 'bot-manager-url' not in request.args:
-        return {
-            "error": "bot-manager-url parameter is missing"
-        }, 400
+    if request.method == 'GET':
+        if 'bot-manager-url' not in request.args:
+            return {
+                "error": "bot-manager-url parameter is missing"
+            }, 400
+        bot_manager_url = request.args['bot-manager-url']
+        try:
+            bot_model_json = fetch_bot_model(botName, bot_manager_url)
+            if bot_model_json is None:
+                print(f"Could not fetch bot model from {bot_manager_url}")
+                return {
+                    "error": f"Could not fetch bot model from {bot_manager_url}"
+                }, 500
+        except Exception as e:
+            print(e)
+            return {
+                "error": f"Could not fetch bot model from {bot_manager_url}, make sure the service is running and the bot name is correct"
+            }, 500
+    else:
+        bot_model_json = request.get_json().get('bot-model', None)
+        if bot_model_json is None:
+            return {
+                "error": "bot-model parameter is missing"
+            }, 400
     if 'event-log-url' not in request.args:
         return {
             "error": "event-log-url parameter is missing"
         }, 400
 
-    bot_manager_url = request.args['bot-manager-url']
     event_log_url = request.args['event-log-url']
 
-    try:
-        bot_model_json = fetch_bot_model(botName, bot_manager_url)
-    except Exception as e:
-        print(e)
-        return {
-            "error": f"Could not fetch bot model from {bot_manager_url}, make sure the service is running and the bot name is correct"
-        }, 400
-
-    if bot_model_json is None:
-        print("Could not fetch bot model")
-        return {
-            "error": f"Could not fetch bot model from {bot_manager_url}"
-        }, 400
     bot_parser = get_parser(bot_model_json)
     try:
         event_log = fetch_event_log(botName, event_log_url)
