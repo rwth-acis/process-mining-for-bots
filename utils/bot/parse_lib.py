@@ -76,9 +76,7 @@ class BotParser:
             dfg, start_activities, end_activities)
         net, im , fm = self.rename_labels(net, im, fm)
         net = reduce_petri_net_invisibles(net) 
-        return net, im, fm
-
-    
+        return net, im, fm    
 
     def get_dfg(self):
         """
@@ -260,18 +258,20 @@ def extract_intent_keyword(node_id, node, edges):
     """
     intent_keyword = None
     # find the intent keyword
+    for edge in edges.values():
+            if edge['target'] == node_id:
+                intent_keyword = edge['label']['value']['value']
+                if intent_keyword != "" and intent_keyword is not None:
+                    return intent_keyword
     for attr in node['attributes'].values():
         if attr['name'] == 'Intent Keyword':
             intent_keyword = attr['value']['value']
             if intent_keyword != "" and intent_keyword is not None:
                 return intent_keyword
-
-        # sometimes the intent keyword is empty and stored in the ingoing edge of the node instead
-        for edge in edges.values():
-            if edge['target'] == node_id:
-                intent_keyword = edge['label']['value']['value']
-                if intent_keyword != "" and intent_keyword is not None:
-                    return intent_keyword
+    if node['label'] is not None and node['label']['name'] == 'Name':
+        intent_keyword = node['label']['value']['value']
+        if intent_keyword != "" and intent_keyword is not None:
+            return intent_keyword
     return "empty_intent"
 
 
@@ -287,8 +287,8 @@ def extract_activity_name(node_id, node, edges):
     >>> activity_name = extract_activity_name("n1", node, edges)
     """
     if node['type'] == 'Incoming Message':
-        return extract_state_label(node)
-        # return extract_intent_keyword(node_id, node, edges)
+        # return extract_state_label(node)
+        return extract_intent_keyword(node_id, node, edges)
     elif node['type'] == 'Bot Action':
         return extract_function_name(node)
     return "empty_activity"

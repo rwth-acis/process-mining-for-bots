@@ -15,38 +15,43 @@ import math
 bot_resource = Blueprint('dynamic_resource', __name__)
 
 
-@bot_resource.route('/<botName>/enhanced-model')
+@bot_resource.route('/<botName>/enhanced-model', methods=['GET', 'POST'])
 @swag_from('enhanced-model.yml')
 def enhanced_bot_model(botName):
-    if 'bot-manager-url' not in request.args:
-        return {
-            "error": "bot-manager-url parameter is missing"
-        }, 400
 
     if 'event-log-url' not in request.args:
         return {
             "error": "event-log-url parameter is missing"
         }, 400
-
     event_log_url = request.args['event-log-url']
-    bot_manager_url = request.args['bot-manager-url']
     res_format = request.args.get('format', 'json')
 
-    try:
-        bot_model_json = fetch_bot_model(botName, bot_manager_url)
-        if bot_model_json is None:
-            print(f"Could not fetch bot model from {bot_manager_url}")
+    if request.method == 'GET':
+        if 'bot-manager-url' not in request.args:
             return {
-                "error": f"Could not fetch bot model from {bot_manager_url}"
+                "error": "bot-manager-url parameter is missing"
+            }, 400
+        bot_manager_url = request.args['bot-manager-url']
+        try:
+            bot_model_json = fetch_bot_model(botName, bot_manager_url)
+            if bot_model_json is None:
+                print(f"Could not fetch bot model from {bot_manager_url}")
+                return {
+                    "error": f"Could not fetch bot model from {bot_manager_url}"
+                }, 500
+        except Exception as e:
+            print(e)
+            return {
+                "error": f"Could not fetch bot model from {bot_manager_url}, make sure the service is running and the bot name is correct"
             }, 500
-    except Exception as e:
-        print(e)
-        return {
-            "error": f"Could not fetch bot model from {bot_manager_url}, make sure the service is running and the bot name is correct"
-        }, 500
+    else:
+        bot_model_json = request.get_json().get('bot-model', None)
+        if bot_model_json is None:
+            return {
+                "error": "bot-model parameter is missing"
+            }, 400
 
     try:
-
         event_log = fetch_event_log(botName, event_log_url)
         if event_log is None:
             print(f"Could not fetch event log from {event_log_url}")
@@ -61,7 +66,6 @@ def enhanced_bot_model(botName):
 
     try:
         bot_parser = get_parser(bot_model_json)
-
         bot_model_dfg, start_activities, end_activities, performance = enhance_bot_model(
             event_log, bot_parser)
         if res_format == 'svg':
@@ -77,33 +81,39 @@ def enhanced_bot_model(botName):
         }, 500
 
 
-@bot_resource.route('/<botName>/petri-net')
+@bot_resource.route('/<botName>/petri-net', methods=['GET', 'POST'])
 def get_petri_net(botName):
-    if 'bot-manager-url' not in request.args:
-        return {
-            "error": "bot-manager-url parameter is missing"
-        }, 400
+    if request.method == 'GET':
+        if 'bot-manager-url' not in request.args:
+            return {
+                "error": "bot-manager-url parameter is missing"
+            }, 400
+        bot_manager_url = request.args['bot-manager-url']
+        try:
+            bot_model_json = fetch_bot_model(botName, bot_manager_url)
+            if bot_model_json is None:
+                print(f"Could not fetch bot model from {bot_manager_url}")
+                return {
+                    "error": f"Could not fetch bot model from {bot_manager_url}"
+                }, 500
+        except Exception as e:
+            print(e)
+            return {
+                "error": f"Could not fetch bot model from {bot_manager_url}, make sure the service is running and the bot name is correct"
+            }, 500
+    else:
+        bot_model_json = request.get_json().get('bot-model', None)
+        if bot_model_json is None:
+            return {
+                "error": "bot-model parameter is missing"
+            }, 400
     if 'event-log-url' not in request.args:
         return {
             "error": "event-log-url parameter is missing"
         }, 400
 
-    bot_manager_url = request.args['bot-manager-url']
     event_log_url = request.args['event-log-url']
 
-    try:
-        bot_model_json = fetch_bot_model(botName, bot_manager_url)
-    except Exception as e:
-        print(e)
-        return {
-            "error": f"Could not fetch bot model from {bot_manager_url}, make sure the service is running and the bot name is correct"
-        }, 400
-
-    if bot_model_json is None:
-        print("Could not fetch bot model")
-        return {
-            "error": f"Could not fetch bot model from {bot_manager_url}"
-        }, 400
     bot_parser = get_parser(bot_model_json)
     try:
         event_log = fetch_event_log(botName, event_log_url)
@@ -129,33 +139,38 @@ def get_petri_net(botName):
     return gviz.pipe(format='svg').decode('utf-8')
 
 
-@bot_resource.route('/<botName>/bpmn')
+@bot_resource.route('/<botName>/bpmn', methods=['GET', 'POST'])
 def get_bpmn(botName):
-    if 'bot-manager-url' not in request.args:
-        return {
-            "error": "bot-manager-url parameter is missing"
-        }, 400
+    if request.method == 'GET':
+        if 'bot-manager-url' not in request.args:
+            return {
+                "error": "bot-manager-url parameter is missing"
+            }, 400
+        bot_manager_url = request.args['bot-manager-url']
+        try:
+            bot_model_json = fetch_bot_model(botName, bot_manager_url)
+            if bot_model_json is None:
+                print(f"Could not fetch bot model from {bot_manager_url}")
+                return {
+                    "error": f"Could not fetch bot model from {bot_manager_url}"
+                }, 500
+        except Exception as e:
+            print(e)
+            return {
+                "error": f"Could not fetch bot model from {bot_manager_url}, make sure the service is running and the bot name is correct"
+            }, 500
+    else:
+        bot_model_json = request.get_json().get('bot-model', None)
+        if bot_model_json is None:
+            return {
+                "error": "bot-model parameter is missing"
+            }, 400
     if 'event-log-url' not in request.args:
         return {
             "error": "event-log-url parameter is missing"
         }, 400
 
-    bot_manager_url = request.args['bot-manager-url']
     event_log_url = request.args['event-log-url']
-
-    try:
-        bot_model_json = fetch_bot_model(botName, bot_manager_url)
-    except Exception as e:
-        print(e)
-        return {
-            "error": f"Could not fetch bot model from {bot_manager_url}, make sure the service is running and the bot name is correct"
-        }, 400
-
-    if bot_model_json is None:
-        print("Could not fetch bot model")
-        return {
-            "error": f"Could not fetch bot model from {bot_manager_url}"
-        }, 400
     bot_parser = get_parser(bot_model_json)
     try:
         event_log = fetch_event_log(botName, event_log_url)
@@ -219,7 +234,7 @@ def get_success_model(botName):
     return fetch_success_model(success_model_url, botName, current_app.default_bot_pw, service_id=service_id, group_id=group_id)
 
 
-@bot_resource.route('/<botName>/statistics')
+@bot_resource.route('/<botName>/statistics', methods=['GET', 'POST'])
 def get_bot_statistics(botName):
     """
     Fetches the statistics of the bot 
@@ -238,11 +253,30 @@ def get_bot_statistics(botName):
             "error": f"Could not fetch event log from {event_log_generator_url}, make sure the service is running and the bot name is correct"
         }, 400
     statistics = bot_statistics(event_log)
-    bot_manager_url = request.args.get('bot-manager-url', None)
 
-    if bot_manager_url is not None:
+    if request.method == 'GET' and 'bot-manager-url' in request.args:
+
+        bot_manager_url = request.args['bot-manager-url']
         try:
             bot_model_json = fetch_bot_model(botName, bot_manager_url)
+            if bot_model_json is None:
+                print(f"Could not fetch bot model from {bot_manager_url}")
+                return {
+                    "error": f"Could not fetch bot model from {bot_manager_url}"
+                }, 500
+        except Exception as e:
+            print(e)
+            return {
+                "error": f"Could not fetch bot model from {bot_manager_url}, make sure the service is running and the bot name is correct"
+            }, 500
+    elif request.method == 'POST':
+        bot_model_json = request.get_json().get('bot-model', None)
+        if bot_model_json is None:
+            return {
+                "error": "bot-model parameter is missing"
+            }, 400
+        try:
+
             bot_parser = get_parser(bot_model_json)
             net, im, fm = bot_parser.to_petri_net()
             conformance_results = conformance(event_log, net, im, fm)

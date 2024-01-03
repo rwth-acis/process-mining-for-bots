@@ -53,81 +53,6 @@ def repair_petri_net(event_log, net,im,fm):
     return net,fm,im 
 
 
-# def repair_bot_model(event_log, bot_parser, bot_model_dfg, start_activities, end_activities):
-#     """
-#     Enhance the bot model using the event log.
-#     We assume that the bot model is incomplete 
-#     as it does not contain subprocesses which are logged when 
-#     the bot is communicating with an external service.
-#     We say that the bot is in the service context in that case.
-#     The event log contains the information whether we are in a service context as an additional attribute.
-#     :param event_log: event log
-#     :param bot_parser: bot parser
-#     :param bot_model_dfg: bot model as a DFG
-#     :param start_activities: start activities
-#     :param end_activities: end activities
-#     :return: enhanced bot model 
-#     """
-#     net, im, fm = bot_parser.to_petri_net(bot_model_dfg, start_activities, end_activities)
-#     alignments = list(a['alignment'] for a in pm4py.conformance.conformance_diagnostics_alignments(
-#         event_log, net, im, fm))
-
-#     for alignment in alignments:
-#         log_moves = list(move[0] for move in alignment if move[0] != ">>")
-#         # search for this trace in the event_log
-#         trace_in_log = _find_trace_in_log(log_moves, event_log)
-#         trace_in_log['in-service-context'] = trace_in_log['in-service-context'].fillna(
-#             False)
-
-#         tmp = None
-#         anchor = None
-#         potential_start_activities = set()
-#         potential_end_activities = set()
-
-#         # iterate over the trace and find subprocesses that are in the service context
-#         for _, row in trace_in_log.iterrows():
-#             if tmp != None and row["in-service-context"] == True:
-#                 # extend the chain with tmp->row['concept:name']
-#                 new_id = str(uuid.uuid4())
-#                 bot_parser.add_name(new_id, row['concept:name'])
-#                 bot_model_dfg[(anchor['id'], new_id)] = 0
-#                 potential_start_activities.add(anchor['id'])
-#                 tmp = {'name': row['concept:name'], 'id': new_id}
-#             elif tmp != None and row["in-service-context"] == False:
-#                 # create a path back to anchor
-#                 bot_model_dfg[(tmp['id'], anchor['id'])] = 0
-#                 anchor = None
-#                 tmp = None
-                
-#             if row['EVENT'] == "SERVICE_REQUEST":
-#                 anchor = {'name': row['concept:name'], 'id': bot_parser.get_node_id_by_name(
-#                     row['concept:name'])}  # defines the (potential) start of a subprocess
-                
-#                 tmp = anchor.copy()
-#             if tmp!= None:
-#                 potential_end_activities.add(tmp['id'])
-  
-#         for potential_start_activity in potential_start_activities:
-#             # check if the potential start activity has no incoming edge
-#             has_incoming_edge = False
-#             for _, target in bot_model_dfg.keys():
-#                 if target == potential_start_activity:
-#                     has_incoming_edge = True
-#                     break
-#             if not has_incoming_edge and potential_start_activity not in start_activities:
-#                 start_activities.add(potential_start_activity)
-#         for potential_end_activity in potential_end_activities:
-#             # check if the potential end activity has no outgoing edge
-#             has_outgoing_edge = False
-#             for source, _ in bot_model_dfg.keys():
-#                 if source == potential_end_activity:
-#                     has_outgoing_edge = True
-#                     break
-#             if not has_outgoing_edge and potential_end_activity not in end_activities:
-#                 end_activities.add(potential_end_activity)
-
-#     return bot_model_dfg, start_activities, end_activities
-
 
 def add_edge_frequency(event_log, bot_model_dfg, start_act, end_act, bot_parser):
     """
@@ -322,3 +247,79 @@ def get_alignment_for_variant(variant, alignments_results):
 #     dfg,start,end, p = enhance_bot_model(event_log,bot_parser)
 #     pm4py.view_dfg(dfg, start_activities=start, end_activities=end)
 #     # pm4py.view_petri_net(net,im,fm)
+
+
+# def repair_bot_model(event_log, bot_parser, bot_model_dfg, start_activities, end_activities):
+#     """
+#     Enhance the bot model using the event log.
+#     We assume that the bot model is incomplete 
+#     as it does not contain subprocesses which are logged when 
+#     the bot is communicating with an external service.
+#     We say that the bot is in the service context in that case.
+#     The event log contains the information whether we are in a service context as an additional attribute.
+#     :param event_log: event log
+#     :param bot_parser: bot parser
+#     :param bot_model_dfg: bot model as a DFG
+#     :param start_activities: start activities
+#     :param end_activities: end activities
+#     :return: enhanced bot model 
+#     """
+#     net, im, fm = bot_parser.to_petri_net(bot_model_dfg, start_activities, end_activities)
+#     alignments = list(a['alignment'] for a in pm4py.conformance.conformance_diagnostics_alignments(
+#         event_log, net, im, fm))
+
+#     for alignment in alignments:
+#         log_moves = list(move[0] for move in alignment if move[0] != ">>")
+#         # search for this trace in the event_log
+#         trace_in_log = _find_trace_in_log(log_moves, event_log)
+#         trace_in_log['in-service-context'] = trace_in_log['in-service-context'].fillna(
+#             False)
+
+#         tmp = None
+#         anchor = None
+#         potential_start_activities = set()
+#         potential_end_activities = set()
+
+#         # iterate over the trace and find subprocesses that are in the service context
+#         for _, row in trace_in_log.iterrows():
+#             if tmp != None and row["in-service-context"] == True:
+#                 # extend the chain with tmp->row['concept:name']
+#                 new_id = str(uuid.uuid4())
+#                 bot_parser.add_name(new_id, row['concept:name'])
+#                 bot_model_dfg[(anchor['id'], new_id)] = 0
+#                 potential_start_activities.add(anchor['id'])
+#                 tmp = {'name': row['concept:name'], 'id': new_id}
+#             elif tmp != None and row["in-service-context"] == False:
+#                 # create a path back to anchor
+#                 bot_model_dfg[(tmp['id'], anchor['id'])] = 0
+#                 anchor = None
+#                 tmp = None
+                
+#             if row['EVENT'] == "SERVICE_REQUEST":
+#                 anchor = {'name': row['concept:name'], 'id': bot_parser.get_node_id_by_name(
+#                     row['concept:name'])}  # defines the (potential) start of a subprocess
+                
+#                 tmp = anchor.copy()
+#             if tmp!= None:
+#                 potential_end_activities.add(tmp['id'])
+  
+#         for potential_start_activity in potential_start_activities:
+#             # check if the potential start activity has no incoming edge
+#             has_incoming_edge = False
+#             for _, target in bot_model_dfg.keys():
+#                 if target == potential_start_activity:
+#                     has_incoming_edge = True
+#                     break
+#             if not has_incoming_edge and potential_start_activity not in start_activities:
+#                 start_activities.add(potential_start_activity)
+#         for potential_end_activity in potential_end_activities:
+#             # check if the potential end activity has no outgoing edge
+#             has_outgoing_edge = False
+#             for source, _ in bot_model_dfg.keys():
+#                 if source == potential_end_activity:
+#                     has_outgoing_edge = True
+#                     break
+#             if not has_outgoing_edge and potential_end_activity not in end_activities:
+#                 end_activities.add(potential_end_activity)
+
+#     return bot_model_dfg, start_activities, end_activities
