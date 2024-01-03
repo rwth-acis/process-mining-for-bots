@@ -260,6 +260,11 @@ def extract_intent_keyword(node_id, node, edges):
     """
     intent_keyword = None
     # find the intent keyword
+    for edge in edges.values():
+            if edge['target'] == node_id:
+                intent_keyword = edge['label']['value']['value']
+                if intent_keyword != "" and intent_keyword is not None:
+                    return intent_keyword
     for attr in node['attributes'].values():
         if attr['name'] == 'Intent Keyword':
             intent_keyword = attr['value']['value']
