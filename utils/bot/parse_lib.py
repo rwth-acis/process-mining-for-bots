@@ -270,13 +270,10 @@ def extract_intent_keyword(node_id, node, edges):
             intent_keyword = attr['value']['value']
             if intent_keyword != "" and intent_keyword is not None:
                 return intent_keyword
-
-        # sometimes the intent keyword is empty and stored in the ingoing edge of the node instead
-        for edge in edges.values():
-            if edge['target'] == node_id:
-                intent_keyword = edge['label']['value']['value']
-                if intent_keyword != "" and intent_keyword is not None:
-                    return intent_keyword
+    if node['label'] is not None and node['label']['name'] == 'Name':
+        intent_keyword = node['label']['value']['value']
+        if intent_keyword != "" and intent_keyword is not None:
+            return intent_keyword
     return "empty_intent"
 
 
