@@ -76,9 +76,7 @@ class BotParser:
             dfg, start_activities, end_activities)
         net, im , fm = self.rename_labels(net, im, fm)
         net = reduce_petri_net_invisibles(net) 
-        return net, im, fm
-
-    
+        return net, im, fm    
 
     def get_dfg(self):
         """
@@ -289,8 +287,8 @@ def extract_activity_name(node_id, node, edges):
     >>> activity_name = extract_activity_name("n1", node, edges)
     """
     if node['type'] == 'Incoming Message':
-        return extract_state_label(node)
-        # return extract_intent_keyword(node_id, node, edges)
+        # return extract_state_label(node)
+        return extract_intent_keyword(node_id, node, edges)
     elif node['type'] == 'Bot Action':
         return extract_function_name(node)
     return "empty_activity"
