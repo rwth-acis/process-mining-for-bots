@@ -66,14 +66,14 @@ def enhanced_bot_model(botName):
 
     try:
         bot_parser = get_parser(bot_model_json)
-        bot_model_dfg, start_activities, end_activities, performance = enhance_bot_model(
+        bot_model_dfg, start_activities, end_activities, performance, frequency = enhance_bot_model(
             event_log, bot_parser)
         if res_format == 'svg':
             gviz = dfg_visualizer.apply(bot_model_dfg)
             return gviz.pipe(format='svg').decode('utf-8')
 
         return serialize_response(
-            bot_model_dfg, bot_parser, start_activities, end_activities, performance, botName)
+            bot_model_dfg, bot_parser, start_activities, end_activities, performance, botName, frequency[0])
     except Exception as e:
         print(e)
         return {
@@ -301,7 +301,7 @@ def get_groups(botName):
     return fetchL2PGroups(contact_service_url, botName, current_app.default_bot_pw)
 
 
-def serialize_response(bot_model_dfg, bot_parser, start_activities, end_activities, performance, botName):
+def serialize_response(bot_model_dfg, bot_parser, start_activities, end_activities, performance, botName, frequency_dfg):
     added_edges = set()
     try:
         # serialize the bot model
@@ -334,7 +334,7 @@ def serialize_response(bot_model_dfg, bot_parser, start_activities, end_activiti
                 "source": edge[0],
                 "target": edge[1],
                 "performance": performance[(source_label, target_label)] if (source_label, target_label) in performance else None,
-                "frequency": frequency
+                "frequency": frequency_dfg[(source_label, target_label)] if (source_label, target_label) in frequency_dfg else None,
             })
             added_edges.add((edge[0], edge[1]))
 

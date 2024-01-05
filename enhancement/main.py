@@ -30,9 +30,10 @@ def enhance_bot_model(event_log, bot_parser):
     dfg = add_edge_frequency(event_log, dfg, start_activities,
                              end_activities,bot_parser)  # add the edge frequency
     performance = pm4py.discovery.discover_performance_dfg(event_log)
+    frequency = pm4py.discovery.discover_dfg(event_log)
     # replace NaN values with None 
     performance = __replace_nan_with_null(performance[0])
-    return dfg, start_activities, end_activities, performance
+    return dfg, start_activities, end_activities, performance, frequency
 
 def repair_petri_net(event_log, net,im,fm):
     """
