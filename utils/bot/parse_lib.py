@@ -320,7 +320,7 @@ def extract_state_label_new(node):
     if node is None:
         return None
     if node['type'] == 'Incoming Message':
-        return node['label']['value']['value'] if node['label'] is not None else None
+        return node['label']['value']['value'] if 'label' in node else None
     elif node['type'] == 'Bot Action':
         return extract_function_name(node)
     return None
