@@ -1,6 +1,6 @@
 from flask import Blueprint, current_app, request
 from flasgger import swag_from
-from utils.bot.parse_lib import get_parser
+from utils.bot.parse_lib import get_parser, extract_state_label
 from utils.api_requests import fetch_event_log, fetch_bot_model, fetch_success_model, fetchL2PGroups
 from enhancement.main import repair_petri_net, enhance_bot_model, average_intent_confidence, case_durations
 from pm4py.visualization.petri_net import visualizer as pn_visualizer
@@ -302,6 +302,7 @@ def get_groups(botName):
 
 
 def serialize_response(bot_model_dfg, bot_parser, start_activities, end_activities, performance, botName):
+    added_edges = set()
     try:
         # serialize the bot model
         edges = []
@@ -319,23 +320,30 @@ def serialize_response(bot_model_dfg, bot_parser, start_activities, end_activiti
                     else:
                         avg_confidence[keyword] = row['averageConfidence']
         for edge, frequency in bot_model_dfg.items():
-            source_label = bot_parser.id_name_map[edge[0]
-                                                  ] if edge[0] in bot_parser.id_name_map else edge[0]
-            target_label = bot_parser.id_name_map[edge[1]
-                                                  ] if edge[1] in bot_parser.id_name_map else edge[1]
+            source_intent = bot_parser.id_name_map[edge[0]
+                                                   ] if edge[0] in bot_parser.id_name_map else None
+            target_intent = bot_parser.id_name_map[edge[1]
+                                                   ] if edge[1] in bot_parser.id_name_map else None
+            source_label = bot_parser.id_state_map[edge[0]
+                                                   ] if edge[0] in bot_parser.id_state_map else None
+            target_label = bot_parser.id_state_map[edge[1]
+                                                   ] if edge[1] in bot_parser.id_state_map else None
+            if (edge[0], edge[1]) in added_edges:
+                continue
             edges.append({
                 "source": edge[0],
                 "target": edge[1],
                 "performance": performance[(source_label, target_label)] if (source_label, target_label) in performance else None,
                 "frequency": frequency
             })
+            added_edges.add((edge[0], edge[1]))
 
             if edge[0] not in nodes:
-                nodes.append({"id": edge[0], "label": source_label,
-                              "avg_confidence": avg_confidence[source_label] if source_label in avg_confidence else None})
+                nodes.append({"id": edge[0], "label": source_intent,
+                              "avg_confidence": avg_confidence[source_intent] if source_intent in avg_confidence else None})
             if edge[1] not in nodes:
-                nodes.append({"id": edge[1], "label": target_label,
-                              "avg_confidence": avg_confidence[target_label] if target_label in avg_confidence else None})
+                nodes.append({"id": edge[1], "label": target_intent,
+                              "avg_confidence": avg_confidence[target_intent] if target_intent in avg_confidence else None})
 
         res = {
             "graph": {
