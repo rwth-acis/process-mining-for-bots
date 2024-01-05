@@ -32,7 +32,10 @@ class BotParser:
     def __init__(self, bot_model):
         self.bot_name = None
         self.bot_model = bot_model
-        self.id_name_map = {}  # for each node id of interest, store a name representative of the node
+        # for each node id of interest, store a intent representative of the node
+        self.id_name_map = {}
+        # for each node id of interest, store a state representative of the node
+        self.id_state_map = {}
         self.node_types_of_interest = [
             'Incoming Message', 'Bot Action']
         self.edge_types_of_interest = ['leadsTo', 'uses', 'generates']
@@ -54,6 +57,9 @@ class BotParser:
             name = extract_activity_name(
                 node_id, node, bot_model['edges'])
             self.id_name_map[node_id] = name
+            state_label = extract_state_label_new(node)
+            if state_label is not None:
+                self.id_state_map[node_id] = state_label
         
         if self.bot_name is None:
             raise Exception("Bot name not found in bot model")
@@ -304,4 +310,15 @@ def extract_state_label(node):
                 return intent_keyword
             else:
                 return None
+    return None
+
+
+def extract_state_label_new(node):
+    """
+    Extracts the state label from a node. 
+    """
+    if node['type'] == 'Incoming Message':
+        return node['label']['value']['value']
+    elif node['type'] == 'Bot Action':
+        return extract_function_name(node)
     return None

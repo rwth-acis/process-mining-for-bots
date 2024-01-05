@@ -19,7 +19,7 @@ import json
 from utils.bot.parse_lib import get_parser
 import pm4py
 
-botmodel = json.loads(open('./utils/bot/assets/hotelBot.json').read())
+botmodel = json.loads(open('./assets/models/hotelBot.json').read())
 parser = get_parser(botmodel)
 
 net,im,fm = parser.to_petri_net()
