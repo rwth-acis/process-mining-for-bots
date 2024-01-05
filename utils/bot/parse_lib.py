@@ -318,7 +318,7 @@ def extract_state_label_new(node):
     Extracts the state label from a node. 
     """
     if node['type'] == 'Incoming Message':
-        return node['label']['value']['value']
+        return node['label']['value']['value'] if node['label'] is not None else None
     elif node['type'] == 'Bot Action':
         return extract_function_name(node)
     return None
