@@ -1,4 +1,4 @@
-from flask import Blueprint, current_app, request
+from flask import Blueprint, current_app, request, jsonify
 from flasgger import swag_from
 from utils.bot.parse_lib import get_parser, extract_state_label
 from utils.api_requests import fetch_event_log, fetch_bot_model, fetch_success_model, fetchL2PGroups
@@ -102,33 +102,37 @@ def get_petri_net(botName):
                 "error": f"Could not fetch bot model from {bot_manager_url}, make sure the service is running and the bot name is correct"
             }, 500
     else:
-        bot_model_json = request.get_json().get('bot-model', None)
+        try:
+            data = request.get_json()
+        except Exception as e:
+            return jsonify(error=str(e)), 400
+        bot_model_json = data.get('bot-model', None)
         if bot_model_json is None:
             return {
                 "error": "bot-model parameter is missing"
             }, 400
-    if 'event-log-url' not in request.args:
-        return {
-            "error": "event-log-url parameter is missing"
-        }, 400
-
-    event_log_url = request.args['event-log-url']
 
     bot_parser = get_parser(bot_model_json)
-    try:
-        event_log = fetch_event_log(botName, event_log_url)
+    if request.args.get('enhance', 'false') == 'true':
+        if 'event-log-url' not in request.args:
+            return {
+                "error": "event-log-url parameter is missing"
+            }, 400
 
-    except Exception as e:
-        print(e)
-        return {
-            "error": f"Could not fetch event log from {event_log_url}, make sure the service is running and the bot name is correct"
-        }, 400
+        event_log_url = request.args['event-log-url']
+        try:
+            event_log = fetch_event_log(botName, event_log_url)
+            if event_log is None:
+                print("Could not fetch event log")
+                return {
+                    "error": f"Could not fetch event log from {event_log_url}"
+                }, 400
 
-    if event_log is None:
-        print("Could not fetch event log")
-        return {
-            "error": f"Could not fetch event log from {event_log_url}"
-        }, 400
+        except Exception as e:
+            print(e)
+            return {
+                "error": f"Could not fetch event log from {event_log_url}, make sure the service is running and the bot name is correct"
+            }, 400
 
     net, im, fm = bot_parser.to_petri_net()
     if request.args.get('enhance', 'false') == 'true':
@@ -172,20 +176,20 @@ def get_bpmn(botName):
 
     event_log_url = request.args['event-log-url']
     bot_parser = get_parser(bot_model_json)
-    try:
-        event_log = fetch_event_log(botName, event_log_url)
+    if request.args.get('enhance', 'false') == 'true':
+        try:
+            event_log = fetch_event_log(botName, event_log_url)
+            if event_log is None:
+                print("Could not fetch event log")
+                return {
+                    "error": f"Could not fetch event log from {event_log_url}"
+                }, 400
 
-    except Exception as e:
-        print(e)
-        return {
-            "error": f"Could not fetch event log from {event_log_url}, make sure the service is running and the bot name is correct"
-        }, 400
-
-    if event_log is None:
-        print("Could not fetch event log")
-        return {
-            "error": f"Could not fetch event log from {event_log_url}"
-        }, 400
+        except Exception as e:
+            print(e)
+            return {
+                "error": f"Could not fetch event log from {event_log_url}, make sure the service is running and the bot name is correct"
+            }, 400
 
     net, im, fm = bot_parser.to_petri_net()
     if request.args.get('enhance', 'false') == 'true':
