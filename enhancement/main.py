@@ -25,17 +25,22 @@ def enhance_bot_model(event_log, bot_parser):
     :return: enhanced bot model
     """
     dfg, start_activities, end_activities = bot_parser.get_dfg()  # initial dfg
-    net,im,fm = bot_parser.to_petri_net()
-    net,_,_ = repair_petri_net(event_log,net,im,fm)  # repair the dfg
-    dfg = add_edge_frequency(event_log, dfg, start_activities,
-                             end_activities,bot_parser)  # add the edge frequency
+    net, im, fm = bot_parser.to_petri_net()
+    try:
+        net, _, _ = repair_petri_net(event_log, net, im, fm)  # repair the dfg
+    except Exception as e:
+        print(e)
+
+    # dfg = add_edge_frequency(event_log, dfg, start_activities,
+    #                          end_activities, bot_parser)  # add the edge frequency
     performance = pm4py.discovery.discover_performance_dfg(event_log)
     frequency = pm4py.discovery.discover_dfg(event_log)
-    # replace NaN values with None 
+    # replace NaN values with None
     performance = __replace_nan_with_null(performance[0])
     return dfg, start_activities, end_activities, performance, frequency
 
-def repair_petri_net(event_log, net,im,fm):
+
+def repair_petri_net(event_log, net, im, fm):
     """
     Repair the bot model using the event log.
     We assume that the bot model is incomplete 
@@ -47,12 +52,11 @@ def repair_petri_net(event_log, net,im,fm):
     :param bot_model_dfg: bot model as a DFG
     :return: enhanced bot model
     """
-    net,_,_ = repair_process_model(net,im,fm,event_log)
+    net, _, _ = repair_process_model(net, im, fm, event_log)
     net = pm4py.reduce_petri_net_invisibles(net)
-    net,im,fm = pm4py.reduce_petri_net_implicit_places(net,im,fm)
+    net, im, fm = pm4py.reduce_petri_net_implicit_places(net, im, fm)
     # for some very weird reasons the repair function swaps the initial and final places. As a workaround we return the final marking as the initial marking and vice versa
-    return net,fm,im 
-
+    return net, fm, im
 
 
 def add_edge_frequency(event_log, bot_model_dfg, start_act, end_act, bot_parser):
@@ -68,12 +72,12 @@ def add_edge_frequency(event_log, bot_model_dfg, start_act, end_act, bot_parser)
 
     net, im, fm = bot_parser.to_petri_net(bot_model_dfg, start_act, end_act)
     alignments_results = alignments_algorithm.apply(event_log, net, im, fm, {
-                                                  Parameters.PARAM_ALIGNMENT_RESULT_IS_SYNC_PROD_AWARE: True})
+        Parameters.PARAM_ALIGNMENT_RESULT_IS_SYNC_PROD_AWARE: True})
     variants = pm4py.stats.get_variants_as_tuples(event_log)
-    new_nodes = dict() # nodes that are added to the bot model
+    new_nodes = dict()  # nodes that are added to the bot model
     for alignment in list(diagnostic['alignment'] for diagnostic in alignments_results):
         log_trace = tuple(log_move[0] for model_move,
-                          log_move in alignment if log_move[0] != ">>") # trace as it is in the log
+                          log_move in alignment if log_move[0] != ">>")  # trace as it is in the log
         # model_trace = tuple(
         #     log_move[1] for model_move, log_move in alignment if model_move[1] != ">>") # for debugging
         log_trace_count = variants[log_trace]
@@ -82,11 +86,11 @@ def add_edge_frequency(event_log, bot_model_dfg, start_act, end_act, bot_parser)
 
         for ((source, align_source), (target, align_target)) in itertools.pairwise(alignment):
             if (source[1] == ">>"):
-                if align_source[0] in new_nodes.keys(): 
+                if align_source[0] in new_nodes.keys():
                     source_id = new_nodes[align_source[0]]
                 else:
                     source_id = str(uuid.uuid4())
-                    new_nodes[align_source[0]] = source_id 
+                    new_nodes[align_source[0]] = source_id
                     bot_parser.id_name_map[source_id] = align_source[0]
             else:
                 source_id = source[1].split("_")[0]
@@ -100,14 +104,13 @@ def add_edge_frequency(event_log, bot_model_dfg, start_act, end_act, bot_parser)
             else:
                 target_id = target[1].split("_")[0]
 
-
             if (source_id, target_id) in bot_model_dfg:
                 bot_model_dfg[(source_id, target_id)] += log_trace_count
             else:
                 potential_start_activities.add(source_id)
                 potential_end_activities.add(target_id)
                 bot_model_dfg[(source_id, target_id)] = log_trace_count
-        
+
         for potential_start_activity in potential_start_activities:
             # check if the potential start activity has no incoming edge
             has_incoming_edge = False
@@ -227,7 +230,7 @@ def get_alignment_for_variant(variant, alignments_results):
     return None
 
 
-# # debug 
+# # debug
 # import sys
 # import os
 
@@ -238,7 +241,7 @@ def get_alignment_for_variant(variant, alignments_results):
 # from utils.bot.parse_lib import get_parser
 # from utils.api_requests import load_default_bot_model,get_default_event_log
 # if __name__ == "__main__":
-    
+
 #     event_log = get_default_event_log()
 #     # test if time:timestamp is a datetime
 #     # make time:timestamp to datetime
@@ -253,8 +256,8 @@ def get_alignment_for_variant(variant, alignments_results):
 # def repair_bot_model(event_log, bot_parser, bot_model_dfg, start_activities, end_activities):
 #     """
 #     Enhance the bot model using the event log.
-#     We assume that the bot model is incomplete 
-#     as it does not contain subprocesses which are logged when 
+#     We assume that the bot model is incomplete
+#     as it does not contain subprocesses which are logged when
 #     the bot is communicating with an external service.
 #     We say that the bot is in the service context in that case.
 #     The event log contains the information whether we are in a service context as an additional attribute.
@@ -263,7 +266,7 @@ def get_alignment_for_variant(variant, alignments_results):
 #     :param bot_model_dfg: bot model as a DFG
 #     :param start_activities: start activities
 #     :param end_activities: end activities
-#     :return: enhanced bot model 
+#     :return: enhanced bot model
 #     """
 #     net, im, fm = bot_parser.to_petri_net(bot_model_dfg, start_activities, end_activities)
 #     alignments = list(a['alignment'] for a in pm4py.conformance.conformance_diagnostics_alignments(
@@ -295,15 +298,15 @@ def get_alignment_for_variant(variant, alignments_results):
 #                 bot_model_dfg[(tmp['id'], anchor['id'])] = 0
 #                 anchor = None
 #                 tmp = None
-                
+
 #             if row['EVENT'] == "SERVICE_REQUEST":
 #                 anchor = {'name': row['concept:name'], 'id': bot_parser.get_node_id_by_name(
 #                     row['concept:name'])}  # defines the (potential) start of a subprocess
-                
+
 #                 tmp = anchor.copy()
 #             if tmp!= None:
 #                 potential_end_activities.add(tmp['id'])
-  
+
 #         for potential_start_activity in potential_start_activities:
 #             # check if the potential start activity has no incoming edge
 #             has_incoming_edge = False

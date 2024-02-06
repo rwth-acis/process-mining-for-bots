@@ -6,6 +6,7 @@ on:
       - main
       - ma-lakhoune
       - evaluation
+      - handle-unsound
 
 jobs:
   run-tests:
