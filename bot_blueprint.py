@@ -52,7 +52,7 @@ def enhanced_bot_model(botName):
             }, 400
 
     try:
-        event_log = fetch_event_log(botName, event_log_url)
+        event_log = fetch_event_log(botName, event_log_url, bot_manager_url)
         if event_log is None:
             print(f"Could not fetch event log from {event_log_url}")
             return {
