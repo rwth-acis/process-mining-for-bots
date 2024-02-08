@@ -7,7 +7,7 @@ import sys
 
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
-from enhancement.main import add_edge_frequency
+from enhancement.main import add_edge_frequency,add_edge_performance
 from utils.bot.parse_lib import get_parser, BotParser
 
 
@@ -28,16 +28,27 @@ class TestBotParser(unittest.TestCase):
         self.bot_model = None
         self.instance = None
 
-    def test_matching_alignment(self):
+    def test_frequency_dfg(self):
         self.bot_model = get_bot_model_json('assets/alignment-test.json')
         event_log = get_event_log('assets/test.xes')
         self.instance = get_parser(self.bot_model)
         self.assertIsInstance(self.instance, BotParser)
         dfg, start,end = self.instance.get_dfg()
-        result_dfg = add_edge_frequency(event_log=event_log, bot_model_dfg=dfg,start_act=start,end_act=end,bot_parser=self.instance)
+        result_dfg = add_edge_frequency(event_log=event_log, dfg=dfg,start_act=start,end_act=end,bot_parser=self.instance)
         self.assertEqual(len(result_dfg.keys()), 2)
         self.assertEqual(result_dfg[('a', 'a2')], 1)
         self.assertEqual(result_dfg[('a2', 'e')], 1)
+
+    def test_performance_dfg(self):
+        self.bot_model = get_bot_model_json('assets/alignment-test.json')
+        event_log = get_event_log('assets/test.xes')
+        self.instance = get_parser(self.bot_model)
+        self.assertIsInstance(self.instance, BotParser)
+        dfg, start,end = self.instance.get_dfg()
+        result_dfg = add_edge_performance(event_log=event_log, dfg=dfg,start_act=start,end_act=end,bot_parser=self.instance)
+        self.assertEqual(len(result_dfg.keys()), 2)
+        self.assertEqual(result_dfg[('a', 'a2')], 65)
+        self.assertEqual(result_dfg[('a2', 'e')], 30)
 
 
 
