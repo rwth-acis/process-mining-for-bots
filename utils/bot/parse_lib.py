@@ -164,9 +164,54 @@ class BotParser:
                     end_activities.add("empty_intent")
                 else:  
                     end_activities.add(node_id)
+        for node_id in start_activities:
+            # if the start_activity has an ingoing edge, we have a cyclic graph. 
+            # In this case, each we should add a dummy end activity and
+            #  connect each node that has an outgoing edge to a start activity to this dummy end activity instead
+            ingoing_edges = self.get_incoming_edges_that_are_end_activities(
+                node_id,end_activities)
+            if (len(ingoing_edges) > 0):
+                if("empty_intent" not in end_activities):
+                    end_activities.add("empty_intent")
+                for edge in ingoing_edges:
+                    source_id = edge['source']
+                    dfg[(source_id, "empty_intent")] = 0
+                    if (source_id, node_id) in dfg:
+                        dfg.pop((source_id, node_id))
         return dfg, start_activities, end_activities
 
+    def get_outgoing_edges(self, node_id):
+        """
+        Gets the outgoing edges of a node
+        :param node_id: the id of the node
+        :return: the outgoing edges of the node
 
+        :example:
+        >>> edges = get_outgoing_edges("n1")
+        """
+        outgoing_edges = []
+        for edge in self.edges.values():
+            if edge['source'] == node_id and edge['type'] in self.edge_types_of_interest:
+                outgoing_edges.append(edge)
+        return outgoing_edges
+    
+    def get_incoming_edges_that_are_end_activities(self, node_id,end_activities):
+        """
+        Gets the incoming edges of a node
+        :param node_id: the id of the node
+        :return: the incoming edges of the node
+
+        :example:
+        >>> edges = get_incoming_edges("n1")
+        """
+        incoming_edges = []
+        for edge in self.edges.values():
+            if edge['source'] not in end_activities:
+                continue
+            if edge['target'] == node_id and edge['type'] in self.edge_types_of_interest and self.nodes[edge['source']]['type'] in self.node_types_of_interest:
+                incoming_edges.append(edge)
+        return incoming_edges
+    
     def get_node_id_by_name(self, name):
         """
         Gets the id of a node by its name
