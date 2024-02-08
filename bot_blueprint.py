@@ -25,13 +25,14 @@ def enhanced_bot_model(botName):
         }, 400
     event_log_url = request.args['event-log-url']
     res_format = request.args.get('format', 'json')
-
-    if request.method == 'GET':
-        if 'bot-manager-url' not in request.args:
+    if 'bot-manager-url' not in request.args:
             return {
                 "error": "bot-manager-url parameter is missing"
             }, 400
-        bot_manager_url = request.args['bot-manager-url']
+    bot_manager_url = request.args['bot-manager-url']
+
+    if request.method == 'GET':
+        
         try:
             bot_model_json = fetch_bot_model(botName, bot_manager_url)
             if bot_model_json is None:
@@ -66,14 +67,14 @@ def enhanced_bot_model(botName):
 
     try:
         bot_parser = get_parser(bot_model_json)
-        bot_model_dfg, start_activities, end_activities, performance, frequency = enhance_bot_model(
+        bot_model_dfg, start_activities, end_activities, performance_dfg, frequency_dfg = enhance_bot_model(
             event_log, bot_parser,repair=True)
         if res_format == 'svg':
             gviz = dfg_visualizer.apply(bot_model_dfg)
             return gviz.pipe(format='svg').decode('utf-8')
 
         return serialize_response(
-            bot_model_dfg, bot_parser, start_activities, end_activities, performance, botName, frequency[0])
+            bot_model_dfg, bot_parser, start_activities, end_activities, performance_dfg, botName, frequency_dfg)
     except Exception as e:
         print(e)
         return {
@@ -305,7 +306,7 @@ def get_groups(botName):
     return fetchL2PGroups(contact_service_url, botName, current_app.default_bot_pw)
 
 
-def serialize_response(bot_model_dfg, bot_parser, start_activities, end_activities, performance, botName, frequency_dfg):
+def serialize_response(bot_model_dfg, bot_parser, start_activities, end_activities, performance_dfg, botName, frequency_dfg):
     added_edges = set()
     try:
         # serialize the bot model
@@ -323,7 +324,7 @@ def serialize_response(bot_model_dfg, bot_parser, start_activities, end_activiti
                         avg_confidence[keyword] = 0
                     else:
                         avg_confidence[keyword] = row['averageConfidence']
-        for edge, frequency in bot_model_dfg.items():
+        for edge, _ in bot_model_dfg.items():
             source_intent = bot_parser.id_name_map[edge[0]
                                                    ] if edge[0] in bot_parser.id_name_map else None
             target_intent = bot_parser.id_name_map[edge[1]
@@ -337,7 +338,7 @@ def serialize_response(bot_model_dfg, bot_parser, start_activities, end_activiti
             edges.append({
                 "source": edge[0],
                 "target": edge[1],
-                "performance": performance[(source_label, target_label)] if (source_label, target_label) in performance else None,
+                "performance": performance_dfg[(source_label, target_label)] if (source_label, target_label) in performance_dfg else None,
                 "frequency": frequency_dfg[(source_label, target_label)] if (source_label, target_label) in frequency_dfg else None,
             })
             added_edges.add((edge[0], edge[1]))
