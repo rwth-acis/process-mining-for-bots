@@ -168,7 +168,8 @@ class BotParser:
             # if the start_activity has an ingoing edge, we have a cyclic graph. 
             # In this case, each we should add a dummy end activity and
             #  connect each node that has an outgoing edge to a start activity to this dummy end activity instead
-            ingoing_edges = self.get_incoming_edges(node_id)
+            ingoing_edges = self.get_incoming_edges_that_are_end_activities(
+                node_id,end_activities)
             if (len(ingoing_edges) > 0):
                 if("empty_intent" not in end_activities):
                     end_activities.add("empty_intent")
@@ -190,11 +191,11 @@ class BotParser:
         """
         outgoing_edges = []
         for edge in self.edges.values():
-            if edge['source'] == node_id:
+            if edge['source'] == node_id and edge['type'] in self.edge_types_of_interest:
                 outgoing_edges.append(edge)
         return outgoing_edges
     
-    def get_incoming_edges(self, node_id):
+    def get_incoming_edges_that_are_end_activities(self, node_id,end_activities):
         """
         Gets the incoming edges of a node
         :param node_id: the id of the node
@@ -205,7 +206,9 @@ class BotParser:
         """
         incoming_edges = []
         for edge in self.edges.values():
-            if edge['target'] == node_id:
+            if edge['source'] not in end_activities:
+                continue
+            if edge['target'] == node_id and edge['type'] in self.edge_types_of_interest and self.nodes[edge['source']]['type'] in self.node_types_of_interest:
                 incoming_edges.append(edge)
         return incoming_edges
     
