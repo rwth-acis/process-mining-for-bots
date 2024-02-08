@@ -67,7 +67,7 @@ def enhanced_bot_model(botName):
     try:
         bot_parser = get_parser(bot_model_json)
         bot_model_dfg, start_activities, end_activities, performance, frequency = enhance_bot_model(
-            event_log, bot_parser)
+            event_log, bot_parser,repair=True)
         if res_format == 'svg':
             gviz = dfg_visualizer.apply(bot_model_dfg)
             return gviz.pipe(format='svg').decode('utf-8')

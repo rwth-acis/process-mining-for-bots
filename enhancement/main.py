@@ -12,7 +12,7 @@ from process_model_repair_algorithm import repair_process_model
 bot_model_json_path = "./assets/models/test_bot_model.json"
 
 
-def enhance_bot_model(event_log, bot_parser):
+def enhance_bot_model(event_log, bot_parser,repair=False):
     """
     Enhance the bot model using the event log.
     We assume that the bot model is incomplete 
@@ -26,7 +26,8 @@ def enhance_bot_model(event_log, bot_parser):
     """
     dfg, start_activities, end_activities = bot_parser.get_dfg()  # initial dfg
     net,im,fm = bot_parser.to_petri_net()
-    net,_,_ = repair_petri_net(event_log,net,im,fm)  # repair the dfg
+    if repair == True:
+        net,_,_ = repair_petri_net(event_log,net,im,fm)  # repair the dfg
     dfg = add_edge_frequency(event_log, dfg, start_activities,
                              end_activities,bot_parser)  # add the edge frequency
     performance = pm4py.discovery.discover_performance_dfg(event_log)
