@@ -338,8 +338,8 @@ def serialize_response(bot_model_dfg, bot_parser, start_activities, end_activiti
             edges.append({
                 "source": edge[0],
                 "target": edge[1],
-                "performance": performance_dfg[(source_label, target_label)] if (source_label, target_label) in performance_dfg else None,
-                "frequency": frequency_dfg[(source_label, target_label)] if (source_label, target_label) in frequency_dfg else None,
+                "performance": performance_dfg[(edge[0], edge[1])] if (edge[0], edge[1]) in performance_dfg else None,
+                "frequency": frequency_dfg[(edge[0], edge[1])] if (edge[0], edge[1]) in frequency_dfg else None,
             })
             added_edges.add((edge[0], edge[1]))
 
