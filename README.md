@@ -12,6 +12,10 @@ This framework provides modules that can be used to do various process mining ta
 
 The usage of this framework is demonstrated in the `demo.ipynb` notebook. You can run the notebook to see how to use the framework.
 
+## Assets
+
+The `assets` folder contains some sample data that can be used to test the framework. The `assets` folder contains event logs and bot models in the `event_logs` and `models` folders respectively.
+
 ## REST API
 
 This repository also contains a Flask app REST API that can be used to interact with the framework and a Dockerfile to run the app in a container. To run the app, follow these steps:
