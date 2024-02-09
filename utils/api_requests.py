@@ -7,7 +7,7 @@ import base64
 
 
 bot_model_file_path = "./assets/models/test_bot_model.json"
-event_log_file_path = "assets/event_logs/test_event_log.xes"
+event_log_file_path = "assets/event_logs/demo.xes"
 
 
 def fetch_bot_model(name, endpoint="https://mobsos.tech4comp.dbis.rwth-aachen.de/SBFManager"):
