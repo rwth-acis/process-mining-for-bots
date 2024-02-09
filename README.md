@@ -21,5 +21,5 @@ The `assets` folder contains some sample data that can be used to test the frame
 This repository also contains a Flask app REST API that can be used to interact with the framework and a Dockerfile to run the app in a container. To run the app, follow these steps:
 
 - configure the environment variables in the `.env` file, you can use the `.env.example` file as a template. In most cases, you will not need to change the values.
-- Build the Docker image using `docker build -t process-mining-for-bots .`
+- Build the Docker image using `docker build -t processminingforbots:latest .`
 - Run docker compose using `docker compose up`
