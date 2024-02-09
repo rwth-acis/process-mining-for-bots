@@ -1,6 +1,6 @@
 # process-mining-for-bots
 
-This framework provides modules that can be used to do various process mining tasks on bot models
+This framework provides modules that can be used to do various process mining tasks on bot models. It also contains a demo notebook that demonstrates how to use the framework.
 
 ## Installation
 
@@ -10,18 +10,12 @@ This framework provides modules that can be used to do various process mining ta
 
 ## Usage
 
-### Parsing a bot model
+The usage of this framework is demonstrated in the `demo.ipynb` notebook. You can run the notebook to see how to use the framework.
 
-This python code snippet shows how to parse a bot model and get the corresponding Petri net for a sample bot model, `hotelBot.json`:
+## REST API
 
-```python
-import json
-from utils.bot.parse_lib import get_parser
-import pm4py
+This repository also contains a Flask app REST API that can be used to interact with the framework and a Dockerfile to run the app in a container. To run the app, follow these steps:
 
-botmodel = json.loads(open('./assets/models/hotelBot.json').read())
-parser = get_parser(botmodel)
-
-net,im,fm = parser.to_petri_net()
-pm4py.view_petri_net(net,im,fm)
-```
+- configure the environment variables in the `.env` file, you can use the `.env.example` file as a template. In most cases, you will not need to change the values.
+- Build the Docker image using `docker build -t process-mining-for-bots .`
+- Run docker compose using `docker compose up`
