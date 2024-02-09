@@ -5,6 +5,7 @@ on:
     branches:
       - main
       - ma-lakhoune
+      - evaluation
 
 jobs:
   run-tests:

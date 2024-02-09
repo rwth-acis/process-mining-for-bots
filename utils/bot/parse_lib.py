@@ -32,7 +32,10 @@ class BotParser:
     def __init__(self, bot_model):
         self.bot_name = None
         self.bot_model = bot_model
-        self.id_name_map = {}  # for each node id of interest, store a name representative of the node
+        # for each node id of interest, store a intent representative of the node
+        self.id_name_map = {}
+        # for each node id of interest, store a state representative of the node
+        self.id_state_map = {}
         self.node_types_of_interest = [
             'Incoming Message', 'Bot Action']
         self.edge_types_of_interest = ['leadsTo', 'uses', 'generates']
@@ -54,6 +57,9 @@ class BotParser:
             name = extract_activity_name(
                 node_id, node, bot_model['edges'])
             self.id_name_map[node_id] = name
+            state_label = extract_state_label_new(node)
+            if state_label is not None:
+                self.id_state_map[node_id] = state_label
         
         if self.bot_name is None:
             raise Exception("Bot name not found in bot model")
@@ -76,9 +82,7 @@ class BotParser:
             dfg, start_activities, end_activities)
         net, im , fm = self.rename_labels(net, im, fm)
         net = reduce_petri_net_invisibles(net) 
-        return net, im, fm
-
-    
+        return net, im, fm    
 
     def get_dfg(self):
         """
@@ -160,9 +164,54 @@ class BotParser:
                     end_activities.add("empty_intent")
                 else:  
                     end_activities.add(node_id)
+        for node_id in start_activities:
+            # if the start_activity has an ingoing edge, we have a cyclic graph. 
+            # In this case, each we should add a dummy end activity and
+            #  connect each node that has an outgoing edge to a start activity to this dummy end activity instead
+            ingoing_edges = self.get_incoming_edges_that_are_end_activities(
+                node_id,end_activities)
+            if (len(ingoing_edges) > 0):
+                if("empty_intent" not in end_activities):
+                    end_activities.add("empty_intent")
+                for edge in ingoing_edges:
+                    source_id = edge['source']
+                    dfg[(source_id, "empty_intent")] = 0
+                    if (source_id, node_id) in dfg:
+                        dfg.pop((source_id, node_id))
         return dfg, start_activities, end_activities
 
+    def get_outgoing_edges(self, node_id):
+        """
+        Gets the outgoing edges of a node
+        :param node_id: the id of the node
+        :return: the outgoing edges of the node
 
+        :example:
+        >>> edges = get_outgoing_edges("n1")
+        """
+        outgoing_edges = []
+        for edge in self.edges.values():
+            if edge['source'] == node_id and edge['type'] in self.edge_types_of_interest:
+                outgoing_edges.append(edge)
+        return outgoing_edges
+    
+    def get_incoming_edges_that_are_end_activities(self, node_id,end_activities):
+        """
+        Gets the incoming edges of a node
+        :param node_id: the id of the node
+        :return: the incoming edges of the node
+
+        :example:
+        >>> edges = get_incoming_edges("n1")
+        """
+        incoming_edges = []
+        for edge in self.edges.values():
+            if edge['source'] not in end_activities:
+                continue
+            if edge['target'] == node_id and edge['type'] in self.edge_types_of_interest and self.nodes[edge['source']]['type'] in self.node_types_of_interest:
+                incoming_edges.append(edge)
+        return incoming_edges
+    
     def get_node_id_by_name(self, name):
         """
         Gets the id of a node by its name
@@ -260,18 +309,20 @@ def extract_intent_keyword(node_id, node, edges):
     """
     intent_keyword = None
     # find the intent keyword
+    for edge in edges.values():
+            if edge['target'] == node_id:
+                intent_keyword = edge['label']['value']['value']
+                if intent_keyword != "" and intent_keyword is not None:
+                    return intent_keyword
     for attr in node['attributes'].values():
         if attr['name'] == 'Intent Keyword':
             intent_keyword = attr['value']['value']
             if intent_keyword != "" and intent_keyword is not None:
                 return intent_keyword
-
-        # sometimes the intent keyword is empty and stored in the ingoing edge of the node instead
-        for edge in edges.values():
-            if edge['target'] == node_id:
-                intent_keyword = edge['label']['value']['value']
-                if intent_keyword != "" and intent_keyword is not None:
-                    return intent_keyword
+    if node['label'] is not None and node['label']['name'] == 'Name':
+        intent_keyword = node['label']['value']['value']
+        if intent_keyword != "" and intent_keyword is not None:
+            return intent_keyword
     return "empty_intent"
 
 
@@ -287,8 +338,8 @@ def extract_activity_name(node_id, node, edges):
     >>> activity_name = extract_activity_name("n1", node, edges)
     """
     if node['type'] == 'Incoming Message':
-        return extract_state_label(node)
-        # return extract_intent_keyword(node_id, node, edges)
+        # return extract_state_label(node)
+        return extract_intent_keyword(node_id, node, edges)
     elif node['type'] == 'Bot Action':
         return extract_function_name(node)
     return "empty_activity"
@@ -304,4 +355,17 @@ def extract_state_label(node):
                 return intent_keyword
             else:
                 return None
+    return None
+
+
+def extract_state_label_new(node):
+    """
+    Extracts the state label from a node. 
+    """
+    if node is None:
+        return None
+    if node['type'] == 'Incoming Message':
+        return node['label']['value']['value'] if 'label' in node else None
+    elif node['type'] == 'Bot Action':
+        return extract_function_name(node)
     return None

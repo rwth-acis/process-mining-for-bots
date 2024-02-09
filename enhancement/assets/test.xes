@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<log xes.version="1849-2016" xes.features="nested-attributes" xmlns="http://www.xes-standard.org/">
+	<extension name="Concept" prefix="concept" uri="http://www.xes-standard.org/concept.xesext" />
+	<extension name="Time" prefix="time" uri="http://www.xes-standard.org/time.xesext" />
+	<string key="origin" value="csv" />
+	<trace>
+		<string key="concept:name" value="case1" />
+		<event>
+			<string key="concept:name" value="start" />
+			<date key="time:timestamp" value="2021-01-01T00:00:25" />
+		</event>
+		<event>
+			<string key="concept:name" value="longPath" />
+			<date key="time:timestamp" value="2021-01-01T00:01:30" />
+		</event>
+		<event>
+			<string key="concept:name" value="endConvo" />
+			<date key="time:timestamp" value="2021-01-01T00:02:00" />
+		</event>
+	</trace>
+</log>

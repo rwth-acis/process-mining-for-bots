@@ -83,4 +83,8 @@ def bot_statistics(event_log):
     stats['numberOfConversations'] = event_log.groupby('case:concept:name').ngroups
     stats['numberOfStates'] = event_log['concept:name'].nunique()
     stats['numberOfUsers'] = event_log['user'].nunique()
+    stats['averageConversationLength'] = event_log.groupby(
+        'case:concept:name').size().mean()
+    stats['averageConversationDuration'] = event_log.groupby(
+        'case:concept:name')['time:timestamp'].apply(lambda x: x.max() - x.min()).mean().total_seconds()
     return stats

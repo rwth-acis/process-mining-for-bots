@@ -1,6 +1,6 @@
-from flask import Blueprint, current_app, request
+from flask import Blueprint, current_app, request, jsonify
 from flasgger import swag_from
-from utils.bot.parse_lib import get_parser
+from utils.bot.parse_lib import get_parser, extract_state_label
 from utils.api_requests import fetch_event_log, fetch_bot_model, fetch_success_model, fetchL2PGroups
 from enhancement.main import repair_petri_net, enhance_bot_model, average_intent_confidence, case_durations
 from pm4py.visualization.petri_net import visualizer as pn_visualizer
@@ -25,13 +25,14 @@ def enhanced_bot_model(botName):
         }, 400
     event_log_url = request.args['event-log-url']
     res_format = request.args.get('format', 'json')
-
-    if request.method == 'GET':
-        if 'bot-manager-url' not in request.args:
+    if 'bot-manager-url' not in request.args:
             return {
                 "error": "bot-manager-url parameter is missing"
             }, 400
-        bot_manager_url = request.args['bot-manager-url']
+    bot_manager_url = request.args['bot-manager-url']
+
+    if request.method == 'GET':
+        
         try:
             bot_model_json = fetch_bot_model(botName, bot_manager_url)
             if bot_model_json is None:
@@ -52,7 +53,7 @@ def enhanced_bot_model(botName):
             }, 400
 
     try:
-        event_log = fetch_event_log(botName, event_log_url)
+        event_log = fetch_event_log(botName, event_log_url, bot_manager_url)
         if event_log is None:
             print(f"Could not fetch event log from {event_log_url}")
             return {
@@ -66,14 +67,14 @@ def enhanced_bot_model(botName):
 
     try:
         bot_parser = get_parser(bot_model_json)
-        bot_model_dfg, start_activities, end_activities, performance = enhance_bot_model(
-            event_log, bot_parser)
+        bot_model_dfg, start_activities, end_activities, frequency_dfg, performance_dfg = enhance_bot_model(
+            event_log, bot_parser,repair=True)
         if res_format == 'svg':
             gviz = dfg_visualizer.apply(bot_model_dfg)
             return gviz.pipe(format='svg').decode('utf-8')
 
         return serialize_response(
-            bot_model_dfg, bot_parser, start_activities, end_activities, performance, botName)
+            bot_model_dfg, bot_parser, start_activities, end_activities, performance_dfg, botName, frequency_dfg)
     except Exception as e:
         print(e)
         return {
@@ -102,33 +103,37 @@ def get_petri_net(botName):
                 "error": f"Could not fetch bot model from {bot_manager_url}, make sure the service is running and the bot name is correct"
             }, 500
     else:
-        bot_model_json = request.get_json().get('bot-model', None)
+        try:
+            data = request.get_json()
+        except Exception as e:
+            return jsonify(error=str(e)), 400
+        bot_model_json = data.get('bot-model', None)
         if bot_model_json is None:
             return {
                 "error": "bot-model parameter is missing"
             }, 400
-    if 'event-log-url' not in request.args:
-        return {
-            "error": "event-log-url parameter is missing"
-        }, 400
-
-    event_log_url = request.args['event-log-url']
 
     bot_parser = get_parser(bot_model_json)
-    try:
-        event_log = fetch_event_log(botName, event_log_url)
+    if request.args.get('enhance', 'false') == 'true':
+        if 'event-log-url' not in request.args:
+            return {
+                "error": "event-log-url parameter is missing"
+            }, 400
 
-    except Exception as e:
-        print(e)
-        return {
-            "error": f"Could not fetch event log from {event_log_url}, make sure the service is running and the bot name is correct"
-        }, 400
+        event_log_url = request.args['event-log-url']
+        try:
+            event_log = fetch_event_log(botName, event_log_url)
+            if event_log is None:
+                print("Could not fetch event log")
+                return {
+                    "error": f"Could not fetch event log from {event_log_url}"
+                }, 400
 
-    if event_log is None:
-        print("Could not fetch event log")
-        return {
-            "error": f"Could not fetch event log from {event_log_url}"
-        }, 400
+        except Exception as e:
+            print(e)
+            return {
+                "error": f"Could not fetch event log from {event_log_url}, make sure the service is running and the bot name is correct"
+            }, 400
 
     net, im, fm = bot_parser.to_petri_net()
     if request.args.get('enhance', 'false') == 'true':
@@ -172,20 +177,20 @@ def get_bpmn(botName):
 
     event_log_url = request.args['event-log-url']
     bot_parser = get_parser(bot_model_json)
-    try:
-        event_log = fetch_event_log(botName, event_log_url)
+    if request.args.get('enhance', 'false') == 'true':
+        try:
+            event_log = fetch_event_log(botName, event_log_url)
+            if event_log is None:
+                print("Could not fetch event log")
+                return {
+                    "error": f"Could not fetch event log from {event_log_url}"
+                }, 400
 
-    except Exception as e:
-        print(e)
-        return {
-            "error": f"Could not fetch event log from {event_log_url}, make sure the service is running and the bot name is correct"
-        }, 400
-
-    if event_log is None:
-        print("Could not fetch event log")
-        return {
-            "error": f"Could not fetch event log from {event_log_url}"
-        }, 400
+        except Exception as e:
+            print(e)
+            return {
+                "error": f"Could not fetch event log from {event_log_url}, make sure the service is running and the bot name is correct"
+            }, 400
 
     net, im, fm = bot_parser.to_petri_net()
     if request.args.get('enhance', 'false') == 'true':
@@ -301,7 +306,8 @@ def get_groups(botName):
     return fetchL2PGroups(contact_service_url, botName, current_app.default_bot_pw)
 
 
-def serialize_response(bot_model_dfg, bot_parser, start_activities, end_activities, performance, botName):
+def serialize_response(bot_model_dfg, bot_parser, start_activities, end_activities, performance_dfg, botName, frequency_dfg):
+    added_edges = set()
     try:
         # serialize the bot model
         edges = []
@@ -318,24 +324,31 @@ def serialize_response(bot_model_dfg, bot_parser, start_activities, end_activiti
                         avg_confidence[keyword] = 0
                     else:
                         avg_confidence[keyword] = row['averageConfidence']
-        for edge, frequency in bot_model_dfg.items():
-            source_label = bot_parser.id_name_map[edge[0]
-                                                  ] if edge[0] in bot_parser.id_name_map else edge[0]
-            target_label = bot_parser.id_name_map[edge[1]
-                                                  ] if edge[1] in bot_parser.id_name_map else edge[1]
+        for edge, _ in bot_model_dfg.items():
+            source_intent = bot_parser.id_name_map[edge[0]
+                                                   ] if edge[0] in bot_parser.id_name_map else None
+            target_intent = bot_parser.id_name_map[edge[1]
+                                                   ] if edge[1] in bot_parser.id_name_map else None
+            source_label = bot_parser.id_state_map[edge[0]
+                                                   ] if edge[0] in bot_parser.id_state_map else None
+            target_label = bot_parser.id_state_map[edge[1]
+                                                   ] if edge[1] in bot_parser.id_state_map else None
+            if (edge[0], edge[1]) in added_edges:
+                continue
             edges.append({
                 "source": edge[0],
                 "target": edge[1],
-                "performance": performance[(source_label, target_label)] if (source_label, target_label) in performance else None,
-                "frequency": frequency
+                "performance": performance_dfg[(edge[0], edge[1])] if (edge[0], edge[1]) in performance_dfg else None,
+                "frequency": frequency_dfg[(edge[0], edge[1])] if (edge[0], edge[1]) in frequency_dfg else None,
             })
+            added_edges.add((edge[0], edge[1]))
 
             if edge[0] not in nodes:
-                nodes.append({"id": edge[0], "label": source_label,
-                              "avg_confidence": avg_confidence[source_label] if source_label in avg_confidence else None})
+                nodes.append({"id": edge[0], "label": source_intent,
+                              "avg_confidence": avg_confidence[source_intent] if source_intent in avg_confidence else None})
             if edge[1] not in nodes:
-                nodes.append({"id": edge[1], "label": target_label,
-                              "avg_confidence": avg_confidence[target_label] if target_label in avg_confidence else None})
+                nodes.append({"id": edge[1], "label": target_intent,
+                              "avg_confidence": avg_confidence[target_intent] if target_intent in avg_confidence else None})
 
         res = {
             "graph": {
