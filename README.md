@@ -1,4 +1,4 @@
-# process-mining-for-bots
+# Process Mining For Bots
 
 This framework provides modules that can be used to do various process mining tasks on bot models. It also contains a demo notebook that demonstrates how to use the framework.
 
