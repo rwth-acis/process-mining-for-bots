@@ -244,12 +244,13 @@ def get_bot_statistics(botName):
     Fetches the statistics of the bot 
     """
     event_log_generator_url = request.args.get('event-log-url', None)
+    bot_manager_url = request.args.get('bot-manager-url', None)
     if event_log_generator_url is None:
         return {
             "error": "event-log-generator-url parameter is missing"
         }, 400
     try:
-        event_log = fetch_event_log(botName, event_log_generator_url)
+        event_log = fetch_event_log(botName, event_log_generator_url, bot_manager_url)
 
     except Exception as e:
         print(e)
