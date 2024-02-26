@@ -19,14 +19,15 @@ def fetch_bot_model(name, endpoint="https://mobsos.tech4comp.dbis.rwth-aachen.de
         return None
 
 
-def fetch_event_log(bot_name, url=None,botManagerUrl = None):
+def fetch_event_log(bot_name, url=None, botManagerUrl=None):
     if url is None:
         url = f"https://mobsos.tech4comp.dbis.rwth-aachen.de/event-log"
+        print("No url provided, using default url")
     if botManagerUrl is None:
         botManagerUrl = f"https://mobsos.tech4comp.dbis.rwth-aachen.de/SBFManager"
-    endpoint = f"{url}/bot/{bot_name}?bot-manager-url={botManagerUrl}"
-    print(f"Fetching event log from {endpoint}")
-    response = r.get(endpoint)
+        print("No bot manager url provided, using default url")
+    resource_ids = get_resource_ids_from_bot_manager(botManagerUrl, bot_name)
+    response = r.post(f"{url}/resources", json={"resource_ids": resource_ids})
     # response is xml, use pm4py to parse it
     if response.status_code == 200:
         xml = response.content
@@ -49,8 +50,41 @@ def fetch_event_log(bot_name, url=None,botManagerUrl = None):
         return log
 
     else:
-        print("Could not fetch event log, status code: ", response.status_code, response.content)
+        print("Could not fetch event log, status code: ",
+              response.status_code, response.content)
         return None
+
+
+def get_resource_ids_from_bot_manager(bot_manager_url, botName):
+    """
+    This function returns the resource ids of the bot
+
+    Parameters
+    ----------
+    bot_manager_url : string
+        URL of the bot manager
+
+    Returns
+    -------
+    resource_ids : list
+        List of resource ids
+    """
+    if bot_manager_url is None:
+        raise ValueError('bot_manager_url must be set')
+
+    response = r.get(bot_manager_url + '/bots')
+    try:
+        data = response.json()
+        keys = []
+
+        for key, value in data.items():
+            if isinstance(value, dict) and "name" in value and value["name"] == botName:
+                keys.append(key)
+        return keys
+
+    except json.JSONDecodeError as e:
+        print("Invalid JSON format:", e)
+        return []
 
 
 def get_default_event_log():

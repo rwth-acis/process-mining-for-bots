@@ -31,8 +31,7 @@ def enhanced_bot_model(botName):
             }, 400
     bot_manager_url = request.args['bot-manager-url']
 
-    if request.method == 'GET':
-        
+    if request.method == 'GET':  
         try:
             bot_model_json = fetch_bot_model(botName, bot_manager_url)
             if bot_model_json is None:
@@ -222,7 +221,7 @@ def get_case_durations(botName):
             "error": f"Could not fetch event log from {event_log_generator_url}, make sure the service is running and the bot name is correct"
         }, 500
 
-    event_log = fetch_event_log(botName)
+    event_log = fetch_event_log(botName, event_log_generator_url, bot_manager_url=current_app.default_bot_manager_url)
     return case_durations(event_log)
 
 
