@@ -21,11 +21,9 @@ def fetch_bot_model(name, endpoint="https://mobsos.tech4comp.dbis.rwth-aachen.de
 
 def fetch_event_log(bot_name, url=None, botManagerUrl=None):
     if url is None:
-        url = f"https://mobsos.tech4comp.dbis.rwth-aachen.de/event-log"
-        print("No url provided, using default url")
+        raise ValueError("event log url must be set")
     if botManagerUrl is None:
-        botManagerUrl = f"https://mobsos.tech4comp.dbis.rwth-aachen.de/SBFManager"
-        print("No bot manager url provided, using default url")
+        raise ValueError("botManagerUrl must be set")
     resource_ids = get_resource_ids_from_bot_manager(botManagerUrl, bot_name)
     response = r.post(f"{url}/resources", json={"resource_ids": resource_ids})
     # response is xml, use pm4py to parse it
