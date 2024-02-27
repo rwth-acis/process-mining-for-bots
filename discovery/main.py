@@ -86,7 +86,7 @@ def bot_statistics(event_log):
     if 'user' in event_log.columns:
         stats['numberOfUsers'] = event_log['user'].nunique()
     else:
-        users = event_log['REMAKRS'].apply(lambda x: json.loads(x)['user'])
+        users = event_log['REMARKS'].apply(lambda x: json.loads(x)['user'])
         stats['numberOfUsers'] = users.nunique()
     stats['averageConversationLength'] = event_log.groupby(
         'case:concept:name').size().mean()
