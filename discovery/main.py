@@ -1,4 +1,5 @@
 import pm4py
+import json
     
 def discover_petri_net(event_log,algorithm="inductive"):
     """
@@ -84,6 +85,9 @@ def bot_statistics(event_log):
     stats['numberOfStates'] = event_log['concept:name'].nunique()
     if 'user' in event_log.columns:
         stats['numberOfUsers'] = event_log['user'].nunique()
+    else:
+        users = event_log['REMAKRS'].apply(lambda x: json.loads(x)['user'])
+        stats['numberOfUsers'] = users.nunique()
     stats['averageConversationLength'] = event_log.groupby(
         'case:concept:name').size().mean()
     stats['averageConversationDuration'] = event_log.groupby(
