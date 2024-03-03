@@ -7,7 +7,7 @@ from pm4py.visualization.petri_net import visualizer as pn_visualizer
 from pm4py.visualization.dfg import visualizer as dfg_visualizer
 from pm4py.visualization.bpmn import visualizer as bpmn_visualizer
 from pm4py.convert import convert_to_bpmn
-from discovery.main import bot_statistics
+from discovery.main import bot_statistics, discover_petri_net, discover_bpmn
 from conformance.main import conformance
 import utils.llm_interface as llm
 import math
@@ -26,12 +26,12 @@ def enhanced_bot_model(botName):
     event_log_url = request.args['event-log-url']
     res_format = request.args.get('format', 'json')
     if 'bot-manager-url' not in request.args:
-            return {
-                "error": "bot-manager-url parameter is missing"
-            }, 400
+        return {
+            "error": "bot-manager-url parameter is missing"
+        }, 400
     bot_manager_url = request.args['bot-manager-url']
 
-    if request.method == 'GET':  
+    if request.method == 'GET':
         try:
             bot_model_json = fetch_bot_model(botName, bot_manager_url)
             if bot_model_json is None:
@@ -67,7 +67,7 @@ def enhanced_bot_model(botName):
     try:
         bot_parser = get_parser(bot_model_json)
         bot_model_dfg, start_activities, end_activities, frequency_dfg, performance_dfg = enhance_bot_model(
-            event_log, bot_parser,repair=False)
+            event_log, bot_parser, repair=False)
         if res_format == 'svg':
             gviz = dfg_visualizer.apply(bot_model_dfg)
             return gviz.pipe(format='svg').decode('utf-8')
@@ -83,12 +83,17 @@ def enhanced_bot_model(botName):
 
 @bot_resource.route('/<botName>/petri-net', methods=['GET', 'POST'])
 def get_petri_net(botName):
+    discover_model = request.args.get('discover', None)
+    event_log_url = request.args.get('event-log-url', None)
+    bot_manager_url = request.args.get('bot-manager-url', None)
+
+    if discover_model is not None:
+        event_log = fetch_event_log(botName, event_log_url, bot_manager_url)
+        net, im, fm = discover_petri_net(event_log)
+        gviz = pn_visualizer.apply(
+            net, im, fm, variant=pn_visualizer.Variants.PERFORMANCE)
+        return gviz.pipe(format='svg').decode('utf-8')
     if request.method == 'GET':
-        if 'bot-manager-url' not in request.args:
-            return {
-                "error": "bot-manager-url parameter is missing"
-            }, 400
-        bot_manager_url = request.args['bot-manager-url']
         try:
             bot_model_json = fetch_bot_model(botName, bot_manager_url)
             if bot_model_json is None:
@@ -121,7 +126,7 @@ def get_petri_net(botName):
 
         event_log_url = request.args['event-log-url']
         try:
-            event_log = fetch_event_log(botName, event_log_url)
+            event_log = fetch_event_log(botName, event_log_url,bot_manager_url)
             if event_log is None:
                 print("Could not fetch event log")
                 return {
@@ -145,6 +150,16 @@ def get_petri_net(botName):
 
 @bot_resource.route('/<botName>/bpmn', methods=['GET', 'POST'])
 def get_bpmn(botName):
+    discover_model = request.args.get('discover', None)
+    event_log_url = request.args.get('event-log-url', None)
+    bot_manager_url = request.args.get('bot-manager-url', None)
+
+    if discover_model is not None:
+        event_log = fetch_event_log(botName, event_log_url, bot_manager_url)
+        net, im, fm = discover_petri_net(event_log)
+        bpmn_graph = convert_to_bpmn(net, im, fm)
+        gviz = bpmn_visualizer.apply(bpmn_graph)
+        return gviz.pipe(format='svg').decode('utf-8')
     if request.method == 'GET':
         if 'bot-manager-url' not in request.args:
             return {
@@ -178,7 +193,7 @@ def get_bpmn(botName):
     bot_parser = get_parser(bot_model_json)
     if request.args.get('enhance', 'false') == 'true':
         try:
-            event_log = fetch_event_log(botName, event_log_url)
+            event_log = fetch_event_log(botName, event_log_url,bot_manager_url)
             if event_log is None:
                 print("Could not fetch event log")
                 return {
@@ -221,7 +236,8 @@ def get_case_durations(botName):
             "error": f"Could not fetch event log from {event_log_generator_url}, make sure the service is running and the bot name is correct"
         }, 500
 
-    event_log = fetch_event_log(botName, event_log_generator_url, bot_manager_url=current_app.default_bot_manager_url)
+    event_log = fetch_event_log(
+        botName, event_log_generator_url, bot_manager_url=current_app.default_bot_manager_url)
     return case_durations(event_log)
 
 
@@ -250,7 +266,8 @@ def get_bot_statistics(botName):
             "error": "event-log-generator-url parameter is missing"
         }, 400
     try:
-        event_log = fetch_event_log(botName, event_log_generator_url, bot_manager_url)
+        event_log = fetch_event_log(
+            botName, event_log_generator_url, bot_manager_url)
 
     except Exception as e:
         print(e)
@@ -383,7 +400,8 @@ def get_improvements_for_dfg(botName):
         return {
             "error": "event-log-url parameter is missing"
         }, 400
-    event_log = fetch_event_log(botName, event_log_generator_url, bot_manager_url)
+    event_log = fetch_event_log(
+        botName, event_log_generator_url, bot_manager_url)
     prompt = llm.recommendations_from_event_log(event_log)
     # log the prompt
     current_app.logger.info(prompt)
@@ -425,6 +443,7 @@ def get_improvements_for_intents(botName):
             "error": "Could not send prompt to OpenAI",
             "message": e.args
         }), e.status_code if hasattr(e, 'status_code') else 500)
+
 
 @bot_resource.route('/<botName>/llm/custom-prompt', methods=['POST'])
 def get_custom_improvements(botName):
