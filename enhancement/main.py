@@ -29,10 +29,12 @@ def enhance_bot_model(event_log, bot_parser, repair=False):
     net, im, fm = bot_parser.to_petri_net()
     if repair == True:
         net, _, _ = repair_petri_net(event_log, net, im, fm)  # repair the dfg
+    alignments_results = alignments_algorithm.apply(event_log, net, im, fm, {
+        Parameters.PARAM_ALIGNMENT_RESULT_IS_SYNC_PROD_AWARE: True})
     frequency_dfg = add_edge_frequency(event_log, dfg, start_activities,
-                                       end_activities, bot_parser)  # add the edge frequency
+                                       end_activities, bot_parser, alignments_results)  # add the edge frequency
     performance_dfg = add_edge_performance(
-        event_log, dfg, start_activities, end_act=end_activities,bot_parser=bot_parser)  # add the edge performance
+        event_log, dfg, start_activities, end_activities, bot_parser, alignments_results)  # add the edge performance
     # performance = pm4py.discovery.discover_performance_dfg(event_log)
     # frequency = pm4py.discovery.discover_dfg(event_log)
     # replace NaN values with None
@@ -59,7 +61,7 @@ def repair_petri_net(event_log, net, im, fm):
     return net, fm, im
 
 
-def add_edge_frequency(event_log, dfg, start_act, end_act, bot_parser):
+def add_edge_frequency(event_log, dfg, start_act, end_act, bot_parser, alignments_results=None):
     """
     Add the edge frequency to the bot model
     :param event_log: event log
@@ -71,8 +73,9 @@ def add_edge_frequency(event_log, dfg, start_act, end_act, bot_parser):
     """
     frequency_dfg = dfg.copy()
     net, im, fm = bot_parser.to_petri_net(frequency_dfg, start_act, end_act)
-    alignments_results = alignments_algorithm.apply(event_log, net, im, fm, {
-        Parameters.PARAM_ALIGNMENT_RESULT_IS_SYNC_PROD_AWARE: True})
+    if alignments_results is None:
+        alignments_results = alignments_algorithm.apply(event_log, net, im, fm, {
+            Parameters.PARAM_ALIGNMENT_RESULT_IS_SYNC_PROD_AWARE: True})
     variants = pm4py.stats.get_variants_as_tuples(event_log)
     new_nodes = dict()  # nodes that are added to the bot model
     for alignment in list(diagnostic['alignment'] for diagnostic in alignments_results):
@@ -132,7 +135,7 @@ def add_edge_frequency(event_log, dfg, start_act, end_act, bot_parser):
     return frequency_dfg
 
 
-def add_edge_performance(event_log, dfg, start_act, end_act, bot_parser):
+def add_edge_performance(event_log, dfg, start_act, end_act, bot_parser, alignments_results=None):
     """
     Add the edge performance to the bot model
     :param event_log: event log
@@ -144,8 +147,9 @@ def add_edge_performance(event_log, dfg, start_act, end_act, bot_parser):
     """
     performance_dfg = dfg.copy()
     net, im, fm = bot_parser.to_petri_net(performance_dfg, start_act, end_act)
-    alignments_results = alignments_algorithm.apply(event_log, net, im, fm, {
-        Parameters.PARAM_ALIGNMENT_RESULT_IS_SYNC_PROD_AWARE: True})
+    if alignments_results is None:
+        alignments_results = alignments_algorithm.apply(event_log, net, im, fm, {
+            Parameters.PARAM_ALIGNMENT_RESULT_IS_SYNC_PROD_AWARE: True})
     variants = pm4py.stats.get_variants_as_tuples(event_log)
     new_nodes = dict()  # nodes that are added to the bot model
     for alignment in list(diagnostic['alignment'] for diagnostic in alignments_results):
@@ -179,8 +183,8 @@ def add_edge_performance(event_log, dfg, start_act, end_act, bot_parser):
                 target_id = target[1].split("_")[0]
 
             if (source_id, target_id) in performance_dfg and performance_dfg[(source_id, target_id)] != 0:
-                 performance_dfg[(source_id, target_id)] = statistics.mean([
-                     performance_dfg[(source_id, target_id)], performance[(source_id, target_id)]]) if (source_id, target_id) in performance else performance_dfg[(source_id, target_id)]
+                performance_dfg[(source_id, target_id)] = statistics.mean([
+                    performance_dfg[(source_id, target_id)], performance[(source_id, target_id)]]) if (source_id, target_id) in performance else performance_dfg[(source_id, target_id)]
             else:
                 potential_start_activities.add(source_id)
                 potential_end_activities.add(target_id)
