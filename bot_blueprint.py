@@ -470,7 +470,13 @@ def get_custom_improvements(botName):
             return {
                 "error": "event-log-url parameter is missing"
             }, 400
-        event_log = fetch_event_log(botName, event_log_generator_url)
+        if 'bot-manager-url' not in request.args:
+            return {
+                "error": "bot-manager-url parameter is missing"
+            }, 400
+        bot_manager_url = request.args['bot-manager-url']
+        event_log = fetch_event_log(
+            botName, event_log_generator_url, botManagerUrl=bot_manager_url)
 
     prompt = llm.custom_prompt(inputPrompt, average_intent_confidence_df,
                                event_log, net, initial_marking, final_marking)
