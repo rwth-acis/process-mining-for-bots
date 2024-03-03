@@ -58,6 +58,12 @@ def send_prompt(prompt, api_key, openai_model="gpt-3.5-turbo-1106"):
                                                   {"role": "user",
                                                    "content": prompt}
                                               ])
+    if response.status != 200:
+        raise Exception(response)
+    if "choices" not in response:
+        if "error" in response:
+            return response
+        return "Error: No response from OpenAI. Please try again later."
     content = response.choices[0].message.content
     return content
 

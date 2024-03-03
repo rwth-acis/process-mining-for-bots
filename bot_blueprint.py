@@ -1,4 +1,4 @@
-from flask import Blueprint, current_app, request, jsonify
+from flask import Blueprint, current_app, request, jsonify, make_response
 from flasgger import swag_from
 from utils.bot.parse_lib import get_parser, extract_state_label
 from utils.api_requests import fetch_event_log, fetch_bot_model, fetch_success_model, fetchL2PGroups
@@ -378,11 +378,12 @@ def get_improvements_for_dfg(botName):
             "error": "api_key parameter is missing"
         }, 400
     event_log_generator_url = request.args.get('event-log-url', None)
+    bot_manager_url = request.args.get('bot-manager-url', None)
     if event_log_generator_url is None:
         return {
             "error": "event-log-url parameter is missing"
         }, 400
-    event_log = fetch_event_log(botName, event_log_generator_url)
+    event_log = fetch_event_log(botName, event_log_generator_url, bot_manager_url)
     prompt = llm.recommendations_from_event_log(event_log)
     # log the prompt
     current_app.logger.info(prompt)
@@ -392,10 +393,11 @@ def get_improvements_for_dfg(botName):
         return content
     except Exception as e:
         current_app.logger.error(e)
-        return {
+        return make_response(jsonify({
             "error": "Could not send prompt to OpenAI",
-            "message": e
-        }, e.status_code if hasattr(e, 'status_code') else 500
+            "message": e.args
+        }), e.status_code if hasattr(e, 'status_code') else 500
+        )
 
 
 @bot_resource.route('/<botName>/llm/intent-improvements', methods=['POST'])
@@ -419,11 +421,10 @@ def get_improvements_for_intents(botName):
         return content
     except Exception as e:
         current_app.logger.error(e)
-        return {
+        return make_response(jsonify({
             "error": "Could not send prompt to OpenAI",
-            "message": e
-        }, e.status_code if hasattr(e, 'status_code') else 500
-
+            "message": e.args
+        }), e.status_code if hasattr(e, 'status_code') else 500)
 
 @bot_resource.route('/<botName>/llm/custom-prompt', methods=['POST'])
 def get_custom_improvements(botName):
@@ -480,10 +481,10 @@ def get_custom_improvements(botName):
         return content
     except Exception as e:
         current_app.logger.error(e)
-        return {
+        return make_response(jsonify({
             "error": "Could not send prompt to OpenAI",
-            "message": e
-        }, e.status_code if hasattr(e, 'status_code') else 500
+            "message": e.args
+        }), e.status_code if hasattr(e, 'status_code') else 500)
 
 
 @bot_resource.route('/<botName>/llm/describe', methods=['POST'])
@@ -508,7 +509,7 @@ def describe_bot_model(botName):
         return content
     except Exception as e:
         print(e)
-        return {
+        return make_response(jsonify({
             "error": "Could not describe bot model",
-            "message": e
-        }, 500
+            "message": e.args
+        }), 500)
