@@ -89,6 +89,10 @@ def get_petri_net(botName):
 
     if discover_model is not None:
         event_log = fetch_event_log(botName, event_log_url, bot_manager_url)
+        if event_log is None:
+            return {
+                "error": f"Could not fetch event log from {event_log_url}"
+            }, 500
         net, im, fm = discover_petri_net(event_log)
         gviz = pn_visualizer.apply(
             net, im, fm, variant=pn_visualizer.Variants.PERFORMANCE)
@@ -156,6 +160,10 @@ def get_bpmn(botName):
 
     if discover_model is not None:
         event_log = fetch_event_log(botName, event_log_url, bot_manager_url)
+        if event_log is None:
+            return {
+                "error": f"Could not fetch event log from {event_log_url}"
+            }, 500
         net, im, fm = discover_petri_net(event_log)
         bpmn_graph = convert_to_bpmn(net, im, fm)
         gviz = bpmn_visualizer.apply(bpmn_graph)
